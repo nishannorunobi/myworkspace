@@ -24,3 +24,5 @@ echo "Copying VS Code settings..."
 docker cp .vscode/settings.json "$CONTAINER_NAME":/mydockerspace/.vscode/settings.json
 
 echo "Container started. To enter: docker exec -it $CONTAINER_NAME bash"
+
+bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/permission.sh"
