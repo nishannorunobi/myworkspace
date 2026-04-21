@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run this INSIDE the container to install OS-level dependencies
 
-source "$(dirname "$0")/docker_os.env"
+source "$(dirname "$0")/library_versions.env"
 
 install_pkg() {
     local pkg=$1
@@ -65,10 +65,6 @@ setup_env() {
     update_pkg_index
 
     install_pkg git "$GIT_VERSION"
-    install_pkg vim "$VIM_VERSION"
-    install_pkg curl "$CURL_VERSION"
-    install_pkg wget "$WGET_VERSION"
-    install_pkg unzip "$UNZIP_VERSION"
     install_pkg build-essential "$BUILD_ESSENTIAL_VERSION"
 
     cleanup_pkg_cache
