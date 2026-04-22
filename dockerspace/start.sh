@@ -8,8 +8,7 @@ docker build -t "$IMAGE_NAME" .
 echo "Starting container: $CONTAINER_NAME..."
 docker run -d \
     --name "$CONTAINER_NAME" \
-    -v "$(pwd)/git-ignore-resources":/mydockerspace/git-ignore-resources \
-    -v "$(pwd)/claude":/mydockerspace/claude \
+    -v "$(pwd)":/mydockerspace \
     "$IMAGE_NAME" \
     tail -f /dev/null
 
@@ -20,12 +19,10 @@ if [ "$COPY_SSH_FROM_HOST" = true ]; then
     docker cp ~/.ssh "$CONTAINER_NAME":/root/.ssh
 fi
 
-if [ "$COPY_VSCODE_SETTINGS" = true ]; then
-    echo "Copying VS Code settings..."
-    docker cp .vscode/settings.json "$CONTAINER_NAME":/mydockerspace/.vscode/settings.json
-fi
+bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/permission.sh"
 
 echo "Running $CONTAINER_TYPE environment setup..."
 docker exec -it "$CONTAINER_NAME" bash /mydockerspace/${CONTAINER_TYPE}_container.sh
 
-bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/permission.sh"
+echo "Container ready. Dropping into shell..."
+docker exec -it "$CONTAINER_NAME" bash
