@@ -1,2 +1,3 @@
-git-ignore-resources/
 claude/node_modules/
+projectspace/
+mountspace/

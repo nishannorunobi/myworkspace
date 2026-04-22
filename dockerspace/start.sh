@@ -1,14 +1,20 @@
 #!/bin/bash
 
-source "$(dirname "$0")/workspace.conf"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+source "$SCRIPT_DIR/workspace.conf"
+
+bash "$SCRIPT_DIR/myworkspace_struct.sh"
+bash "$SCRIPT_DIR/check_hostdocker.sh" || exit 1
 
 echo "Building image: $IMAGE_NAME..."
-docker build -t "$IMAGE_NAME" .
+docker build -t "$IMAGE_NAME" "$SCRIPT_DIR"
 
 echo "Starting container: $CONTAINER_NAME..."
 docker run -d \
     --name "$CONTAINER_NAME" \
-    -v "$(pwd)":/mydockerspace \
+    -v "$WORKSPACE_ROOT":/mydockerspace \
     "$IMAGE_NAME" \
     tail -f /dev/null
 
@@ -19,10 +25,10 @@ if [ "$COPY_SSH_FROM_HOST" = true ]; then
     docker cp ~/.ssh "$CONTAINER_NAME":/root/.ssh
 fi
 
-bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/permission.sh"
+bash "$SCRIPT_DIR/permission.sh"
 
 echo "Running $CONTAINER_TYPE environment setup..."
-docker exec -it "$CONTAINER_NAME" bash /mydockerspace/${CONTAINER_TYPE}_container.sh
+docker exec -it "$CONTAINER_NAME" bash /mydockerspace/dockerspace/${CONTAINER_TYPE}_container.sh
 
 echo "Container ready. Dropping into shell..."
 docker exec -it "$CONTAINER_NAME" bash

@@ -8,31 +8,28 @@ This file is for Claude. It contains the full architecture, history of decisions
 
 A generic, reusable Dockerized development workspace. The host machine has nothing installed except Docker. All tooling, users, and dependencies live inside the container. Multiple subprojects can live inside it — each manages its own deps.
 
-The host and container each have their own git clone of the repo. They sync via GitHub push/pull — NOT via volume mount. Only `git-ignore-resources/` is volume-mounted (for local files/media that should never be committed).
+The host and container each have their own git clone of the repo. They sync via GitHub push/pull — NOT via volume mount. The entire workspace root is volume-mounted into the container at `/mydockerspace`.
 
 ---
 
 ## Architecture
 
-### Single config file: `workspace.conf`
-Originally there were two separate config files:
-- `docker_config.sh` — host-side Docker settings (image name, container name, container type)
-- `library_versions.env` — container-side settings (package manager, package versions, git identity, SSH mode)
+### Single config file: `dockerspace/workspace.conf`
+All configuration lives here — Docker settings, package manager, git identity, SSH mode, package versions. Both host scripts and container scripts source this file. Never split it back into multiple files.
 
-These were merged into a single `workspace.conf` because both are just bash variable files and there was no practical reason to split them. Both host scripts and container scripts source the same file. Sections are clearly separated with comments.
+### Shared function library: `dockerspace/functions.sh`
+A pure library — defines functions only, never run directly. Sourced by container scripts.
 
-### Shared function library: `functions.sh`
-Originally called `docker_env.sh`, renamed to `functions.sh` to make its role clear. It is a pure library — it defines functions only and must never be run directly. It is sourced by the container scripts.
-
-Functions provided: `install_pkg`, `update_pkg_index`, `cleanup_pkg_cache`, `install_packages`, `setup_user`, `setup_ssh`, `setup_git`, `setup_workspace_group`.
+Functions provided: `install_pkg`, `update_pkg_index`, `cleanup_pkg_cache`, `install_packages`, `setup_user`, `generate_ssh_key`, `copy_ssh_from_host`, `setup_git`, `setup_project`, `setup_workspace_group`.
 
 ### Per-environment container scripts
-Instead of one `docker_env.sh` that set up all users, the setup is split into three dedicated scripts, one per environment:
-- `dev_container.sh` → creates and configures `devuser`
-- `test_container.sh` → creates and configures `testuser`
-- `prod_container.sh` → creates and configures `produser`
+- `dockerspace/dev_container.sh` → creates and configures `devuser`
+- `dockerspace/test_container.sh` → creates and configures `testuser`
+- `dockerspace/prod_container.sh` → creates and configures `produser`
 
-Each script sources `functions.sh` and calls the setup steps for its own user. `CONTAINER_TYPE` in `workspace.conf` controls which script `start.sh` runs.
+Each script sources `functions.sh` and `../claude/claude_cli.sh`, then calls the setup steps for its own user. `CONTAINER_TYPE` in `workspace.conf` controls which script `start.sh` runs.
+
+Setup order per script: `install_packages` → `setup_user` → SSH → `setup_git` → `setup_workspace_group` → Claude CLI (if enabled) → `setup_project` (if `GIT_CLONE_URL` set).
 
 ### Workspace group: `dockerusergroup`
 `/mydockerspace` is root-owned by default. To give created users write access, all users are added to `dockerusergroup` and `/mydockerspace` is set to `g+ws` with group ownership `dockerusergroup`. This runs at the end of each container script via `setup_workspace_group`.
@@ -43,31 +40,68 @@ Each script sources `functions.sh` and calls the setup steps for its own user. `
 
 | File | Where it runs | Purpose |
 |---|---|---|
-| `Dockerfile` | — | Base image + WORKDIR only — kept minimal |
-| `workspace.conf` | Host + Container | All config: Docker settings, package manager, git identity, SSH mode, package versions |
-| `functions.sh` | Container | Shared function library — do not run directly |
-| `dev_container.sh` | Container | Full setup for devuser |
-| `test_container.sh` | Container | Full setup for testuser |
-| `prod_container.sh` | Container | Full setup for produser |
-| `claude/claude_cli.sh` | Container | Claude Code CLI setup (install_node, install_claude_cli) — sourced by container scripts |
-| `start.sh` | Host | Builds image, starts container, runs selected container script via `docker exec -it` |
-| `stop.sh` | Host | Stops and removes container + image |
-| `permission.sh` | Host | Fixes ownership of `git-ignore-resources/` after container start |
+| `dockerspace/Dockerfile` | — | Base image + WORKDIR only — kept minimal |
+| `dockerspace/workspace.conf` | Host + Container | All config: Docker settings, package manager, git identity, SSH mode, package versions |
+| `dockerspace/functions.sh` | Container | Shared function library — do not run directly |
+| `dockerspace/dev_container.sh` | Container | Full setup for devuser |
+| `dockerspace/test_container.sh` | Container | Full setup for testuser |
+| `dockerspace/prod_container.sh` | Container | Full setup for produser |
+| `dockerspace/start.sh` | Host | Runs struct check, Docker check, builds image, starts container, runs selected container script |
+| `dockerspace/stop.sh` | Host | Stops and removes container + image |
+| `dockerspace/check_hostdocker.sh` | Host | Installs Docker if missing, starts daemon if stopped |
+| `dockerspace/permission.sh` | Host | Creates and fixes ownership of `mountspace/` |
+| `dockerspace/myworkspace_struct.sh` | Host | Creates any missing workspace directories (idempotent) |
+| `claude/claude_cli.sh` | Container | `install_node` + `install_claude_cli` functions — sourced by container scripts |
+| `claude/start_claude.sh` | Container | Launches the claude binary |
+| `claude/stop_claude.sh` | Container | Kills the claude process |
+
+---
+
+## Workspace Directory Structure
+
+```
+myworkspace/                    ← workspace root, mounted as /mydockerspace in container
+├── .gitignore
+├── .vscode/settings.json
+├── README.md
+├── claude/                     ← Claude Code CLI
+│   ├── CLAUDE.md
+│   ├── claude_cli.sh
+│   ├── start_claude.sh
+│   ├── stop_claude.sh
+│   ├── package.json
+│   └── package-lock.json
+├── dockerspace/                ← all host and container scripts
+│   ├── Dockerfile
+│   ├── workspace.conf
+│   ├── functions.sh
+│   ├── dev_container.sh
+│   ├── test_container.sh
+│   ├── prod_container.sh
+│   ├── start.sh
+│   ├── stop.sh
+│   ├── check_hostdocker.sh
+│   ├── permission.sh
+│   └── myworkspace_struct.sh
+├── projectspace/               ← gitignored, for user's subprojects
+└── mountspace/       ← gitignored, for local files/media never committed
+```
 
 ---
 
 ## Workflow
 
-1. User edits `workspace.conf` (once, or when switching environments)
-2. `bash start.sh` on host:
-   - Builds Docker image
-   - Starts container (mounts only `git-ignore-resources/`)
-   - Copies host `~/.ssh` to `/root/.ssh` inside container
-   - Copies `.vscode/settings.json` into container
-   - Runs `docker exec -it $CONTAINER_NAME bash /mydockerspace/${CONTAINER_TYPE}_container.sh`
-   - Runs `permission.sh` to fix ownership of `git-ignore-resources/`
+1. User edits `dockerspace/workspace.conf` (once, or when switching environments)
+2. `bash dockerspace/start.sh` on host:
+   - Runs `myworkspace_struct.sh` — creates any missing directories
+   - Runs `check_hostdocker.sh` — installs Docker if missing, starts daemon if stopped
+   - Builds Docker image from `dockerspace/` (Dockerfile is there)
+   - Starts container, mounts workspace root (`myworkspace/`) as `/mydockerspace`
+   - Copies host `~/.ssh` to `/root/.ssh` inside container (if `COPY_SSH_FROM_HOST=true`)
+   - Runs `permission.sh` — creates and chowns `mountspace/`
+   - Runs `docker exec -it $CONTAINER_NAME bash /mydockerspace/dockerspace/${CONTAINER_TYPE}_container.sh`
 3. User enters container: `docker exec -it mydockerspace-container bash`, then `su - <user>`
-4. `bash stop.sh` on host — full clean (container + image removed)
+4. `bash dockerspace/stop.sh` on host — full clean (container + image removed)
 
 ---
 
@@ -81,10 +115,10 @@ The base image is **project-dependent** and will change based on what the subpro
 
 ## SSH Key Modes
 
-Configured via `SSH_KEY_MODE` in `workspace.conf`:
+Configured via `COPY_SSH_FROM_HOST` in `workspace.conf`:
 
-- `copy_from_host` — copies `/root/.ssh/id_ed25519` (placed there by `start.sh` from the host) into each user's `~/.ssh/`. Correct permissions are set (`600`/`644`). User does not need to re-add keys to GitHub.
-- `generate` — runs `ssh-keygen -t ed25519` for the user. Prints the public key at the end so the user can add it to GitHub/GitLab. Use this when starting fresh or when the container needs its own identity.
+- `true` — copies `/root/.ssh/id_ed25519` (placed there by `start.sh` from the host) into each user's `~/.ssh/`. Correct permissions are set (`600`/`644`). User does not need to re-add keys to GitHub.
+- `false` — runs `ssh-keygen -t ed25519` for the user. Prints the public key at the end so the user can add it to GitHub/GitLab.
 
 ---
 
@@ -97,12 +131,14 @@ All setup steps in all container scripts are safe to re-run multiple times:
 - Git config: reads current config, skips if already set
 - Group creation: checks `getent group` before `groupadd`
 - Group membership: checks `id -nG` before `usermod`
+- Directory creation: `mkdir -p` is always safe to re-run
+- Project clone: checks for `.git` inside the target dir before cloning
 
 ---
 
 ## Rules
 
-- Never mount the entire project directory — only `git-ignore-resources/`
+- Never mount only a subdirectory — the entire workspace root is mounted as `/mydockerspace`
 - Never auto-run container scripts from outside `start.sh` flow — they require root inside the container
 - Never add project-specific tools to `functions.sh` or the `Dockerfile` — each subproject handles its own deps in its container script
 - Never add subproject-specific ignores to root `.gitignore`
@@ -112,3 +148,4 @@ All setup steps in all container scripts are safe to re-run multiple times:
 - Do not assume a fixed base image — always check the Dockerfile before making image-specific suggestions
 - `workspace.conf` is the single source of truth for all configuration — do not split config back into multiple files
 - `functions.sh` is a library — never add execution logic to it, only function definitions
+- All host-side scripts use `BASH_SOURCE[0]` (not `$0`) for path resolution so they work from any directory

@@ -3,7 +3,7 @@
 # Can be sourced by container scripts or run directly from inside the claude/ folder.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../workspace.conf"
+source "$SCRIPT_DIR/../dockerspace/workspace.conf"
 
 install_node() {
     if command -v node &>/dev/null; then
@@ -43,7 +43,7 @@ install_node() {
     echo "    Done."
 }
 
-CLAUDE_INSTALL_DIR="/mydockerspace/claude"
+CLAUDE_INSTALL_DIR="$SCRIPT_DIR"
 
 install_claude_cli() {
     if [ -f "$CLAUDE_INSTALL_DIR/node_modules/.bin/claude" ]; then

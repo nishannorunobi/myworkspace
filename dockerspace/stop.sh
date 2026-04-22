@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/workspace.conf"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/workspace.conf"
 
 echo "Stopping container: $CONTAINER_NAME..."
 docker stop "$CONTAINER_NAME" 2>/dev/null
@@ -17,5 +17,8 @@ if [ "$CLEAN_VSCODE_CACHE_ON_STOP" = true ]; then
     echo "Clearing VS Code remote container cache..."
     rm -rf ~/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers
 fi
+
+echo "Restoring workspace ownership to $USER..."
+sudo chown -R "$USER":"$USER" "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 
 echo "Done."

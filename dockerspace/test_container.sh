@@ -3,7 +3,7 @@ set -euo pipefail
 # Test environment setup — runs INSIDE the container. Safe to run multiple times.
 
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
-source "$(dirname "${BASH_SOURCE[0]}")/claude/claude_cli.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../claude/claude_cli.sh"
 
 USER="testuser"
 
@@ -26,6 +26,10 @@ if [ "$INSTALL_CLAUDE_CLI" = true ]; then
     install_node
     install_claude_cli
 fi
+
+echo ""
+echo "──── Cloning project ────"
+setup_project "$USER"
 
 echo ""
 echo "Test environment ready. Switch to: su - $USER"

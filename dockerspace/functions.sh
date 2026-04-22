@@ -169,6 +169,31 @@ setup_git() {
     echo "    Done."
 }
 
+setup_project() {
+    local user=$1
+
+    if [ -z "${GIT_CLONE_URL:-}" ]; then
+        echo "==> GIT_CLONE_URL not set, skipping project clone."
+        return
+    fi
+
+    local repo_name
+    repo_name=$(basename "$GIT_CLONE_URL" .git)
+    local clone_name="${PROJECT_NAME:-$repo_name}"
+    local clone_path="/mydockerspace/projectspace/$clone_name"
+
+    if [ -d "$clone_path/.git" ]; then
+        echo "==> Project '$clone_name' already cloned, skipping."
+        return
+    fi
+
+    echo "==> Cloning '$GIT_CLONE_URL' into projectspace/$clone_name..."
+    mkdir -p "$clone_path"
+    chown "$user":"$user" "$clone_path"
+    su - "$user" -c "git clone '$GIT_CLONE_URL' '$clone_path'"
+    echo "    Done."
+}
+
 setup_workspace_group() {
     local user=$1
     local group="dockerusergroup"
@@ -189,7 +214,7 @@ setup_workspace_group() {
         echo "    Done."
     fi
 
-    chown root:"$group" /mydockerspace
+    chown :"$group" /mydockerspace
     chmod g+ws /mydockerspace
     echo "==> /mydockerspace is group-writable by '$group'."
 }
