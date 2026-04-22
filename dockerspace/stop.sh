@@ -18,7 +18,6 @@ if [ "$CLEAN_VSCODE_CACHE_ON_STOP" = true ]; then
     rm -rf ~/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers
 fi
 
-echo "Restoring workspace ownership to $USER..."
-sudo chown -R "$USER":"$USER" "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/troubleshoot.sh"
 
 echo "Done."

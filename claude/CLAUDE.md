@@ -49,7 +49,7 @@ Setup order per script: `install_packages` → `setup_user` → SSH → `setup_g
 | `dockerspace/start.sh` | Host | Runs struct check, Docker check, builds image, starts container, runs selected container script |
 | `dockerspace/stop.sh` | Host | Stops and removes container + image |
 | `dockerspace/check_hostdocker.sh` | Host | Installs Docker if missing, starts daemon if stopped |
-| `dockerspace/permission.sh` | Host | Creates and fixes ownership of `mountspace/` |
+| `dockerspace/troubleshoot.sh` | Host | Creates and fixes ownership of `mountspace/` |
 | `dockerspace/myworkspace_struct.sh` | Host | Creates any missing workspace directories (idempotent) |
 | `claude/claude_cli.sh` | Container | `install_node` + `install_claude_cli` functions — sourced by container scripts |
 | `claude/start_claude.sh` | Container | Launches the claude binary |
@@ -81,7 +81,7 @@ myworkspace/                    ← workspace root, mounted as /mydockerspace in
 │   ├── start.sh
 │   ├── stop.sh
 │   ├── check_hostdocker.sh
-│   ├── permission.sh
+│   ├── troubleshoot.sh
 │   └── myworkspace_struct.sh
 ├── projectspace/               ← gitignored, for user's subprojects
 └── mountspace/       ← gitignored, for local files/media never committed
@@ -98,7 +98,7 @@ myworkspace/                    ← workspace root, mounted as /mydockerspace in
    - Builds Docker image from `dockerspace/` (Dockerfile is there)
    - Starts container, mounts workspace root (`myworkspace/`) as `/mydockerspace`
    - Copies host `~/.ssh` to `/root/.ssh` inside container (if `COPY_SSH_FROM_HOST=true`)
-   - Runs `permission.sh` — creates and chowns `mountspace/`
+   - Runs `troubleshoot.sh` — creates and chowns `mountspace/`
    - Runs `docker exec -it $CONTAINER_NAME bash /mydockerspace/dockerspace/${CONTAINER_TYPE}_container.sh`
 3. User enters container: `docker exec -it mydockerspace-container bash`, then `su - <user>`
 4. `bash dockerspace/stop.sh` on host — full clean (container + image removed)

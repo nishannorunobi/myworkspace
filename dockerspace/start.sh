@@ -25,7 +25,7 @@ if [ "$COPY_SSH_FROM_HOST" = true ]; then
     docker cp ~/.ssh "$CONTAINER_NAME":/root/.ssh
 fi
 
-bash "$SCRIPT_DIR/permission.sh"
+bash "$SCRIPT_DIR/troubleshoot.sh"
 
 echo "Running $CONTAINER_TYPE environment setup..."
 docker exec -it "$CONTAINER_NAME" bash /mydockerspace/dockerspace/${CONTAINER_TYPE}_container.sh
