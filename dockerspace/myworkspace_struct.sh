@@ -21,7 +21,9 @@ ensure_dir() {
 }
 
 # ─── Top-level directories ────────────────────────────────────────────────────
-ensure_dir "$WORKSPACE_ROOT/.vscode"              ".vscode/"
+ensure_dir "$WORKSPACE_ROOT/.vscode"                        ".vscode/"
+ensure_dir "$WORKSPACE_ROOT/$DOCKER_PLUGINS_DIR"           "$DOCKER_PLUGINS_DIR/        (shared Docker CLI plugins)"
+ensure_dir "$WORKSPACE_ROOT/$VSCODE_EXTENSIONS_DIR"        "$VSCODE_EXTENSIONS_DIR/     (shared VS Code Server extensions)"
 ensure_dir "$WORKSPACE_ROOT/claude"               "claude/"
 ensure_dir "$WORKSPACE_ROOT/dockerspace"          "dockerspace/"
 ensure_dir "$WORKSPACE_ROOT/$PROJECTSPACE_DIR"          "$PROJECTSPACE_DIR/          (gitignored)"

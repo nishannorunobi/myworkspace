@@ -22,7 +22,7 @@ The host and container each have their own git clone of the repo. They sync via 
 ### Shared function library: `dockerspace/functions.sh`
 A pure library — defines functions only, never run directly. Sourced by container scripts.
 
-Functions provided: `install_pkg`, `update_pkg_index`, `cleanup_pkg_cache`, `install_packages`, `setup_user`, `generate_ssh_key`, `copy_ssh_from_host`, `setup_git`, `setup_project`, `setup_workspace_group`.
+Functions provided: `install_pkg`, `update_pkg_index`, `cleanup_pkg_cache`, `install_packages`, `setup_user`, `generate_ssh_key`, `copy_ssh_from_host`, `setup_git`, `setup_project`, `setup_workspace_group`, `setup_docker_plugins`, `setup_vscode_extensions`.
 
 ### Per-environment container scripts
 - `dockerspace/dev_container.sh` → creates and configures `devuser`
@@ -31,7 +31,7 @@ Functions provided: `install_pkg`, `update_pkg_index`, `cleanup_pkg_cache`, `ins
 
 Each script sources `functions.sh` and `../claude/claude_cli.sh`, then calls the setup steps for its own user. `CONTAINER_TYPE` in `workspace.conf` controls which script `start.sh` runs.
 
-Setup order per script: `install_packages` → `setup_user` → SSH → `setup_git` → `setup_workspace_group` → Claude CLI (if enabled) → `setup_project` (if `GIT_CLONE_URL` set).
+Setup order per script: `install_packages` → `setup_user` → SSH → `setup_git` → `setup_workspace_group` → `setup_docker_plugins` → `setup_vscode_extensions` → Claude CLI (if enabled) → `setup_project` (if `GIT_CLONE_URL` set).
 
 ### Workspace group: `dockerusergroup`
 `$CONTAINER_WORKDIR` is root-owned by default. To give created users write access, all users are added to `dockerusergroup` and `$CONTAINER_WORKDIR` is set to `g+ws` with group ownership `dockerusergroup`. This runs at the end of each container script via `setup_workspace_group`.
@@ -53,6 +53,7 @@ Setup order per script: `install_packages` → `setup_user` → SSH → `setup_g
 | `dockerspace/check_hostdocker.sh` | Host | Installs Docker if missing, starts daemon if stopped |
 | `dockerspace/troubleshoot.sh` | Host | Creates and fixes ownership of `mountspace/` |
 | `dockerspace/myworkspace_struct.sh` | Host | Creates any missing workspace directories (idempotent) |
+| `dockerspace/docker_backup.sh` | Host | Commits running container state → current image tag (preserves installed packages, symlinks) |
 | `claude/claude_cli.sh` | Host + Container | `install_node`, `install_claude_cli`, `setup_claude_config_host`, `setup_claude_config_container` — sourced by container scripts, run directly on host to launch Claude |
 | `claude/start_claude.sh` | Container | Launches the claude binary |
 | `claude/stop_claude.sh` | Container | Kills the claude process |
@@ -64,7 +65,10 @@ Setup order per script: `install_packages` → `setup_user` → SSH → `setup_g
 ```
 myworkspace/                    ← workspace root, mounted as $CONTAINER_WORKDIR in container
 ├── .gitignore
-├── .vscode/settings.json
+├── .vscode/
+│   ├── settings.json
+│   ├── docker-plugins/         ← shared Docker CLI plugins (host + all container users symlink here)
+│   └── vscode-server-extensions/ ← shared VS Code Server extensions (copied from host, container users symlink here)
 ├── README.md
 ├── claude/                     ← Claude Code CLI
 │   ├── CLAUDE.md

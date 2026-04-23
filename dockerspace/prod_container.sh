@@ -18,7 +18,10 @@ else
     generate_ssh_key   "$USER"
 fi
 setup_git             "$USER"
-setup_workspace_group "$USER"
+setup_workspace_group    "$USER"
+setup_docker_plugins     "$USER"
+setup_vscode_extensions  root
+setup_vscode_extensions  "$USER"
 
 if [ "$INSTALL_CLAUDE_CLI" = true ]; then
     echo ""

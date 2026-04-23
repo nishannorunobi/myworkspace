@@ -6,6 +6,31 @@ WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$SCRIPT_DIR/workspace.conf"
 
 bash "$SCRIPT_DIR/myworkspace_struct.sh"
+
+HOST_PLUGINS="$HOME/.docker/cli-plugins"
+SHARED_PLUGINS="$WORKSPACE_ROOT/$DOCKER_PLUGINS_DIR"
+mkdir -p "$HOME/.docker"
+if [ -L "$HOST_PLUGINS" ]; then
+    echo "Host Docker plugins already symlinked, skipping."
+elif [ -e "$HOST_PLUGINS" ]; then
+    echo "WARNING: $HOST_PLUGINS exists and is not a symlink — skipping host Docker plugins link."
+else
+    ln -s "$SHARED_PLUGINS" "$HOST_PLUGINS"
+    echo "Linked host ~/.docker/cli-plugins → $DOCKER_PLUGINS_DIR"
+fi
+
+if [ "${COPY_VSCODE_EXTENSIONS:-false}" = true ]; then
+    HOST_EXTS="$HOME/.vscode/extensions"
+    SHARED_EXTS="$WORKSPACE_ROOT/$VSCODE_EXTENSIONS_DIR"
+    if [ -d "$HOST_EXTS" ]; then
+        echo "Copying VS Code extensions from host..."
+        cp -rn "$HOST_EXTS/." "$SHARED_EXTS/"
+        echo "    Done."
+    else
+        echo "WARNING: $HOST_EXTS not found — skipping VS Code extensions copy."
+    fi
+fi
+
 bash "$SCRIPT_DIR/check_hostdocker.sh" || exit 1
 
 FULL_IMAGE="$IMAGE_NAME:$IMAGE_VERSION"
@@ -43,10 +68,10 @@ else
     fi
 
     bash "$SCRIPT_DIR/troubleshoot.sh"
-
-    echo "Running $CONTAINER_TYPE environment setup..."
-    docker exec -it "$CONTAINER_NAME" bash "$CONTAINER_WORKDIR/dockerspace/${CONTAINER_TYPE}_container.sh"
 fi
+
+echo "Running $CONTAINER_TYPE environment setup..."
+docker exec "$CONTAINER_NAME" bash "$CONTAINER_WORKDIR/dockerspace/${CONTAINER_TYPE}_container.sh"
 
 echo "Container ready. Dropping into shell..."
 docker exec -it "$CONTAINER_NAME" bash

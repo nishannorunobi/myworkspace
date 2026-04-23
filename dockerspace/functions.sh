@@ -198,6 +198,60 @@ setup_project() {
     echo "    Done."
 }
 
+setup_vscode_extensions() {
+    local user=$1
+    local shared_exts="$CONTAINER_WORKDIR/$VSCODE_EXTENSIONS_DIR"
+    local user_vscode_server
+    if [ "$user" = "root" ]; then
+        user_vscode_server="/root/.vscode-server"
+    else
+        user_vscode_server="/home/$user/.vscode-server"
+    fi
+    local user_exts="$user_vscode_server/extensions"
+
+    if [ -L "$user_exts" ]; then
+        echo "==> VS Code extensions symlink for '$user' already exists, skipping."
+        return
+    fi
+
+    if [ -d "$user_exts" ]; then
+        echo "==> Merging existing VS Code extensions for '$user' into shared dir..."
+        cp -rn "$user_exts/." "$shared_exts/" 2>/dev/null || true
+        rm -rf "$user_exts"
+    fi
+
+    echo "==> Linking VS Code extensions for '$user'..."
+    mkdir -p "$user_vscode_server"
+    [ "$user" != "root" ] && chown "$user":"$user" "$user_vscode_server"
+    ln -s "$shared_exts" "$user_exts"
+    [ "$user" != "root" ] && chown -h "$user":"$user" "$user_exts"
+    echo "    Done."
+}
+
+setup_docker_plugins() {
+    local user=$1
+    local plugins_dir="$CONTAINER_WORKDIR/$DOCKER_PLUGINS_DIR"
+    local user_docker_dir="/home/$user/.docker"
+    local user_plugins="$user_docker_dir/cli-plugins"
+
+    if [ -L "$user_plugins" ]; then
+        echo "==> Docker plugins symlink for '$user' already exists, skipping."
+        return
+    fi
+
+    if [ -e "$user_plugins" ]; then
+        echo "    WARNING: $user_plugins exists and is not a symlink — skipping Docker plugins link for '$user'."
+        return
+    fi
+
+    echo "==> Linking Docker plugins for '$user'..."
+    mkdir -p "$user_docker_dir"
+    chown "$user":"$user" "$user_docker_dir"
+    ln -s "$plugins_dir" "$user_plugins"
+    chown -h "$user":"$user" "$user_plugins"
+    echo "    Done."
+}
+
 setup_workspace_group() {
     local user=$1
     local group="dockerusergroup"
