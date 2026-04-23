@@ -2,8 +2,11 @@
 
 set -euo pipefail
 
-SOURCE_FILE="/myworkspace/mountspace/bahir_bole_habib.mp4"
-DEST_DIR="/myworkspace/mountspace/1_input_files"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/dockerspace/project.conf"
+
+SOURCE_FILE="$SCRIPT_DIR/mountspace/$INPUT_FILE"
+DEST_DIR="$SCRIPT_DIR/mountspace/1_input_files"
 
 if [ ! -f "$SOURCE_FILE" ]; then
   echo "Source file does not exist: $SOURCE_FILE"
