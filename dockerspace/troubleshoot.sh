@@ -40,4 +40,4 @@ else
 fi
 
 echo ""
-echo "==> Done. Try 'git status' and 'bash dockerspace/start.sh' now."
+echo "==> Done. Try 'git status' and 'bash dockerspace/start_project_container.sh' now."

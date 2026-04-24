@@ -7,7 +7,7 @@ source "$SCRIPT_DIR/project.conf"
 source "$SCRIPT_DIR/workspace.conf"
 
 if ! docker container inspect "$CONTAINER_NAME" &>/dev/null; then
-    echo "ERROR: Container '$CONTAINER_NAME' is not running. Start it first with start.sh."
+    echo "ERROR: Container '$CONTAINER_NAME' is not running. Start it first with start_project_container.sh."
     exit 1
 fi
 
