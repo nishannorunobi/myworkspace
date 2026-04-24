@@ -29,9 +29,9 @@ install_pkg() {
             ;;
         dnf)
             if [ "$version" = "latest" ]; then
-                dnf install -y "$pkg"
+                dnf install -y --allowerasing "$pkg"
             else
-                dnf install -y "$pkg-$version"
+                dnf install -y --allowerasing "$pkg-$version"
             fi
             ;;
         apk)

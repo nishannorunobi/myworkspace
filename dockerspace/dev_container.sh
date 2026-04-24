@@ -3,7 +3,6 @@ set -euo pipefail
 # Dev environment setup — runs INSIDE the container. Safe to run multiple times.
 
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
-source "$(dirname "${BASH_SOURCE[0]}")/../claude/claude_cli.sh"
 
 USER="devuser"
 
@@ -22,14 +21,6 @@ setup_workspace_group    "$USER"
 setup_docker_plugins     "$USER"
 setup_vscode_extensions  root
 setup_vscode_extensions  "$USER"
-
-if [ "$INSTALL_CLAUDE_CLI" = true ]; then
-    echo ""
-    echo "──── Setting up Claude Code CLI ────"
-    install_node
-    install_claude_cli
-    setup_claude_config_container "$USER"
-fi
 
 echo ""
 echo "──── Cloning project ────"

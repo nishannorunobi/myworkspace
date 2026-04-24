@@ -26,6 +26,6 @@ else
 fi
 
 echo "    Done."
-echo "    UI: http://localhost:$PORTAINER_PORT"
+echo "    UI: http://localhost:9000"
 #admin user name pass:
 #user: admin, pass: portaineradmin123
