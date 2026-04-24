@@ -9,12 +9,12 @@ else
     echo "    No running containers."
 fi
 
-echo "==> Stopping Docker service..."
-sudo systemctl stop docker
+echo "==> Stopping Docker service and socket..."
+sudo systemctl stop docker.service docker.socket
 
-if ! systemctl is-active --quiet docker; then
-    echo "    Docker is stopped."
+if ! systemctl is-active --quiet docker.service && ! systemctl is-active --quiet docker.socket; then
+    echo "    Docker is fully stopped."
 else
-    echo "    ERROR: Docker failed to stop."
+    echo "    ERROR: Docker failed to stop completely."
     exit 1
 fi
