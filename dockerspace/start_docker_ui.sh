@@ -27,5 +27,5 @@ fi
 
 echo "    Done."
 echo "    UI: http://localhost:$PORTAINER_PORT"
-admin user name pass:
-user: admin, pass: portaineradmin123
+#admin user name pass:
+#user: admin, pass: portaineradmin123

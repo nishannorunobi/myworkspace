@@ -32,8 +32,6 @@ if [ "${COPY_VSCODE_EXTENSIONS:-false}" = true ]; then
     fi
 fi
 
-bash "$SCRIPT_DIR/check_hostdocker.sh" || exit 1
-
 FULL_IMAGE="$IMAGE_NAME:$IMAGE_VERSION"
 
 if docker image inspect "$FULL_IMAGE" &>/dev/null; then
