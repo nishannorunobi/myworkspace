@@ -1,5 +1,4 @@
-claude/node_modules/
-claude/.claude-config/
+claude/
 projectspace/
 mountspace/
 .vscode

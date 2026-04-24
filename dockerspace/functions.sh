@@ -71,13 +71,15 @@ install_packages() {
     export DEBIAN_FRONTEND=noninteractive
     export TZ=America/New_York
     update_pkg_index
-    install_pkg git              "$GIT_VERSION"
-    install_pkg build-essential  "$BUILD_ESSENTIAL_VERSION"
-    install_pkg curl             "$CURL_VERSION"
-    install_pkg wget             "$WGET_VERSION"
-    install_pkg vim              "$VIM_VERSION"
-    install_pkg unzip            "$UNZIP_VERSION"
-    install_pkg openssh-client   "$OPENSSH_CLIENT_VERSION"
+    install_pkg "$GIT_PKG"        "$GIT_VERSION"
+    install_pkg "$CURL_PKG"       "$CURL_VERSION"
+    install_pkg "$WGET_PKG"       "$WGET_VERSION"
+    install_pkg "$VIM_PKG"        "$VIM_VERSION"
+    install_pkg "$UNZIP_PKG"      "$UNZIP_VERSION"
+    install_pkg "$SSH_CLIENT_PKG" "$SSH_CLIENT_VERSION"
+    for pkg in $BUILD_TOOLS_PKGS; do
+        install_pkg "$pkg" "$BUILD_TOOLS_VERSION"
+    done
     cleanup_pkg_cache
     echo "    Done."
 }
