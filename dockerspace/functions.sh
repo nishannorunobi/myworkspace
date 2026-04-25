@@ -182,20 +182,17 @@ setup_project() {
 
     local repo_name
     repo_name=$(basename "$GIT_CLONE_URL" .git)
-    local clone_name="$repo_name"
-    local clone_path="$CONTAINER_WORKDIR/$PROJECTSPACE_DIR/$clone_name"
+    local clone_path="$CONTAINER_WORKDIR/$PROJECTSPACE_DIR/$repo_name"
 
     if [ -d "$clone_path/.git" ]; then
-        echo "==> Project '$clone_name' already cloned, skipping."
+        echo "==> Project '$repo_name' already cloned, skipping."
         return
     fi
 
     echo "==> Adding GitHub to known_hosts for '$user'..."
     su - "$user" -c "mkdir -p ~/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null"
 
-    echo "==> Cloning '$GIT_CLONE_URL' into $PROJECTSPACE_DIR/$clone_name..."
-    mkdir -p "$clone_path"
-    chown "$user":"$user" "$clone_path"
+    echo "==> Cloning '$GIT_CLONE_URL' into ~/$repo_name..."
     su - "$user" -c "git clone '$GIT_CLONE_URL' '$clone_path'"
     echo "    Done."
 }

@@ -57,6 +57,7 @@ else
     echo "Creating new container: $CONTAINER_NAME..."
     docker run -d \
         --name "$CONTAINER_NAME" \
+        --hostname "$CONTAINER_NAME" \
         -v "$WORKSPACE_ROOT":"$CONTAINER_WORKDIR" \
         "$FULL_IMAGE" \
         tail -f /dev/null
