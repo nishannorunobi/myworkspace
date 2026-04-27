@@ -1,0 +1,4 @@
+# Workspace Management Agent — Configuration
+# Copy to agent.conf and set your API key.
+
+ANTHROPIC_API_KEY=your-api-key-here

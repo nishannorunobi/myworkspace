@@ -1,0 +1,9 @@
+# Credentials — never commit
+agent.conf
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+

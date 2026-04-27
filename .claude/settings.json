@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dpkg -l)",
+      "Bash(convert /home/nishan/myworkspace/projectspace/mywrites/amazon/images/cover_page_v1.svg /home/nishan/myworkspace/projectspace/mywrites/amazon/images/cover_page_v1.pdf)",
+      "Bash(python3 -)",
+      "Bash(mkdir -p output)",
+      "Bash(pdflatex -interaction=nonstopmode -output-directory=output quantum_machine_is_here.tex)",
+      "Bash(pandoc --version)",
+      "Bash(pip3 install *)",
+      "Bash(python3 export_docx.py)",
+      "Bash(libreoffice --version)",
+      "Bash(python3 quantum_machine_is_here.py docx)",
+      "Bash(python3 quantum_machine_is_here.py)",
+      "Bash(pandoc quantum_machine_is_here.tex --from=latex --to=odt --standalone -o /tmp/test_book.odt)",
+      "Read(//tmp/**)",
+      "Bash(libreoffice --headless --norestore -env:UserInstallation=file:///tmp/lo_export_tmp --convert-to docx --outdir /tmp /tmp/test_book.odt)",
+      "Bash(libreoffice --headless --convert-to docx --outdir /tmp /tmp/test_book.odt)",
+      "Bash(HOME=/tmp/lo_home libreoffice --headless --convert-to docx --outdir /tmp /tmp/test_book.odt)",
+      "Bash(echo \"Exit code: $?\")",
+      "Bash(echo \"Hello world\")",
+      "Bash(libreoffice --headless --convert-to docx /tmp/test_simple.txt --outdir /tmp)",
+      "Bash(dpkg -l libreoffice-writer)",
+      "Bash(dpkg -l libreoffice-core)",
+      "Bash(pandoc /tmp/test_book.odt -o /tmp/test_book.docx)",
+      "Bash(python3 -c ' *)",
+      "Bash(chmod +x /home/nishan/myworkspace/projectspace/mypostgresql_db/dockerspace/start.sh /home/nishan/myworkspace/projectspace/mypostgresql_db/dockerspace/stop.sh)"
+    ]
+  }
+}

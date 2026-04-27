@@ -1,0 +1,91 @@
+{
+  "last_scan": "2026-04-27",
+  "workspace_root": "/home/nishan/myworkspace",
+  "owner": "Nishan (norunnabinishan@gmail.com)",
+  "shared_network": "ums-network",
+  "docker_ui": "http://localhost:9000",
+  "active_workspace_project": "mypostgresql_db",
+  "workspace_image_version": "1.4",
+  "workspace_base_image": "postgres:16",
+  "workspace_pkg_manager": "apt",
+  "git_status": "dirty \u2014 2 uncommitted changes (dockerspace/project.conf, .vscode/settings.json)",
+  "projects": {
+    "ums": {
+      "purpose": "Spring Boot 3 / Java 21 User Management System API",
+      "container_name": "ums-app",
+      "port": 8080,
+      "network": "ums-network",
+      "stack": "Java 21, Spring Boot 3, Maven, Docker multi-stage",
+      "repo": "git@github.com:nishannorunobi/ums.git",
+      "status": "active",
+      "dockerfile": "projectspace/ums/dockerspace/host_scripts/Dockerfile",
+      "compose": "projectspace/ums/dockerspace/host_scripts/docker-compose.yml"
+    },
+    "mypostgresql_db": {
+      "purpose": "PostgreSQL 16 dev database for UMS",
+      "container_name": "mypostgresql_db-container",
+      "port": 8085,
+      "db_port": 5432,
+      "network": "ums-network",
+      "stack": "PostgreSQL 16",
+      "repo": "git@github.com:nishannorunobi/mypostgresql_db.git",
+      "status": "active",
+      "dockerfile": "projectspace/mypostgresql_db/dockerspace/Dockerfile"
+    },
+    "claude-agent": {
+      "purpose": "Claude API agent that tests UMS endpoints and logs to PostgreSQL",
+      "container_name": "claude-agent",
+      "network": "ums-network",
+      "stack": "Python, Anthropic Claude API, PostgreSQL",
+      "connects_to": [
+        "ums-app:8080",
+        "mypostgresql_db-container:5432"
+      ],
+      "config_file": "projectspace/ai-agents/claude-agent/agent.conf",
+      "status": "active"
+    },
+    "myapigw": {
+      "purpose": "API Gateway (APISIX planned)",
+      "repo": "git@github.com:nishannorunobi/myapigw.git",
+      "status": "stub \u2014 README only, no dockerspace/"
+    },
+    "pc-maker": {
+      "purpose": "PC setup and OS scripts",
+      "status": "utility scripts, no Docker"
+    },
+    "mywrites": {
+      "purpose": "Academic writing (LaTeX papers)",
+      "status": "active writing"
+    },
+    "workspace-agent": {
+      "purpose": "Workspace Management Agent",
+      "status": "active"
+    }
+  },
+  "open_concerns": {
+    "C-001": "context.md is stale \u2014 references AlmaLinux9/dnf but workspace now uses postgres:16/apt",
+    "C-002": "ums docker-compose.yml uses .env file \u2014 verify it is gitignored",
+    "C-003": "projectspace/mywritings.zip is a binary in wrong location \u2014 should be in mountspace/",
+    "C-004": "myapigw has no dockerspace/ structure \u2014 convention violation",
+    "C-005": "pc-maker has no dockerspace/ \u2014 low risk but convention drift",
+    "C-006": "workspace-agent scripts not in dockerspace/host_scripts/ \u2014 convention drift",
+    "C-007": "Uncommitted changes: dockerspace/project.conf and .vscode/settings.json",
+    "C-008": "context.md references API-Gateway/APISIX as active but only stub exists",
+    "C-009": "mypostgresql_db EXPOSE_PORTS=8085:8085 but DB port is 5432 \u2014 inconsistency"
+  },
+  "conventions": {
+    "script_location": "project/dockerspace/host_scripts/ and container_scripts/",
+    "required_scripts": [
+      "build.sh",
+      "start.sh",
+      "stop.sh",
+      "health.sh",
+      "login_docker.sh"
+    ],
+    "config_files": "agent.conf (AI agents), project.conf (containers)",
+    "no_hardcoded_ips": true,
+    "no_env_files_in_git": true,
+    "network": "ums-network (shared, external)"
+  },
+  "last_updated": "2026-04-27T17:42:10.235228"
+}

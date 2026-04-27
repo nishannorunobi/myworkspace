@@ -2,6 +2,7 @@
     "editor.formatOnSave": true,
     "editor.tabSize": 4,
     "terminal.integrated.defaultProfile.linux": "bash",
-    "workbench.colorTheme": "Visual Studio Dark"
+    "workbench.colorTheme": "Visual Studio Dark",
     //"workbench.colorTheme": "Light Modern"
+    "latex-workshop.latex.outDir": "%DIR%/output"
 }
