@@ -4,8 +4,8 @@ import subprocess
 from pathlib import Path
 from datetime import datetime
 
-WORKSPACE_ROOT = Path(__file__).parent.parent.parent.parent  # workspace/→agents/→workspace-agent/→myworkspace/
-AGENT_DIR      = Path(__file__).parent
+WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent.parent  # workspace/→agents/→workspace-agent/→myworkspace/
+AGENT_DIR      = Path(__file__).resolve().parent
 MEMORY_DIR     = AGENT_DIR / "memory"
 
 IGNORE = {".git", ".venv", "__pycache__", "node_modules", "target",

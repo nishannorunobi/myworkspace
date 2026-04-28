@@ -9,7 +9,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict, List
 
-WORKSPACE_ROOT = Path(__file__).parent.parent
+WORKSPACE_ROOT = Path(__file__).parent.parent.parent  # dashboard-agent/ → agents/ → myworkspace/
+AGENTS_DIR     = Path(__file__).parent.parent          # dashboard-agent/ → agents/
 AGENT_DIR      = Path(__file__).parent
 
 
@@ -71,9 +72,9 @@ AGENT_SPECS: List[AgentSpec] = [
         name="Workspace Agent",
         description="Monitors workspace structure, git history, and project conventions",
         type="host",
-        host_script=str(AGENT_DIR / "agents/workspace/agent.py"),
-        log_file=str(AGENT_DIR / "agents/workspace/memory/sessions.md"),
-        memory_dir=str(AGENT_DIR / "agents/workspace/memory"),
+        host_script=str(AGENTS_DIR / "workspace-agent/workspace/agent.py"),
+        log_file=str(AGENTS_DIR / "workspace-agent/workspace/memory/sessions.md"),
+        memory_dir=str(AGENTS_DIR / "workspace-agent/workspace/memory"),
     ),
     AgentSpec(
         id="db",

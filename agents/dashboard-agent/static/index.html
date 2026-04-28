@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Workspace Dashboard</title>
-<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="/static/css/style.css?v=3">
 </head>
 <body>
 
@@ -31,7 +31,12 @@
     </div>
     <div class="sidebar-section">Alert History</div>
     <div id="alert-history">
-      <div style="padding:8px 12px;color:var(--text3);font-size:11px">No alerts yet.</div>
+      <div style="padding:8px 12px;color:var(--text3);font-size:13px">No alerts yet.</div>
+    </div>
+    <div class="sidebar-section">Theme</div>
+    <div class="theme-switcher">
+      <button class="theme-btn" id="theme-dark"  onclick="window._dash.setTheme('dark')">Dark</button>
+      <button class="theme-btn" id="theme-light" onclick="window._dash.setTheme('light')">Light</button>
     </div>
   </div>
 
@@ -221,10 +226,10 @@
 </div>
 
 <!-- ── JS modules (order matters) ── -->
-<script src="/static/js/sounds.js"></script>
-<script src="/static/js/alerts.js"></script>
-<script src="/static/js/events.js"></script>
-<script src="/static/js/dashboard.js"></script>
+<script src="/static/js/sounds.js?v=3"></script>
+<script src="/static/js/alerts.js?v=3"></script>
+<script src="/static/js/events.js?v=3"></script>
+<script src="/static/js/dashboard.js?v=3"></script>
 
 </body>
 </html>

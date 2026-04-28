@@ -27,7 +27,15 @@
       "Bash(chmod +x /home/nishan/myworkspace/projectspace/mypostgresql_db/dockerspace/start.sh /home/nishan/myworkspace/projectspace/mypostgresql_db/dockerspace/stop.sh)",
       "Bash(git mv *)",
       "Bash(git -C /home/nishan/myworkspace status --short workspace-agent/)",
-      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(a['id'], a['status'], a['mem_files'][:2]\\) for a in d['agents']]\")"
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(a['id'], a['status'], a['mem_files'][:2]\\) for a in d['agents']]\")",
+      "Bash(../.venv/bin/python -c ' *)",
+      "Bash(bash health.sh)",
+      "Bash(bash build.sh)",
+      "Bash(.venv/bin/python -c ' *)",
+      "Bash(bash start_web.sh)",
+      "Bash(lsof -ti:8888)",
+      "Bash(xargs kill *)",
+      "Bash(chmod +x /home/nishan/myworkspace/agents/dashboard-agent/stop.sh /home/nishan/myworkspace/agents/dashboard-agent/health.sh)"
     ]
   }
 }

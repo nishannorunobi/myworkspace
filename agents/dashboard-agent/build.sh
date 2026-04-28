@@ -1,5 +1,5 @@
 #!/bin/bash
-# build.sh — Set up venv and install dependencies (runs locally, no Docker).
+# build.sh — Set up dashboard-agent venv and install dependencies.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -13,7 +13,7 @@ warn()    { echo -e "${YELLOW}[WARN]${RESET}  $*"; }
 fail()    { echo -e "${RED}[FAIL]${RESET}  $*" >&2; exit 1; }
 
 echo -e "\n${BOLD}╔══════════════════════════════════════════╗${RESET}"
-echo -e "${BOLD}║   Workspace Management Agent — Build     ║${RESET}"
+echo -e "${BOLD}║   Dashboard Agent — Build                ║${RESET}"
 echo -e "${BOLD}╚══════════════════════════════════════════╝${RESET}\n"
 
 command -v python3 &>/dev/null || fail "python3 not found."
@@ -32,16 +32,12 @@ info "Installing dependencies..."
 .venv/bin/pip install -r requirements.txt -q
 success "Dependencies installed"
 
-if [ ! -f "agent.conf" ]; then
-    cp agent.conf.example agent.conf
-    warn "agent.conf created — set ANTHROPIC_API_KEY in agent.conf"
-else
-    success "agent.conf exists"
-fi
+[ -f "../shared.conf" ] \
+    && success "shared.conf found" \
+    || warn "shared.conf not found at agents/shared.conf — set ANTHROPIC_API_KEY there"
 
 mkdir -p memory
 success "memory/ directory ready"
 
 echo -e "\n${GREEN}Build complete.${RESET}"
-echo -e "  Run   : ${BOLD}./start.sh${RESET}"
-echo -e "  Check : ${BOLD}./health.sh${RESET}\n"
+echo -e "  Run   : ${BOLD}./start_web.sh${RESET}\n"

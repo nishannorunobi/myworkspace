@@ -11,7 +11,7 @@ from monitor import WorkspaceMonitor
 
 AGENT_DIR = Path(__file__).parent
 ROOT_DIR  = AGENT_DIR.parent.parent  # workspace-agent/
-load_dotenv(ROOT_DIR / "agent.conf")
+load_dotenv(ROOT_DIR.parent / "shared.conf")
 
 SYSTEM_PROMPT = f"""You are a Workspace Management Agent for a Docker-based development workspace.
 

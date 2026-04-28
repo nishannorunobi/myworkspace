@@ -33,12 +33,31 @@ class Dashboard {
 
   async init() {
     window._dash = this;
+    this._loadTheme();
     await this.alerts.loadSettings();
     this._bindStream();
     this.stream.connect();
     await this._fetchAgents();
     this._renderGrid();
     this._bindUI();
+  }
+
+  // ── Theme ─────────────────────────────────────────────────────────────────
+
+  _loadTheme() {
+    const saved = localStorage.getItem('dash-theme') || 'dark';
+    this._applyTheme(saved);
+  }
+
+  setTheme(theme) {
+    localStorage.setItem('dash-theme', theme);
+    this._applyTheme(theme);
+  }
+
+  _applyTheme(theme) {
+    document.body.dataset.theme = theme;
+    document.getElementById('theme-dark')?.classList.toggle('active', theme === 'dark');
+    document.getElementById('theme-light')?.classList.toggle('active', theme === 'light');
   }
 
   // ── Event stream bindings ─────────────────────────────────────────────────

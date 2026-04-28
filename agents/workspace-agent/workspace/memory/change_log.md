@@ -190,3 +190,120 @@ _Tracks notable workspace changes with dates_
   - M .claude/settings.json
   - RM workspace-agent/agent.py -> workspace-agent/agents/workspace/agent.py
   - RM workspace-agent/tools.py -> workspace-agent/agents/workspace/tools.py
+
+---
+**2026-04-27 19:13:35** — auto-detected
+  + M workspace-agent/memory/change_log.md
+  - A  workspace-agent/agent_registry.py
+  - A  workspace-agent/agents/__init__.py
+  - A  workspace-agent/agents/workspace/__init__.py
+  - A  workspace-agent/agents/workspace/memory/db_agent_plan.md
+  - A  workspace-agent/agents/workspace/monitor.py
+  - A  workspace-agent/alert_engine.py
+  - A  workspace-agent/config/alerts.json
+  - A  workspace-agent/server.py
+  - A  workspace-agent/start_web.sh
+  - A  workspace-agent/static/css/style.css
+  - A  workspace-agent/static/index.html
+  - A  workspace-agent/static/js/alerts.js
+  - A  workspace-agent/static/js/dashboard.js
+  - A  workspace-agent/static/js/events.js
+  - A  workspace-agent/static/js/sounds.js
+  - M  .claude/settings.json
+  - M  workspace-agent/requirements.txt
+  - M  workspace-agent/start.sh
+  - R  workspace-agent/agent.py -> workspace-agent/agents/workspace/agent.py
+  - R  workspace-agent/prompt.md -> workspace-agent/agents/workspace/prompt.md
+  - R  workspace-agent/tools.py -> workspace-agent/agents/workspace/tools.py
+
+---
+**2026-04-27 19:13:50** — auto-detected
+  + M workspace-agent/agents/workspace/memory/change_log.md
+  - M workspace-agent/memory/change_log.md
+
+---
+**2026-04-28 11:55:33** — auto-detected
+  + A  agents/.gitignore
+  + A  agents/dashboard-agent/build.sh
+  + A  agents/dashboard-agent/health.sh
+  + A  agents/dashboard-agent/routers/agents.py
+  + A  agents/dashboard-agent/routers/alerts.py
+  + A  agents/dashboard-agent/routers/chat.py
+  + A  agents/dashboard-agent/routers/events.py
+  + A  agents/dashboard-agent/server.conf
+  + A  agents/dashboard-agent/server.py
+  + A  agents/dashboard-agent/start_web.sh
+  + A  agents/dashboard-agent/stop.sh
+  + A  agents/workspace-agent/.gitignore
+  + A  agents/workspace-agent/health.sh
+  + A  agents/workspace-agent/requirements.txt
+  + A  agents/workspace-agent/workspace/__init__.py
+  + D  workspace-agent/health.sh
+  + D  workspace-agent/server.py
+  + D  workspace-agent/start_web.sh
+  + M  .claude/settings.json
+  + R  workspace-agent/.gitignore -> agents/dashboard-agent/.gitignore
+  + R  workspace-agent/agent.conf.example -> agents/shared.conf.example
+  + R  workspace-agent/agent_registry.py -> agents/dashboard-agent/agent_registry.py
+  + R  workspace-agent/agents/__init__.py -> agents/dashboard-agent/routers/__init__.py
+  + R  workspace-agent/agents/workspace/__init__.py -> agents/workspace-agent/__init__.py
+  + R  workspace-agent/agents/workspace/agent.py -> agents/workspace-agent/workspace/agent.py
+  + R  workspace-agent/agents/workspace/memory/change_log.md -> agents/workspace-agent/workspace/memory/change_log.md
+  + R  workspace-agent/agents/workspace/memory/concerns.md -> agents/workspace-agent/workspace/memory/concerns.md
+  + R  workspace-agent/agents/workspace/memory/db_agent_plan.md -> agents/workspace-agent/workspace/memory/db_agent_plan.md
+  + R  workspace-agent/agents/workspace/memory/gitignore_content.md -> agents/workspace-agent/workspace/memory/gitignore_content.md
+  + R  workspace-agent/agents/workspace/memory/meta.json -> agents/workspace-agent/workspace/memory/meta.json
+  + R  workspace-agent/agents/workspace/memory/projects.md -> agents/workspace-agent/workspace/memory/projects.md
+  + R  workspace-agent/agents/workspace/memory/proposed_gitignore.md -> agents/workspace-agent/workspace/memory/proposed_gitignore.md
+  + R  workspace-agent/agents/workspace/memory/sessions.md -> agents/workspace-agent/workspace/memory/sessions.md
+  + R  workspace-agent/agents/workspace/memory/workspace_structure.md -> agents/workspace-agent/workspace/memory/workspace_structure.md
+  + R  workspace-agent/agents/workspace/monitor.py -> agents/workspace-agent/workspace/monitor.py
+  + R  workspace-agent/agents/workspace/prompt.md -> agents/workspace-agent/workspace/prompt.md
+  + R  workspace-agent/agents/workspace/tools.py -> agents/workspace-agent/workspace/tools.py
+  + R  workspace-agent/alert_engine.py -> agents/dashboard-agent/alert_engine.py
+  + R  workspace-agent/build.sh -> agents/workspace-agent/build.sh
+  + R  workspace-agent/config/alerts.json -> agents/dashboard-agent/config/alerts.json
+  + R  workspace-agent/requirements.txt -> agents/dashboard-agent/requirements.txt
+  + R  workspace-agent/start.sh -> agents/workspace-agent/start.sh
+  + R  workspace-agent/static/css/style.css -> agents/dashboard-agent/static/css/style.css
+  + R  workspace-agent/static/index.html -> agents/dashboard-agent/static/index.html
+  + R  workspace-agent/static/js/alerts.js -> agents/dashboard-agent/static/js/alerts.js
+  + R  workspace-agent/static/js/dashboard.js -> agents/dashboard-agent/static/js/dashboard.js
+  + R  workspace-agent/static/js/events.js -> agents/dashboard-agent/static/js/events.js
+  + R  workspace-agent/static/js/sounds.js -> agents/dashboard-agent/static/js/sounds.js
+  + R  workspace-agent/stop.sh -> agents/workspace-agent/stop.sh
+  -  D workspace-agent/.gitignore
+  -  D workspace-agent/agent.conf.example
+  -  D workspace-agent/agent_registry.py
+  -  D workspace-agent/agents/__init__.py
+  -  D workspace-agent/agents/workspace/__init__.py
+  -  D workspace-agent/agents/workspace/agent.py
+  -  D workspace-agent/agents/workspace/memory/change_log.md
+  -  D workspace-agent/agents/workspace/memory/concerns.md
+  -  D workspace-agent/agents/workspace/memory/db_agent_plan.md
+  -  D workspace-agent/agents/workspace/memory/gitignore_content.md
+  -  D workspace-agent/agents/workspace/memory/meta.json
+  -  D workspace-agent/agents/workspace/memory/projects.md
+  -  D workspace-agent/agents/workspace/memory/proposed_gitignore.md
+  -  D workspace-agent/agents/workspace/memory/sessions.md
+  -  D workspace-agent/agents/workspace/memory/workspace_structure.md
+  -  D workspace-agent/agents/workspace/monitor.py
+  -  D workspace-agent/agents/workspace/prompt.md
+  -  D workspace-agent/agents/workspace/tools.py
+  -  D workspace-agent/alert_engine.py
+  -  D workspace-agent/build.sh
+  -  D workspace-agent/config/alerts.json
+  -  D workspace-agent/health.sh
+  -  D workspace-agent/requirements.txt
+  -  D workspace-agent/server.py
+  -  D workspace-agent/start.sh
+  -  D workspace-agent/start_web.sh
+  -  D workspace-agent/static/css/style.css
+  -  D workspace-agent/static/index.html
+  -  D workspace-agent/static/js/alerts.js
+  -  D workspace-agent/static/js/dashboard.js
+  -  D workspace-agent/static/js/events.js
+  -  D workspace-agent/static/js/sounds.js
+  -  D workspace-agent/stop.sh
+  - ?? agents/
+  - M .claude/settings.json
