@@ -134,10 +134,28 @@ TOOL_DEFINITIONS = [
         }
     },
     {
+        "name": "edit_file",
+        "description": (
+            "Make a targeted search-and-replace edit in a file. "
+            "Preferred over write_file for changes to existing files — safer and less error-prone. "
+            "old_string must be an exact, unique substring copied from read_file output. "
+            "Include enough surrounding context to be unambiguous. Never guess whitespace."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "path":       {"type": "string", "description": "File path relative to workspace root"},
+                "old_string": {"type": "string", "description": "Exact text to find — must match the file exactly, including indentation"},
+                "new_string": {"type": "string", "description": "Replacement text"}
+            },
+            "required": ["path", "old_string", "new_string"]
+        }
+    },
+    {
         "name": "write_file",
         "description": (
             "Write or overwrite a file inside the workspace. "
-            "Use to fix a broken script, config, or source file after diagnosing the issue with run_command. "
+            "Use for new files or complete rewrites. For changes to existing files, prefer edit_file. "
             "Always read the file first, make minimal changes, then re-run to verify."
         ),
         "input_schema": {
@@ -147,6 +165,43 @@ TOOL_DEFINITIONS = [
                 "content": {"type": "string", "description": "Full content to write to the file"}
             },
             "required": ["path", "content"]
+        }
+    },
+    {
+        "name": "search_code",
+        "description": (
+            "Search for a pattern across files in the workspace using grep. "
+            "Use to find where a function is defined, where a variable is used, "
+            "which files import a module, or any keyword across the codebase."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "pattern":        {"type": "string",  "description": "Search pattern (string or basic regex)"},
+                "path":           {"type": "string",  "description": "Subdirectory to search (default: workspace root)"},
+                "file_pattern":   {"type": "string",  "description": "Restrict to file types e.g. '*.py', '*.sh'"},
+                "case_sensitive": {"type": "boolean", "description": "Case-sensitive search (default false)"}
+            },
+            "required": ["pattern"]
+        }
+    },
+    {
+        "name": "git_commit",
+        "description": (
+            "Stage specific files and create a git commit. "
+            "Always stage only files you changed. Write commit messages that describe WHY, not just what. "
+            "Call after any code fix to preserve the change in history."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "message": {"type": "string", "description": "Commit message — describe why the change was made"},
+                "paths":   {
+                    "type": "array", "items": {"type": "string"},
+                    "description": "File paths to stage relative to workspace root. Be specific — avoid '.' unless you have reviewed all changes."
+                }
+            },
+            "required": ["message", "paths"]
         }
     },
     {
@@ -297,6 +352,25 @@ def execute_tool(name: str, inp: dict) -> dict:
         except Exception as e:
             return {"error": str(e)}
 
+    if name == "edit_file":
+        path = (WORKSPACE_ROOT / inp["path"]).resolve()
+        if not str(path).startswith(str(WORKSPACE_ROOT)):
+            return {"error": "Access denied — path outside workspace"}
+        if not path.exists():
+            return {"error": f"File not found: {inp['path']}"}
+        try:
+            content   = path.read_text(errors="replace")
+            old, new  = inp["old_string"], inp["new_string"]
+            if old not in content:
+                return {"error": "old_string not found in file — re-read the file and copy the exact text including whitespace"}
+            count = content.count(old)
+            if count > 1:
+                return {"error": f"old_string matches {count} locations — add more surrounding context to make it unique"}
+            path.write_text(content.replace(old, new, 1))
+            return {"edited": inp["path"]}
+        except Exception as e:
+            return {"error": str(e)}
+
     if name == "write_file":
         path = (WORKSPACE_ROOT / inp["path"]).resolve()
         if not str(path).startswith(str(WORKSPACE_ROOT)):
@@ -304,7 +378,51 @@ def execute_tool(name: str, inp: dict) -> dict:
         try:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(inp["content"])
-            return {"saved": str(path)}
+            return {"saved": inp["path"]}
+        except Exception as e:
+            return {"error": str(e)}
+
+    if name == "search_code":
+        search_path = WORKSPACE_ROOT / inp["path"] if inp.get("path") else WORKSPACE_ROOT
+        file_pat    = inp.get("file_pattern", "")
+        no_case     = [] if inp.get("case_sensitive") else ["-i"]
+        include     = [f"--include={file_pat}"] if file_pat else []
+        excludes    = [
+            "--exclude-dir=.venv", "--exclude-dir=__pycache__",
+            "--exclude-dir=.git",  "--exclude-dir=target",
+            "--exclude-dir=node_modules",
+        ]
+        cmd = ["grep", "-r", "-n"] + no_case + include + excludes + [inp["pattern"], str(search_path)]
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=15)
+            output = result.stdout.strip().replace(str(WORKSPACE_ROOT) + "/", "")
+            lines  = [l for l in output.splitlines() if l][:60]
+            return {"matches": "\n".join(lines), "total": len(lines)}
+        except subprocess.TimeoutExpired:
+            return {"error": "Search timed out"}
+        except Exception as e:
+            return {"error": str(e)}
+
+    if name == "git_commit":
+        paths   = inp.get("paths", [])
+        message = inp["message"]
+        if not paths:
+            return {"error": "paths list is required — specify which files to stage"}
+        try:
+            add = subprocess.run(
+                ["git", "add"] + paths, cwd=str(WORKSPACE_ROOT),
+                capture_output=True, text=True, timeout=30
+            )
+            if add.returncode != 0:
+                return {"error": f"git add failed: {add.stderr.strip()}"}
+            commit = subprocess.run(
+                ["git", "commit", "-m", message], cwd=str(WORKSPACE_ROOT),
+                capture_output=True, text=True, timeout=30
+            )
+            return {
+                "committed": commit.returncode == 0,
+                "output":    (commit.stdout + commit.stderr).strip(),
+            }
         except Exception as e:
             return {"error": str(e)}
 

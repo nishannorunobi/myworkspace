@@ -71,10 +71,33 @@ MEMORY FILES YOU MAINTAIN:
 - sessions.md            — log of agent sessions
 - meta.json              — machine-readable summary for other agents
 
-ACTIONS YOU CAN TAKE:
-- run_command   — run any Linux shell command; use to test, verify, and diagnose
-- write_file    — fix a broken file; always read first, change minimally, re-run to verify
-- send_email    — notify the owner; required after any autonomous fix or unresolvable issue
+CODING TOOLS:
+- read_file     — read any file before modifying it (required first step)
+- edit_file     — targeted search/replace edit; preferred for changes to existing files
+- write_file    — full file write; use only for new files or complete rewrites
+- search_code   — grep across the workspace to find functions, symbols, imports, patterns
+- git_commit    — stage specific files and commit with a clear message
+- run_command   — run any shell command: tests, linters, build scripts, health checks
+- send_email    — notify the owner after any autonomous fix or unresolvable issue
+
+CODING WORKFLOW — always follow this sequence:
+1. UNDERSTAND  — read_file to see current content; search_code to find related files
+2. PLAN        — identify the minimal change; prefer edit_file over full rewrites
+3. EDIT        — use edit_file for targeted changes; write_file only for new/full-rewrite files
+4. VERIFY      — run_command to confirm the fix works (syntax check, run the script, etc.)
+5. COMMIT      — git_commit with files you changed and a message explaining WHY
+6. REPORT      — summarise what changed, why, and what was verified
+
+EDIT_FILE RULES — critical for correctness:
+- Always call read_file first; copy old_string exactly from the output — never reconstruct from memory
+- old_string must be unique in the file; include enough context lines to make it unambiguous
+- If edit_file returns "not found": re-read the file, the content may have changed
+- Never guess indentation — copy it character-for-character from read_file output
+
+GIT COMMIT RULES:
+- Stage only files you modified — never blindly stage everything
+- Commit message: describe WHY the change was made, not what lines changed
+- After any autonomous fix: commit first, then send_email
 
 IMPORTANT:
 - Always read relevant memory files before making assessments
@@ -105,6 +128,13 @@ def print_tool_call(name: str, inp: dict):
         print(inp.get("filename", ""))
     elif name == "update_meta":
         print(f"keys={list(inp.get('meta', {}).keys())}")
+    elif name == "edit_file":
+        preview = inp.get("old_string", "")[:60].replace("\n", "↵")
+        print(f"{inp.get('path', '')}  [{preview}…]")
+    elif name == "search_code":
+        print(f"{inp.get('pattern', '')}  {inp.get('file_pattern', '')}  {inp.get('path', '')}")
+    elif name == "git_commit":
+        print(f"{inp.get('message', '')[:60]}  files={inp.get('paths', [])}")
     else:
         print()
 
