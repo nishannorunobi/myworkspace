@@ -110,7 +110,21 @@
       "WebSearch",
       "Bash(PYTHONPATH=/home/nishan/myworkspace/agents/workspace-agent:/home/nishan/myworkspace/agents/workspace-agent/workspace .venv/bin/python -c ' *)",
       "Bash(node --check /home/nishan/myworkspace/agents/agent-orchestrator/static/js/dashboard.js)",
-      "Bash(curl -s http://localhost:8888/api/workspace/projects)"
+      "Bash(curl -s http://localhost:8888/api/workspace/projects)",
+      "Bash(curl -L -o svmult.cls \"https://mirrors.ctan.org/macros/latex/contrib/svmult/svmult.cls\")",
+      "Bash(curl -sL \"https://mirror.math.princeton.edu/pub/CTAN/macros/latex/contrib/svmult/\")",
+      "Bash(curl -sI \"https://mirror.math.princeton.edu/pub/CTAN/macros/latex/contrib/svmult/svmult.cls\")",
+      "Bash(curl -sL \"https://ctan.org/pkg/svmult\")",
+      "Bash(curl -sI \"https://mirrors.ctan.org/macros/latex/contrib/svmult.zip\")",
+      "Bash(curl -L -o svmult.zip \"https://mirrors.ctan.org/macros/latex/contrib/svmult.zip\")",
+      "Bash(curl -sL \"https://ctan.math.utah.edu/ctan/tex-archive/macros/latex/contrib/\")",
+      "Bash(curl -sI \"https://www.springer.com/gp/authors-editors/book-authors-editors/your-publication-journey/manuscript-preparation/latex-template\")",
+      "Bash(curl -sI \"https://resource-cms.springernature.com/springer-cms/rest/v1/content/19238648/data/v5\")",
+      "Bash(tlmgr --version)",
+      "Bash(tlmgr --usermode init-usertree)",
+      "Bash(tlmgr --usermode install svmult)",
+      "Bash(tlmgr --usermode --repository https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2023/tlnet-final/ install svmult)",
+      "Bash(unzip -o springer_template.zip)"
     ]
   }
 }

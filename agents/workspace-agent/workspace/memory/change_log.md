@@ -4370,3 +4370,2491 @@ _Tracks notable workspace changes with dates_
   - ?? agents/docker-manager-agent/docagent/
   - ?? agents/docker-manager-agent/umsagent/
   - M agents/agent-orchestrator/agent_registry.py
+
+---
+**2026-05-17 17:33:05** — auto-detected
+  - A  agents/docker-manager-agent/cacheagent/start-cache-agent.sh
+  - A  agents/docker-manager-agent/cacheagent/stop-cache-agent.sh
+  - A  agents/docker-manager-agent/channelsagent/start-channel-agent.sh
+  - A  agents/docker-manager-agent/channelsagent/stop-channel-agent.sh
+  - A  agents/docker-manager-agent/dbagent/start-db-agent.sh
+  - A  agents/docker-manager-agent/dbagent/stop-db-agent.sh
+  - A  agents/docker-manager-agent/docagent/start-doc-agent.sh
+  - A  agents/docker-manager-agent/docagent/stop-doc-agent.sh
+  - A  agents/docker-manager-agent/umsagent/start-ums-agent.sh
+  - A  agents/docker-manager-agent/umsagent/stop-ums-agent.sh
+  - M  agents/agent-orchestrator/agent_registry.py
+  - M  agents/agent-orchestrator/agents.conf
+  - M  agents/agent-orchestrator/alert_engine.py
+  - M  agents/agent-orchestrator/routers/workspace_projects.py
+  - M  agents/agent-orchestrator/static/css/style.css
+  - M  agents/agent-orchestrator/static/js/dashboard.js
+  - M  agents/docker-manager-agent/docker_agent/database.py
+  - M  agents/workspace-agent/workspace/memory/change_log.md
+
+---
+**2026-05-17 17:33:20** — auto-detected
+  + M agents/workspace-agent/workspace/memory/change_log.md
+
+---
+**2026-05-17 17:36:35** — auto-detected
+  +  M agents/workspace-agent/workspace/memory/change_log.md
+  + M agents/agent-orchestrator/agents.conf
+  - M agents/workspace-agent/workspace/memory/change_log.md
+
+---
+**2026-05-17 17:39:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 17:39:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 17:41:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 17:41:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 17:47:20** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-17 17:47:35** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-17 17:51:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 17:51:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 17:53:20** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-17 17:53:35** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-17 18:01:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:01:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:02:20** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:02:35** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:13:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:13:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:31:51** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:32:06** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:32:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:32:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:39:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:39:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:46:51** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-17 18:47:06** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 11:55:51** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 11:56:06** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 12:00:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 12:00:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 12:05:21** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 12:05:36** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 12:36:37** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 12:36:52** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 12:39:37** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 12:39:52** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 12:40:52** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 12:41:07** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:09:52** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:10:07** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:12:22** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:12:37** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:15:53** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 13:16:08** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 13:23:08** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:23:23** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:24:23** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:24:38** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:26:08** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:26:23** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:27:23** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 13:27:38** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 13:55:23** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 13:55:38** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:11:39** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:11:54** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:23:24** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:23:39** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:24:39** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:24:54** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:43:25** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 14:43:40** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 14:51:10** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:51:25** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:52:55** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:53:10** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:54:10** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:54:25** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 14:58:10** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 14:58:25** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 15:06:10** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:06:25** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:07:25** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:07:40** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:14:11** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 15:14:26** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 15:16:11** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:16:26** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:21:41** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:21:56** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:38:26** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:38:41** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:46:56** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:47:11** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:50:42** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:50:57** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:51:57** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:52:12** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:53:12** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:53:27** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:54:27** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:54:42** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 15:59:57** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:00:12** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:06:12** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:06:27** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:16:12** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:16:27** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:19:12** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 16:19:27** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 16:20:57** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:21:12** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:25:57** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:26:12** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:36:28** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:36:43** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:39:28** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:39:43** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:46:43** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 16:46:58** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:00:28** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:00:43** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:06:28** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:06:43** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:14:14** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:14:29** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:18:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:19:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:43:44** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 17:43:59** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 17:44:29** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:44:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:52:00** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:52:15** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:58:00** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 17:58:15** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 18:12:00** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 18:12:15** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 18:17:15** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 18:17:30** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 18:23:15** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 18:23:30** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 18:57:32** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 18:57:47** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 19:25:17** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 19:25:32** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 19:30:47** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 19:31:02** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 19:40:33** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 19:40:48** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 19:51:18** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 19:51:33** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:00:33** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:00:48** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:13:34** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:13:49** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:25:04** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:25:19** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:27:34** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:27:49** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:47:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:47:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:56:05** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 20:56:20** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:11:51** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:12:06** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:21:06** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:21:21** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:34:06** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:34:21** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:41:06** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:41:21** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:42:51** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:43:06** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:43:21** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:43:36** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:57:37** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 21:57:52** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 22:05:37** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 22:05:52** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 22:09:07** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 22:09:22** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 22:12:37** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 22:12:52** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-18 22:14:07** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 22:14:22** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-18 22:14:37** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:34:41** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:34:56** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:46:56** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:47:11** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:48:11** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:48:26** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:50:41** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:50:56** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:55:41** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 17:55:56** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:04:56** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:05:11** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:24:12** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:24:27** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:31:42** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:31:57** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:34:57** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:35:12** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:50:13** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 18:50:28** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 19:45:44** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 19:45:59** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 19:49:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 19:50:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 19:56:29** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 19:56:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 20:05:14** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 20:05:29** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 20:16:45** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 20:17:00** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 20:18:45** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-19 20:19:00** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-19 20:32:30** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-19 20:32:45** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 15:47:21** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:04:41** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:04:56** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:18:42** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:18:57** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:26:42** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:26:57** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:37:27** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:37:42** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:49:43** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:49:58** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:52:43** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 16:52:58** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:11:13** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:11:28** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:16:43** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:16:58** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:23:29** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:23:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:25:44** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:25:59** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:27:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:28:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:29:44** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:29:59** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:30:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:31:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:42:14** — auto-detected
+  +  M agents/agent-orchestrator/agents.conf
+  + M .claude/settings.json
+  - M agents/agent-orchestrator/agents.conf
+
+---
+**2026-05-20 17:53:14** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:53:29** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:54:29** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:54:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:57:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 17:58:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 18:14:30** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 18:14:45** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 18:31:15** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 18:31:30** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:15:01** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:15:16** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:19:46** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:20:01** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:21:31** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:21:46** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:31:32** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-20 19:31:47** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-20 19:33:02** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:33:17** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:39:32** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 19:39:47** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:07:33** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:07:48** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:14:33** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:14:48** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:18:48** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:19:03** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:26:03** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-20 20:26:18** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-20 20:26:33** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:26:48** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:30:48** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:31:03** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:35:03** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-20 20:35:18** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:10:05** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:10:20** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:34:20** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:34:35** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:37:05** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:37:20** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:41:50** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:42:05** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:51:21** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 12:51:36** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:10:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:10:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:13:06** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-21 13:13:21** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-21 13:21:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:21:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:22:51** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:23:06** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:26:22** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:26:37** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:51:07** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 13:51:22** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:13:23** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:13:38** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:17:38** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:17:53** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:20:23** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:20:38** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:37:23** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:37:38** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:42:08** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:42:23** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:50:39** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:50:54** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:53:39** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 14:53:54** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:02:39** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:02:54** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:06:54** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-21 15:07:09** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-21 15:08:09** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:08:24** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:20:10** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:20:25** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:25:40** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:25:55** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:44:25** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:44:40** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 15:47:25** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-21 15:47:40** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-21 16:30:56** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 16:31:11** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 16:58:27** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-21 16:58:42** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-21 17:04:12** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:04:27** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:15:27** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:15:42** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:30:58** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:31:13** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:36:28** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:36:43** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:45:58** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 17:46:13** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:03:29** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:03:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:18:29** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:18:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:24:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:25:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:31:14** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:31:29** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:46:45** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 18:47:00** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:14:45** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:15:00** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:19:01** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:19:16** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:25:01** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:25:16** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:37:01** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:37:16** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:52:31** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 19:52:46** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 20:14:32** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 20:14:47** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 20:35:02** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 20:35:17** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 20:40:48** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 20:41:03** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 20:49:48** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-21 20:50:03** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 10:45:16** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 10:56:46** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 10:57:01** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:03:17** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:03:32** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:23:32** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:23:47** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:26:32** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:26:47** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:30:02** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:30:17** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:43:48** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 11:44:03** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 12:01:18** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 12:01:33** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 12:11:48** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 12:12:03** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 12:16:18** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 12:16:33** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 12:29:34** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-22 12:29:49** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-22 12:46:04** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 12:46:19** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:06:04** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:06:19** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:11:20** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-22 13:11:35** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-22 13:13:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:13:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:18:50** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:19:05** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:33:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:33:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 13:59:51** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:00:06** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:02:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:02:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:18:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:18:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:22:06** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:22:21** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:39:21** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 14:39:36** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:10:07** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-22 15:10:22** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-22 15:13:52** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:14:07** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:18:52** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:19:07** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:21:07** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:21:22** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:45:23** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:45:38** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:56:23** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 15:56:38** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 16:35:09** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 16:35:24** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 16:58:10** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-22 16:58:25** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-22 17:02:40** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:02:55** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:19:40** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:19:55** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:25:55** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:26:10** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:34:25** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:34:40** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:39:26** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:39:41** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:43:26** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:43:41** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:48:26** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:48:41** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:59:11** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 17:59:26** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:01:26** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:01:41** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:16:41** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:16:56** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:18:26** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:18:41** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:20:41** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:20:56** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:38:57** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:39:12** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:56:57** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:57:12** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:58:42** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 18:58:57** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 19:12:43** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 19:12:58** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 19:31:28** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 19:31:43** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 19:34:58** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 19:35:13** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:10:14** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:10:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:14:29** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:14:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:21:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:22:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:24:14** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:24:29** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:27:45** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:28:00** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:33:00** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:33:15** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:42:30** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:42:45** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:43:00** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:43:15** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:48:45** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:49:00** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:50:30** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 20:50:45** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 21:07:15** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 21:07:30** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 21:18:16** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-22 21:18:31** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:30:09** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:30:24** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:34:39** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:34:54** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:43:24** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:43:39** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:51:54** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:52:09** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:55:54** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 11:56:09** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:17:25** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:17:40** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:20:55** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:21:10** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:36:25** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:36:40** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:45:25** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:45:40** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:55:56** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 12:56:11** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:00:41** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:00:56** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:27:56** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:28:11** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:32:11** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:32:26** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:38:12** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:38:27** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:57:27** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 13:57:42** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 14:00:27** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 14:00:42** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 14:01:42** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 14:01:57** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 14:18:42** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-23 14:18:57** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-23 14:28:43** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 14:28:58** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 14:50:43** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-23 14:50:58** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-23 14:57:58** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 14:58:13** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:01:28** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:01:43** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:04:28** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:04:43** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:09:14** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:09:29** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:22:29** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:22:44** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:35:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:36:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:38:59** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 15:39:14** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 16:05:30** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 16:05:45** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 16:12:00** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 16:12:15** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 16:20:30** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 16:20:45** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 16:23:30** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 16:23:45** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:01:31** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:01:46** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:12:16** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:12:31** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:23:02** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:23:17** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:37:32** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:37:47** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:41:17** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-23 17:41:32** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-23 17:45:47** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 17:46:02** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:01:02** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:01:17** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:16:18** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:16:33** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:25:18** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:25:33** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:26:03** — auto-detected
+  + ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-23 18:26:18** — auto-detected
+  - ?? agents/docker-manager-agent/docker_agent/memory/events.db-journal
+
+---
+**2026-05-23 18:38:03** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:38:18** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:44:33** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:44:48** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:56:04** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:56:19** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:57:19** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:57:34** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:59:04** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 18:59:19** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:02:04** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:02:19** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:10:34** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:10:49** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:13:34** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:13:49** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:14:49** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:15:04** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:20:49** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:21:04** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:25:04** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:25:19** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:39:35** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:39:50** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:52:20** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 19:52:35** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:00:50** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:01:05** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:06:50** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:07:05** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:18:20** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:18:35** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:31:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:31:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:51:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 20:51:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:00:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:00:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:03:36** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:03:51** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:11:07** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:11:22** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:20:07** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:20:22** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:26:07** — auto-detected
+  + ?? agents/workspace-agent/workspace/memory/workspace.db-journal
+
+---
+**2026-05-23 21:26:22** — auto-detected
+  - ?? agents/workspace-agent/workspace/memory/workspace.db-journal
