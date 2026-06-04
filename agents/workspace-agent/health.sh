@@ -30,17 +30,10 @@ if [ -d ".venv" ]; then
     [ -z "$MISSING" ] && pass "Dependencies installed" || fail "Missing:$MISSING — run ./build.sh"
 fi
 
-WORKSPACE_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
-if [ -f "$WORKSPACE_ROOT/workspace_env.sh" ]; then
-    pass "workspace_env.sh exists"
-    source "$WORKSPACE_ROOT/workspace_env.sh" 2>/dev/null || true
-    [ -n "${ANTHROPIC_API_KEY:-}" ] \
-        && pass "ANTHROPIC_API_KEY set (${ANTHROPIC_API_KEY:0:10}...)" \
-        || fail "ANTHROPIC_API_KEY not set"
-else
-    fail "workspace_env.sh not found at workspace root"
-fi
 [ -f "../shared.conf" ] && pass "shared.conf exists" || fail "shared.conf not found at agents/shared.conf"
+[ -n "${ANTHROPIC_API_KEY:-}" ] \
+    && pass "ANTHROPIC_API_KEY set (${ANTHROPIC_API_KEY:0:10}...)" \
+    || fail "ANTHROPIC_API_KEY not set in environment"
 
 if [ -d "workspace/memory" ]; then
     FILES=$(ls workspace/memory/ 2>/dev/null | wc -l)

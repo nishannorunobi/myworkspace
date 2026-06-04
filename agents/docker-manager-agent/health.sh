@@ -18,16 +18,10 @@ echo -e "\n${BOLD}Docker Orchestrator Agent — Health Check${RESET}\n"
 
 command -v docker &>/dev/null && pass "docker CLI found" || fail "docker not found"
 [ -d ".venv" ]              && pass ".venv exists"       || fail ".venv missing — run ./build.sh"
-WORKSPACE_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
-[ -f "../shared.conf" ]                    && pass "shared.conf found"       || fail "shared.conf not found"
-[ -f "$WORKSPACE_ROOT/workspace_env.sh" ]  && pass "workspace_env.sh found"  || fail "workspace_env.sh not found"
-
-if [ -f "$WORKSPACE_ROOT/workspace_env.sh" ]; then
-    source "$WORKSPACE_ROOT/workspace_env.sh" 2>/dev/null || true
-    [ -n "${ANTHROPIC_API_KEY:-}" ] \
-        && pass "ANTHROPIC_API_KEY set (${ANTHROPIC_API_KEY:0:10}...)" \
-        || fail "ANTHROPIC_API_KEY not set"
-fi
+[ -f "../shared.conf" ] && pass "shared.conf found" || fail "shared.conf not found"
+[ -n "${ANTHROPIC_API_KEY:-}" ] \
+    && pass "ANTHROPIC_API_KEY set (${ANTHROPIC_API_KEY:0:10}...)" \
+    || fail "ANTHROPIC_API_KEY not set in environment"
 
 if curl -sf "http://localhost:${PORT}/health" &>/dev/null; then
     pass "Server is responding on port ${PORT}"

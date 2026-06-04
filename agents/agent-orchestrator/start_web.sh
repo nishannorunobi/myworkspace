@@ -13,21 +13,13 @@ if [ ! -d ".venv" ]; then
     echo -e "${CYAN}[INFO]${RESET}  .venv not found — running build.sh first..."
     bash "$SCRIPT_DIR/build.sh" || exit 1
 fi
-WORKSPACE_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
-[ -f "$WORKSPACE_ROOT/workspace_env.sh" ] || {
-    echo -e "${RED}[ERROR]${RESET} workspace_env.sh not found at workspace root."
-    echo -e "         Copy the example and fill in your API key:"
-    echo -e "         ${BOLD}cp workspace_env.example.sh workspace_env.sh${RESET}"
-    exit 1
-}
 [ -f "../shared.conf" ] || { echo -e "${RED}[ERROR]${RESET} ../shared.conf not found."; exit 1; }
 [ -f "server.conf" ]    || { echo -e "${RED}[ERROR]${RESET} server.conf not found."; exit 1; }
 
-source "$WORKSPACE_ROOT/workspace_env.sh"
 source ../shared.conf
 source server.conf
 
-[ -n "${ANTHROPIC_API_KEY:-}" ] || { echo -e "${RED}[ERROR]${RESET} ANTHROPIC_API_KEY not set in workspace_env.sh"; exit 1; }
+[ -n "${ANTHROPIC_API_KEY:-}" ] || { echo -e "${RED}[ERROR]${RESET} ANTHROPIC_API_KEY not set in environment — run: export ANTHROPIC_API_KEY=..."; exit 1; }
 
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8888}"

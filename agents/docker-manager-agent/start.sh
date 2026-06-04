@@ -7,17 +7,14 @@ cd "$SCRIPT_DIR"
 
 RED="\033[31m"; GREEN="\033[32m"; BOLD="\033[1m"; RESET="\033[0m"
 
-WORKSPACE_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
-[ -d ".venv" ]                             || { echo -e "${RED}[ERROR]${RESET} .venv not found — run ./build.sh first."; exit 1; }
-[ -f "$WORKSPACE_ROOT/workspace_env.sh" ]  || { echo -e "${RED}[ERROR]${RESET} workspace_env.sh not found — cp workspace_env.example.sh workspace_env.sh"; exit 1; }
-[ -f "../shared.conf" ]                    || { echo -e "${RED}[ERROR]${RESET} ../shared.conf not found."; exit 1; }
-[ -f "server.conf" ]                       || { echo -e "${RED}[ERROR]${RESET} server.conf not found."; exit 1; }
+[ -d ".venv" ]          || { echo -e "${RED}[ERROR]${RESET} .venv not found — run ./build.sh first."; exit 1; }
+[ -f "../shared.conf" ] || { echo -e "${RED}[ERROR]${RESET} ../shared.conf not found."; exit 1; }
+[ -f "server.conf" ]    || { echo -e "${RED}[ERROR]${RESET} server.conf not found."; exit 1; }
 
-source "$WORKSPACE_ROOT/workspace_env.sh"
 source ../shared.conf
 source server.conf
 
-[ -n "${ANTHROPIC_API_KEY:-}" ] || { echo -e "${RED}[ERROR]${RESET} ANTHROPIC_API_KEY not set in workspace_env.sh"; exit 1; }
+[ -n "${ANTHROPIC_API_KEY:-}" ] || { echo -e "${RED}[ERROR]${RESET} ANTHROPIC_API_KEY not set in environment — run: export ANTHROPIC_API_KEY=..."; exit 1; }
 export ANTHROPIC_API_KEY
 
 HOST="${HOST:-0.0.0.0}"
