@@ -1,4 +1,25 @@
-# Workspace Management Agent — Configuration
-# Copy to agent.conf and set your API key.
+# Claude API Testing Agent — Shared Configuration
+# Copy to agents/shared.conf — does NOT contain ANTHROPIC_API_KEY (that goes in workspace_env.sh).
 
-ANTHROPIC_API_KEY=your-api-key-here
+# ── PostgreSQL credentials ────────────────────────────────────────────────────
+AGENT_DB_NAME=umsdb
+AGENT_DB_USER=ums_user
+AGENT_DB_PASSWORD=ums_pass
+AGENT_DB_PORT=5432
+
+# ── Container names ───────────────────────────────────────────────────────────
+PG_CONTAINER=mypostgresql_db-container
+UMS_CONTAINER=ums-app
+UMS_PORT=8080
+
+# ── Email notifications (workspace-agent autonomous mode) ─────────────────────
+# SMTP_USER and SMTP_PASS are required; use a Gmail App Password (not your login password)
+# Generate one at: https://myaccount.google.com/apppasswords
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-gmail-app-password-here
+NOTIFY_EMAIL=your-email@gmail.com
+
+# How often the agent runs its autonomous maintenance cycle (seconds, default 3600 = 1 hour)
+AGENT_CYCLE_INTERVAL=3600

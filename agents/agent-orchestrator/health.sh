@@ -30,15 +30,17 @@ if [ -d ".venv" ]; then
     [ -z "$MISSING" ] && pass "Dependencies installed" || fail "Missing:$MISSING — run ./build.sh"
 fi
 
-if [ -f "../shared.conf" ]; then
-    pass "shared.conf exists"
-    source ../shared.conf 2>/dev/null || true
+WORKSPACE_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
+if [ -f "$WORKSPACE_ROOT/workspace_env.sh" ]; then
+    pass "workspace_env.sh exists"
+    source "$WORKSPACE_ROOT/workspace_env.sh" 2>/dev/null || true
     [ -n "${ANTHROPIC_API_KEY:-}" ] \
         && pass "ANTHROPIC_API_KEY set (${ANTHROPIC_API_KEY:0:10}...)" \
         || fail "ANTHROPIC_API_KEY not set"
 else
-    fail "shared.conf not found at agents/shared.conf"
+    fail "workspace_env.sh not found at workspace root"
 fi
+[ -f "../shared.conf" ] && pass "shared.conf exists" || fail "shared.conf not found at agents/shared.conf"
 
 if [ -d "static" ] && [ -f "static/index.html" ]; then
     pass "static/ assets present"

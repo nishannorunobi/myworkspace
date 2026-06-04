@@ -5,7 +5,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONTAINER="plane-aio"
 AGENT_DIR="/doc-agent"
-SHARED_CONF="$SCRIPT_DIR/../../shared.conf"
+WORKSPACE_ENV="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)/workspace_env.sh"
 
 if ! docker inspect "$CONTAINER" --format '{{.State.Running}}' 2>/dev/null | grep -q true; then
     echo "[ERROR] Container $CONTAINER is not running." >&2
@@ -20,8 +20,8 @@ if ! docker exec "$CONTAINER" sh -c "test -f $AGENT_DIR/.venv/bin/uvicorn" &>/de
 fi
 
 # Inject API key from shared.conf into the container's agent.conf (idempotent)
-if [ -f "$SHARED_CONF" ]; then
-    source "$SHARED_CONF"
+if [ -f "$WORKSPACE_ENV" ]; then
+    source "$WORKSPACE_ENV"
     docker exec "$CONTAINER" sh -c "
         grep -q 'ANTHROPIC_API_KEY' $AGENT_DIR/agent.conf 2>/dev/null \
             && sed -i 's|^ANTHROPIC_API_KEY=.*|ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY|' $AGENT_DIR/agent.conf \
