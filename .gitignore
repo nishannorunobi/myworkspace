@@ -1,5 +1,7 @@
 mountspace/*
+projectspace/*
 claude/
+.claude
 .vscode
 
 # Python — never commit venvs or bytecode
