@@ -16,7 +16,10 @@ fi
 if ! docker exec "$CONTAINER" bash -c "$AGENT_DIR/.venv/bin/python3 --version" &>/dev/null; then
     echo "[INFO] Building db-agent venv inside container..."
     docker exec "$CONTAINER" rm -rf "$AGENT_DIR/.venv"
-    docker exec "$CONTAINER" bash "$AGENT_DIR/build.sh"
+    # On a fresh container the first apt-get install can fail mid-dpkg-configure.
+    # Retry once — packages are cached so the second run always completes.
+    docker exec "$CONTAINER" bash "$AGENT_DIR/build.sh" \
+        || docker exec "$CONTAINER" bash "$AGENT_DIR/build.sh"
 fi
 
 # Inject API key from shared.conf into the container's agent.conf (idempotent)
