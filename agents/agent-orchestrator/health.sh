@@ -3,6 +3,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
 
 GREEN="\033[32m"; RED="\033[31m"; YELLOW="\033[33m"; BOLD="\033[1m"; DIM="\033[2m"; RESET="\033[0m"
@@ -45,7 +46,7 @@ fi
 
 source server.conf 2>/dev/null || true
 PORT="${PORT:-8888}"
-LOG_DIR="${LOG_DIR:-logs}"
+LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/agent-orchestrator"
 LOG_FILE="$LOG_DIR/server.log"
 
 if ss -tlnp 2>/dev/null | grep -q ":${PORT}"; then

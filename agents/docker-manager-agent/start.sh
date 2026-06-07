@@ -3,6 +3,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
 
 RED="\033[31m"; GREEN="\033[32m"; BOLD="\033[1m"; RESET="\033[0m"
@@ -20,9 +21,9 @@ export ANTHROPIC_API_KEY
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8889}"
 LOG_LEVEL="${LOG_LEVEL:-info}"
-LOG_FILE="$SCRIPT_DIR/docker_agent/memory/server.log"
+LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/docker-manager-agent/server.log"
 
-mkdir -p docker_agent/memory
+mkdir -p "$(dirname "$LOG_FILE")"
 
 echo -e "\n${BOLD}╔══════════════════════════════════════════╗${RESET}"
 echo -e "${BOLD}║   Docker Manager Agent                   ║${RESET}"

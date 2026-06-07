@@ -1,7 +1,7 @@
-workspace_env.sh
+mountspace/*
+projectspace/*
 claude/
-projectspace/
-mountspace/
+.claude
 .vscode
 
 # Python — never commit venvs or bytecode
