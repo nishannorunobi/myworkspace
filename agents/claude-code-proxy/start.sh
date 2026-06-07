@@ -4,12 +4,14 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
 
 GREEN="\033[32m"; CYAN="\033[36m"; RED="\033[31m"; BOLD="\033[1m"; RESET="\033[0m"
 
 PORT="${PORT:-8892}"
-LOG="$SCRIPT_DIR/proxy.log"
+LOG="$WORKSPACE_ROOT/mountspace/logs/claude-code-proxy/proxy.log"
+mkdir -p "$(dirname "$LOG")"
 
 # Resolve claude binary — check PATH and common NVM locations
 if command -v claude &>/dev/null; then

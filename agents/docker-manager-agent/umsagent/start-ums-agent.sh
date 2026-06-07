@@ -3,9 +3,11 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 CONTAINER="ums-app"
 AGENT_DIR="/ums/ums-agent"
 SHARED_CONF="$SCRIPT_DIR/../../shared.conf"
+LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/ums-agent/server.log"
 
 if ! docker inspect "$CONTAINER" --format '{{.State.Running}}' 2>/dev/null | grep -q true; then
     echo "[ERROR] Container $CONTAINER is not running." >&2
@@ -33,12 +35,14 @@ fi
 docker exec "$CONTAINER" bash -c \
     "pkill -f '[u]vicorn server:app' 2>/dev/null; sleep 0.3; echo ok"
 
-# Start fresh in background, sourcing agent.conf for ANTHROPIC_API_KEY / PORT
-docker exec -d "$CONTAINER" bash -c \
+# Start fresh; route logs to mountspace on the host via nohup+disown.
+mkdir -p "$(dirname "$LOG_FILE")"
+nohup docker exec "$CONTAINER" bash -c \
     "cd $AGENT_DIR && source agent.conf && \
      .venv/bin/uvicorn server:app \
         --host 0.0.0.0 --port \${PORT:-8891} \
-        --no-use-colors --access-log \
-        >> memory/server.log 2>&1"
+        --no-use-colors --access-log" \
+    < /dev/null >> "$LOG_FILE" 2>&1 &
+disown $!
 
 echo "[OK] UMS agent started inside $CONTAINER."

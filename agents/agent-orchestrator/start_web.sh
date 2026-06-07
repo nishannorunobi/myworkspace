@@ -5,6 +5,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
 
 RED="\033[31m"; GREEN="\033[32m"; CYAN="\033[36m"; BOLD="\033[1m"; RESET="\033[0m"
@@ -23,7 +24,8 @@ source server.conf
 
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8888}"
-LOG_DIR="${LOG_DIR:-logs}"
+LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/agent-orchestrator"
+export LOG_DIR
 LOG_LEVEL="${LOG_LEVEL:-info}"
 LOG_FILE="$LOG_DIR/server.log"
 

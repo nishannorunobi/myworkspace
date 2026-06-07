@@ -4,6 +4,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
 
 RED="\033[31m"; GREEN="\033[32m"; RESET="\033[0m"
@@ -19,7 +20,8 @@ if pgrep -f "workspace/agent.py --daemon" &>/dev/null; then
     exit 1
 fi
 
-LOG_FILE="$SCRIPT_DIR/workspace/memory/daemon.log"
+LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/workspace-agent/daemon.log"
+mkdir -p "$(dirname "$LOG_FILE")"
 
 nohup "$SCRIPT_DIR/.venv/bin/python" "$SCRIPT_DIR/workspace/agent.py" --daemon \
     >> "$LOG_FILE" 2>&1 &
