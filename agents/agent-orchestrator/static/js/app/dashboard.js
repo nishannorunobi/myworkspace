@@ -39,13 +39,19 @@ class Dashboard {
       onStarted: agentId => {
         if (agentId === 'workspace') {
           this.nav.switchTab('logs');
-          this.panels.logs.connect(agentId);
+          // Show placeholder; logs SSE reconnects in refresh() after the wait
+          const ls = $('log-stream');
+          if (ls) ls.innerHTML = '<div class="log-line dim">— agent starting… watching log —</div>';
         }
       },
       refresh: () => {
         const id = this.nav.selectedId();
         this.grid.render(id); this.grid.updateSidebar(id); this.grid.updateStats();
-        if (id) { this.nav.updateDetailHeader(this.store.get(id)); this.panels.chat.connect(id); }
+        if (id) {
+          this.nav.updateDetailHeader(this.store.get(id));
+          this.panels.chat.connect(id);
+          if (this.nav._currentTab === 'logs') this.panels.logs.connect(id);
+        }
       },
     });
 

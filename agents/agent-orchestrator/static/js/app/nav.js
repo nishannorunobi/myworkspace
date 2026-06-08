@@ -112,6 +112,7 @@ class NavController {
   // ── Detail header ─────────────────────────────────────────────────────────
 
   updateDetailHeader(agent) {
+    if (!agent) agent = this.store?.get(this._selectedId);
     if (!agent) return;
     $('detail-dot').className    = `dot lg ${agent.status}`;
     $('detail-name').textContent = agent.name;
