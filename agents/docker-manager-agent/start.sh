@@ -20,6 +20,11 @@ export ANTHROPIC_API_KEY
 
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8889}"
+
+if ss -tlnp 2>/dev/null | grep -q ":${PORT} " || nc -z 127.0.0.1 "$PORT" 2>/dev/null; then
+    echo -e "${GREEN}[  OK  ]${RESET} Docker Manager Agent already running on port ${PORT}."
+    exit 0
+fi
 LOG_LEVEL="${LOG_LEVEL:-info}"
 LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/docker-manager-agent/server.log"
 
