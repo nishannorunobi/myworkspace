@@ -1,5 +1,5 @@
 """
-Workspace persistent database — SQLite, lives in workspace/memory/workspace.db.
+Workspace persistent database — SQLite, lives in mountspace/workspace-agent/memory/workspace.db.
 
 Tables:
   files         — current state of every indexed file/dir
@@ -15,7 +15,7 @@ import threading
 from datetime import datetime
 from pathlib import Path
 
-_MEMORY  = Path(__file__).resolve().parent / "memory"
+_MEMORY  = Path(__file__).resolve().parent.parent.parent.parent / "mountspace" / "workspace-agent" / "memory"
 DB_PATH  = _MEMORY / "workspace.db"
 _lock    = threading.Lock()
 

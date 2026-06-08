@@ -8,7 +8,7 @@ import db as _db
 
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent.parent  # workspace/→agents/→workspace-agent/→myworkspace/
 AGENT_DIR      = Path(__file__).resolve().parent
-MEMORY_DIR     = AGENT_DIR / "memory"
+MEMORY_DIR     = WORKSPACE_ROOT / "mountspace" / "workspace-agent" / "memory"
 
 IGNORE = {".git", ".venv", "__pycache__", "node_modules", "target",
           ".vscode", "vscode-server-extensions", ".mvn", ".claude"}

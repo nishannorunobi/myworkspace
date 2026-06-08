@@ -9,7 +9,7 @@ from scanner import WorkspaceScanner
 
 class WorkspaceMonitor(threading.Thread):
     INTERVAL = 15  # seconds between polls
-    SUPPRESS  = ("workspace-agent/memory/",)  # suppress internal agent writes
+    SUPPRESS  = ("mountspace/workspace-agent/memory/",)  # suppress internal agent writes
 
     def __init__(
         self,

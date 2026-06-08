@@ -36,8 +36,8 @@ success "Dependencies installed"
     && success "shared.conf found" \
     || warn "shared.conf not found at agents/shared.conf — set ANTHROPIC_API_KEY there"
 
-mkdir -p workspace/memory
-success "workspace/memory/ directory ready"
+mkdir -p ../../mountspace/workspace-agent/memory
+success "mountspace/workspace-agent/memory/ directory ready"
 
 echo -e "\n${GREEN}Build complete.${RESET}"
 echo -e "  Run   : ${BOLD}./start.sh${RESET}"

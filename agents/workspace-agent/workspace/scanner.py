@@ -6,7 +6,7 @@ Every INTERVAL seconds it:
   2. Detects new / modified / deleted files by comparing mtime + hash
   3. Updates the files table and logs changes to file_history
   4. Runs template detection to identify project types
-  5. Writes a human-readable summary to memory/scan_status.md
+  5. Writes a human-readable summary to mountspace/workspace-agent/memory/scan_status.md
 """
 import hashlib
 import json
@@ -69,8 +69,8 @@ TEMPLATE_PATTERNS = [
     },
 ]
 
-_STATUS_FILE = Path(__file__).resolve().parent / "memory" / "scan_status.md"
-_TODAY_FILE  = Path(__file__).resolve().parent / "memory" / "today.json"
+_STATUS_FILE = WORKSPACE_ROOT / "mountspace" / "workspace-agent" / "memory" / "scan_status.md"
+_TODAY_FILE  = WORKSPACE_ROOT / "mountspace" / "workspace-agent" / "memory" / "today.json"
 
 
 def _sha1(path: Path) -> str:

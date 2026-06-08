@@ -35,12 +35,12 @@ fi
     && pass "ANTHROPIC_API_KEY set (${ANTHROPIC_API_KEY:0:10}...)" \
     || fail "ANTHROPIC_API_KEY not set in environment"
 
-if [ -d "workspace/memory" ]; then
-    FILES=$(ls workspace/memory/ 2>/dev/null | wc -l)
-    pass "workspace/memory/ exists ($FILES file(s))"
-    [ "$FILES" -gt 0 ] && info "$(ls workspace/memory/)"
+if [ -d "../../mountspace/workspace-agent/memory" ]; then
+    FILES=$(ls ../../mountspace/workspace-agent/memory/ 2>/dev/null | wc -l)
+    pass "mountspace/workspace-agent/memory/ exists ($FILES file(s))"
+    [ "$FILES" -gt 0 ] && info "$(ls ../../mountspace/workspace-agent/memory/)"
 else
-    warn "workspace/memory/ not found — will be created on first run"
+    warn "mountspace/workspace-agent/memory/ not found — will be created on first run"
 fi
 
 if git -C ../.. rev-parse --git-dir &>/dev/null; then
