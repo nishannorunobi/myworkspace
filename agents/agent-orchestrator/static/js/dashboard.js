@@ -480,18 +480,31 @@ class Dashboard {
 
   async startAgent() {
     if (!this._selected) return;
-    $('btn-start').disabled = true;
+    const btn = $('btn-start');
+    this._btnBusy(btn);
+    let started = false;
     try {
       const res = await fetch(`/api/agents/${this._selected}/start`, { method: 'POST' });
       const d   = await res.json();
       if (d.ok === false) {
         const msg = [d.detail, d.output].filter(Boolean).join('\n\n');
         this._showStartError(msg || d.error || 'Start failed');
-        $('btn-start').disabled = false;
+        this._btnDone(btn);
+        btn.disabled = false;
         return;
       }
-    } catch (_) {}
+      started = true;
+    } catch (_) {
+      this._btnDone(btn);
+      btn.disabled = false;
+      return;
+    }
+    if (started && this._selected === 'workspace') {
+      this.switchTab('logs');
+      this._connectLogs(this._selected);
+    }
     setTimeout(() => {
+      this._btnDone(btn);
       this._fetchAgents().then(() => { this._renderGrid(); this._updateSidebar(); this._updateDetailHeader(); });
       if (this._selected) this._connectChat(this._selected);
     }, 4000);
@@ -510,22 +523,42 @@ class Dashboard {
 
   async stopAgent() {
     if (!this._selected) return;
-    $('btn-stop').disabled = true;
+    const btn = $('btn-stop');
+    this._btnBusy(btn);
     await fetch(`/api/agents/${this._selected}/stop`, { method: 'POST' }).catch(() => {});
-    setTimeout(() => this._fetchAgents().then(() => { this._renderGrid(); this._updateSidebar(); this._updateDetailHeader(); }), 3000);
+    setTimeout(() => {
+      this._btnDone(btn);
+      this._fetchAgents().then(() => { this._renderGrid(); this._updateSidebar(); this._updateDetailHeader(); });
+    }, 3000);
   }
 
   async stopAllAgents() {
     if (!confirm('Stop all running agents?')) return;
     const btn = document.getElementById('btn-stop-all');
-    btn.disabled = true;
-    btn.textContent = '… Stopping';
+    this._btnBusy(btn);
     await fetch('/api/agents/stop-all', { method: 'POST' }).catch(() => {});
     setTimeout(() => {
-      this._fetchAgents().then(() => { this._renderGrid(); this._updateSidebar(); });
+      this._btnDone(btn);
       btn.disabled = false;
-      btn.textContent = '■ Stop All';
+      this._fetchAgents().then(() => { this._renderGrid(); this._updateSidebar(); });
     }, 3000);
+  }
+
+  // ── Button busy/done helpers ───────────────────────────────────────────────
+
+  _btnBusy(btn) {
+    if (!btn) return;
+    btn._savedHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="btn-spinner"></span>';
+    this.sound.processing(0.12, 30);
+  }
+
+  _btnDone(btn) {
+    if (!btn || btn._savedHTML == null) return;
+    btn.innerHTML = btn._savedHTML;
+    btn._savedHTML = null;
+    this.sound.stopProcessing();
   }
 
   // ── Chat ──────────────────────────────────────────────────────────────────
@@ -1393,35 +1426,36 @@ class Dashboard {
     if (agentId === 'db-agent') {
       const pgUp = health.postgres_running;
       let html = `
-        <button class="ctrl-btn start" ${pgUp  ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/db/start')">▶ PostgreSQL</button>
-        <button class="ctrl-btn stop"  ${!pgUp ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/db/stop')">■ PostgreSQL</button>
-        <button class="ctrl-btn init"  ${!pgUp ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/initdb/umsdb')"    title="Create umsdb user + database">⚙ Init umsdb</button>
-        <button class="ctrl-btn init"  ${!pgUp ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/initdb/mydocsdb')" title="Create mydocsdb user + database">⚙ Init mydocsdb</button>`;
+        <button class="ctrl-btn start" ${pgUp  ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/db/start',this)">▶ PostgreSQL</button>
+        <button class="ctrl-btn stop"  ${!pgUp ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/db/stop',this)">■ PostgreSQL</button>
+        <button class="ctrl-btn init"  ${!pgUp ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/initdb/umsdb',this)"    title="Create umsdb user + database">⚙ Init umsdb</button>
+        <button class="ctrl-btn init"  ${!pgUp ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/initdb/mydocsdb',this)" title="Create mydocsdb user + database">⚙ Init mydocsdb</button>`;
       const webUp = health.pgweb_running;
       html += `
-        <button class="ctrl-btn start" ${webUp  ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/dbui/start')" title="Start pgweb DB browser on :8085">▶ DB UI</button>
-        <button class="ctrl-btn stop"  ${!webUp ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/dbui/stop')"  title="Stop pgweb">■ DB UI</button>`;
+        <button class="ctrl-btn start" ${webUp  ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/dbui/start',this)" title="Start pgweb DB browser on :8085">▶ DB UI</button>
+        <button class="ctrl-btn stop"  ${!webUp ? 'disabled' : ''} onclick="window._dash._controlAction('db-agent','api/dbui/stop',this)"  title="Stop pgweb">■ DB UI</button>`;
       for (const [key, svc] of Object.entries(services)) {
         const [proj, name] = key.split('/');
         const label = (svc.name || name).replace(/_/g, ' ');
         html += `
-        <button class="ctrl-btn start" onclick="window._dash._controlAction('db-agent','api/services/${proj}/${name}/start')">▶ ${esc(label)}</button>
-        <button class="ctrl-btn stop"  onclick="window._dash._controlAction('db-agent','api/services/${proj}/${name}/stop')">■ ${esc(label)}</button>`;
+        <button class="ctrl-btn start" onclick="window._dash._controlAction('db-agent','api/services/${proj}/${name}/start',this)">▶ ${esc(label)}</button>
+        <button class="ctrl-btn stop"  onclick="window._dash._controlAction('db-agent','api/services/${proj}/${name}/stop',this)">■ ${esc(label)}</button>`;
       }
       return html;
     }
     if (agentId === 'ums-agent') {
       return `
-        <button class="ctrl-btn start" onclick="window._dash._controlAction('ums-agent','api/ums/start')">▶ Start UMS</button>
-        <button class="ctrl-btn stop"  onclick="window._dash._controlAction('ums-agent','api/ums/stop')">■ Stop UMS</button>`;
+        <button class="ctrl-btn start" onclick="window._dash._controlAction('ums-agent','api/ums/start',this)">▶ Start UMS</button>
+        <button class="ctrl-btn stop"  onclick="window._dash._controlAction('ums-agent','api/ums/stop',this)">■ Stop UMS</button>`;
     }
     return '';
   }
 
-  async _controlAction(agentId, path) {
+  async _controlAction(agentId, path, btn = null) {
     const wrap = $('controls-wrap');
     const btns = wrap?.querySelectorAll('.ctrl-btn');
     btns?.forEach(b => b.disabled = true);
+    if (btn) this._btnBusy(btn);
     try {
       const res  = await fetch(`/api/agents/${agentId}/action/${path}`, { method: 'POST' });
       const data = await res.json();
@@ -1492,10 +1526,9 @@ class Dashboard {
     // Abort any existing log stream (without hiding the panel)
     if (this._projectLogCtrl) { this._projectLogCtrl.abort(); this._projectLogCtrl = null; }
 
-    // Disable Start button immediately
     const card = document.getElementById(`proj-card-${name}`);
     const startBtn = card?.querySelector('.ctrl-btn.start');
-    if (startBtn) startBtn.disabled = true;
+    this._btnBusy(startBtn);
 
     // Show log panel
     const logWrap  = $('project-log-wrap');
@@ -1510,6 +1543,7 @@ class Dashboard {
       const data = await res.json();
       if (!data.ok) {
         if (logDiv) logDiv.innerHTML = `<div class="proj-log-line err">${esc(data.error || 'Failed to start')}</div>`;
+        this._btnDone(startBtn);
         if (startBtn) startBtn.disabled = false;
         return;
       }
@@ -1570,6 +1604,9 @@ class Dashboard {
   }
 
   async _projectStop(name) {
+    const card    = document.getElementById(`proj-card-${name}`);
+    const stopBtn = card?.querySelector('.ctrl-btn.stop');
+    this._btnBusy(stopBtn);
     const logWrap  = $('project-log-wrap');
     const logDiv   = $('project-log');
     const logTitle = $('project-log-title');
@@ -1592,6 +1629,9 @@ class Dashboard {
   }
 
   async _projectHealth(name) {
+    const card      = document.getElementById(`proj-card-${name}`);
+    const healthBtn = card?.querySelector('.ctrl-btn.health');
+    this._btnBusy(healthBtn);
     const logWrap  = $('project-log-wrap');
     const logDiv   = $('project-log');
     const logTitle = $('project-log-title');
@@ -1613,6 +1653,8 @@ class Dashboard {
     } catch (e) {
       if (logDiv) logDiv.innerHTML = `<div class="proj-log-line err">${esc(String(e))}</div>`;
     }
+    this._btnDone(healthBtn);
+    if (healthBtn) healthBtn.disabled = false;
   }
 
   async _projectLogs(name) {
@@ -1852,18 +1894,19 @@ class Dashboard {
         <div class="c-chip"><div class="c-chip-val" style="font-size:10px">${esc(mem.split('/')[0]?.trim()||'—')}</div><div class="c-chip-lbl">Mem Used</div></div>
       </div>` : ''}
       <div class="c-actions">
-        <button class="c-btn start"         ${isUp  ? 'disabled' : ''} onclick="window._dash._containerAction('${agentId}','${esc(n)}','start')">Start</button>
-        <button class="c-btn stop"          ${!isUp ? 'disabled' : ''} onclick="window._dash._containerAction('${agentId}','${esc(n)}','stop')">Stop</button>
-        <button class="c-btn restart"                                   onclick="window._dash._containerAction('${agentId}','${esc(n)}','restart')">Restart</button>
+        <button class="c-btn start"         ${isUp  ? 'disabled' : ''} onclick="window._dash._containerAction('${agentId}','${esc(n)}','start',this)">Start</button>
+        <button class="c-btn stop"          ${!isUp ? 'disabled' : ''} onclick="window._dash._containerAction('${agentId}','${esc(n)}','stop',this)">Stop</button>
+        <button class="c-btn restart"                                   onclick="window._dash._containerAction('${agentId}','${esc(n)}','restart',this)">Restart</button>
         <button class="c-btn clean-restart" title="Recreate from compose — applies volume mounts, image rebuilds, and config changes"
-                onclick="window._dash._containerAction('${agentId}','${esc(n)}','clean-restart')">↺ Rebuild</button>
+                onclick="window._dash._containerAction('${agentId}','${esc(n)}','clean-restart',this)">↺ Rebuild</button>
       </div>
     </div>`;
   }
 
-  async _containerAction(agentId, containerName, action) {
+  async _containerAction(agentId, containerName, action, btn = null) {
     const card = document.getElementById(`cc-${containerName}`);
     card?.querySelectorAll('.c-btn').forEach(b => b.disabled = true);
+    if (btn) this._btnBusy(btn);
     try {
       const res  = await fetch(
         `/api/agents/${agentId}/containers/${encodeURIComponent(containerName)}/${action}`,

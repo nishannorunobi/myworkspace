@@ -660,3 +660,7 @@ body[data-theme="light"]{
 .ds-log-placeholder{color:var(--text3);padding-top:8px}
 .ds-log-line{white-space:pre-wrap;word-break:break-all;color:var(--text2)}
 .ds-log-err{color:var(--red)}
+
+/* ── Button spinner ── */
+@keyframes btn-spin{to{transform:rotate(360deg)}}
+.btn-spinner{display:inline-block;width:11px;height:11px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:btn-spin .65s linear infinite;vertical-align:middle}

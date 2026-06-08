@@ -4,7 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Workspace Dashboard</title>
-<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="/static/css/base.css">
+<link rel="stylesheet" href="/static/css/layout.css">
+<link rel="stylesheet" href="/static/css/grid.css">
+<link rel="stylesheet" href="/static/css/detail.css">
+<link rel="stylesheet" href="/static/css/chat.css">
+<link rel="stylesheet" href="/static/css/modals.css">
+<link rel="stylesheet" href="/static/css/git.css">
+<link rel="stylesheet" href="/static/css/panels.css">
+<link rel="stylesheet" href="/static/css/cc-feed.css">
+<link rel="stylesheet" href="/static/css/containers.css">
+<link rel="stylesheet" href="/static/css/services.css">
+<link rel="stylesheet" href="/static/css/controls.css">
 </head>
 <body>
 
@@ -423,7 +434,38 @@
 <script src="/static/js/sounds.js"></script>
 <script src="/static/js/alerts.js"></script>
 <script src="/static/js/events.js"></script>
-<script src="/static/js/dashboard.js"></script>
+<!-- ── App layer ── -->
+<script src="/static/js/app/lib/utils.js"></script>
+<script src="/static/js/app/lib/api.js"></script>
+<script src="/static/js/app/lib/store.js"></script>
+<script src="/static/js/app/lib/spinner-btn.js"></script>
+<script src="/static/js/app/lib/panel.js"></script>
+<script src="/static/js/app/actions/agent.js"></script>
+<!-- Panels -->
+<script src="/static/js/app/panels/chat.js"></script>
+<script src="/static/js/app/panels/logs.js"></script>
+<script src="/static/js/app/panels/git-render.js"></script>
+<script src="/static/js/app/panels/git.js"></script>
+<script src="/static/js/app/panels/today-render.js"></script>
+<script src="/static/js/app/panels/today.js"></script>
+<script src="/static/js/app/panels/console.js"></script>
+<script src="/static/js/app/panels/claudecode.js"></script>
+<script src="/static/js/app/panels/memory.js"></script>
+<script src="/static/js/app/panels/project-log-stream.js"></script>
+<script src="/static/js/app/panels/projects.js"></script>
+<script src="/static/js/app/panels/dockerspace.js"></script>
+<script src="/static/js/app/panels/containers.js"></script>
+<script src="/static/js/app/panels/controls.js"></script>
+<script src="/static/js/app/panels/subagents.js"></script>
+<script src="/static/js/app/panels/services.js"></script>
+<script src="/static/js/app/panels/settings.js"></script>
+<!-- Coordinators -->
+<script src="/static/js/app/grid.js"></script>
+<script src="/static/js/app/nav.js"></script>
+<script src="/static/js/app/stream.js"></script>
+<script src="/static/js/app/notifications.js"></script>
+<script src="/static/js/app/dashboard.js"></script>
+<script src="/static/js/app/boot.js"></script>
 <script src="/static/js/tasks.js"></script>
 <script src="/static/js/urls.js"></script>
 

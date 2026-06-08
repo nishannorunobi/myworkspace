@@ -1,0 +1,47 @@
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:        #0d1117;
+  --bg2:       #161b22;
+  --bg3:       #21262d;
+  --border:    #30363d;
+  --border2:   #21262d;
+  --text:      #c9d1d9;
+  --text2:     #8b949e;
+  --text3:     #484f58;
+  --blue:      #58a6ff;
+  --green:     #3fb950;
+  --red:       #f85149;
+  --yellow:    #d29922;
+  --purple:    #d2a8ff;
+  --text-strong: #f0f6fc;
+  --font:      'Courier New',Courier,monospace;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── Scrollbars ── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── Utilities ── */
+.hidden{display:none!important}
+.flex{display:flex}
+.col{flex-direction:column}
+.flex1{flex:1;min-width:0;min-height:0}
+.overflow-y{overflow-y:auto}
+.text2{color:var(--text2)}
+.text3{color:var(--text3)}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.yellow{color:var(--yellow)}
+.blue{color:var(--blue)}
+.purple{color:var(--purple)}
+
+/* ── Status dot ── */
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
+.dot.running{background:var(--green)}
+.dot.stopped{background:var(--text3)}
+.dot.unavailable{background:var(--red)}
+.dot.unknown{background:var(--yellow)}
+.dot.lg{width:13px;height:13px}

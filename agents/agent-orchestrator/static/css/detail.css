@@ -1,0 +1,29 @@
+/* ── Detail view ── */
+.detail-view{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.detail-hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:13px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.detail-info{flex:1;min-width:0}
+.detail-name{font-size:17px;color:var(--text-strong);font-weight:bold}
+.detail-sub{font-size:13px;color:var(--text2);margin-top:2px}
+.detail-btns{display:flex;gap:6px}
+.btn{padding:5px 14px;border:1px solid;border-radius:4px;cursor:pointer;font-family:var(--font);font-size:13px;background:none;transition:.12s}
+.btn-start{color:var(--green);border-color:var(--green)}
+.btn-start:hover{background:#3fb95022}
+.btn-stop{color:var(--red);border-color:var(--red)}
+.btn-stop:hover{background:#f8514922}
+.btn-back{color:var(--blue);border-color:var(--border2)}
+.btn-back:hover{border-color:var(--blue)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2)}
+.tab{padding:9px 18px;cursor:pointer;font-size:13px;color:var(--text2);border-bottom:2px solid transparent;letter-spacing:.3px}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* Panes */
+.panes{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.pane{display:none;flex:1;overflow:hidden;flex-direction:column}
+.pane.active{display:flex}
+
+/* ── Start-error banner ── */
+.start-error-banner{background:#3b0d0d;border:1px solid #7d1a1a;color:#ff8a80;font-size:12px;padding:8px 14px;white-space:pre-wrap;word-break:break-word;max-height:140px;overflow-y:auto;flex-shrink:0}

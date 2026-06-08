@@ -4,8 +4,9 @@
  */
 class SoundSystem {
   constructor() {
-    this._nodes = [];   // track active nodes so we can stop them
-    this.__ctx  = null;
+    this._nodes     = [];   // alert nodes
+    this._procNodes = [];   // processing/waiting heartbeat nodes
+    this.__ctx      = null;
   }
 
   _ctx() {
@@ -71,6 +72,39 @@ class SoundSystem {
     osc.start(start);
     osc.stop(start + len + 0.01);
     this._nodes.push(osc);
+  }
+
+  /** Soft heartbeat pulse played while an action is in progress. */
+  processing(vol = 0.12, dur = 30) {
+    this.stopProcessing();
+    const ctx = this._ctx();
+    const beatInterval = 1.1;
+    const count = Math.ceil(dur / beatInterval);
+    for (let i = 0; i < count; i++) {
+      const t = ctx.currentTime + i * beatInterval;
+      this._sinePulse(ctx, 200, t,        0.07, vol,        this._procNodes);
+      this._sinePulse(ctx, 170, t + 0.11, 0.06, vol * 0.6, this._procNodes);
+    }
+  }
+
+  stopProcessing() {
+    this._procNodes.forEach(n => { try { n.stop(0); } catch {} });
+    this._procNodes = [];
+  }
+
+  _sinePulse(ctx, freq, start, len, vol, nodeList) {
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(vol * 0.35, start + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + len);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(start);
+    osc.stop(start + len + 0.01);
+    nodeList.push(osc);
   }
 
   /** Play a short UI click sound — does NOT interrupt alert sounds. */
