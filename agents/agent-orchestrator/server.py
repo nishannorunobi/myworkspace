@@ -82,8 +82,8 @@ async def index():
 # ── Lifecycle ─────────────────────────────────────────────────────────────────
 @app.on_event("startup")
 async def startup():
-    LOG_DIR.mkdir(exist_ok=True)
-    MEMORY_DIR.mkdir(exist_ok=True)
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    MEMORY_DIR.mkdir(parents=True, exist_ok=True)
     loop = asyncio.get_event_loop()
     alert_eng.init(loop)
 
