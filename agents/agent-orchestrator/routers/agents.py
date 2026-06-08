@@ -35,6 +35,31 @@ async def reload_registry():
     return {"ok": True, "agents": len(registry.AGENT_SPECS)}
 
 
+@router.post("/stop-all")
+async def stop_all_agents():
+    """Stop every agent that has a stop_script configured, except the orchestrator itself."""
+    loop = asyncio.get_event_loop()
+    results = []
+
+    def _stop(spec):
+        try:
+            subprocess.run(
+                ["bash", spec.stop_script],
+                cwd=spec.home, capture_output=True, timeout=15,
+            )
+            return {"id": spec.id, "ok": True}
+        except Exception as e:
+            return {"id": spec.id, "ok": False, "error": str(e)}
+
+    tasks = [
+        loop.run_in_executor(None, _stop, spec)
+        for spec in registry.AGENT_SPECS
+        if spec.connector != "orchestrator" and spec.home and spec.stop_script
+    ]
+    results = await asyncio.gather(*tasks)
+    return {"ok": True, "results": list(results)}
+
+
 @router.post("/{agent_id}/start")
 async def start_agent(agent_id: str):
     spec = registry.SPEC_BY_ID.get(agent_id)

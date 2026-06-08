@@ -53,6 +53,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15
 .hdr-stat{font-size:13px;color:var(--text2);padding:3px 10px;border:1px solid var(--border2);border-radius:10px}
 .hdr-btn{background:none;border:1px solid var(--border2);color:var(--text2);padding:4px 12px;border-radius:4px;cursor:pointer;font-family:var(--font);font-size:13px}
 .hdr-btn:hover{border-color:var(--blue);color:var(--blue)}
+.hdr-btn-danger{border-color:var(--red);color:var(--red)}
+.hdr-btn-danger:hover{background:#f8514922;border-color:var(--red);color:var(--red)}
+.hdr-btn-danger:disabled{opacity:.4;cursor:not-allowed}
 .monitor-badge{font-size:12px;padding:3px 10px;border-radius:10px;border:1px solid var(--green);color:var(--green);letter-spacing:.5px}
 .monitor-badge.off{border-color:var(--text3);color:var(--text3)}
 

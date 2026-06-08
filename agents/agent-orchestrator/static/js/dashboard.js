@@ -515,6 +515,19 @@ class Dashboard {
     setTimeout(() => this._fetchAgents().then(() => { this._renderGrid(); this._updateSidebar(); this._updateDetailHeader(); }), 3000);
   }
 
+  async stopAllAgents() {
+    if (!confirm('Stop all running agents?')) return;
+    const btn = document.getElementById('btn-stop-all');
+    btn.disabled = true;
+    btn.textContent = '… Stopping';
+    await fetch('/api/agents/stop-all', { method: 'POST' }).catch(() => {});
+    setTimeout(() => {
+      this._fetchAgents().then(() => { this._renderGrid(); this._updateSidebar(); });
+      btn.disabled = false;
+      btn.textContent = '■ Stop All';
+    }, 3000);
+  }
+
   // ── Chat ──────────────────────────────────────────────────────────────────
 
   _connectChat(agentId) {
