@@ -87,7 +87,8 @@ async def startup():
     loop = asyncio.get_event_loop()
     alert_eng.init(loop)
 
-    monitor = WorkspaceMonitor(WORKSPACE_ROOT, MEMORY_DIR, on_change=alert_eng.on_workspace_change)
+    ws_log_dir = WORKSPACE_ROOT / "mountspace" / "logs" / "workspace-agent"
+    monitor = WorkspaceMonitor(WORKSPACE_ROOT, MEMORY_DIR, on_change=alert_eng.on_workspace_change, log_dir=ws_log_dir)
     monitor.start()
     app.state.monitor = monitor
 

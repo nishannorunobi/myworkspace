@@ -16,10 +16,12 @@ class WorkspaceMonitor(threading.Thread):
         workspace_root: Path,
         memory_dir: Path,
         on_change: Optional[Callable] = None,
+        log_dir: Optional[Path] = None,
     ):
         super().__init__(daemon=True)
         self._root       = workspace_root
         self._memory     = memory_dir
+        self._log_dir    = log_dir or memory_dir
         self._on_change  = on_change
         self._stop       = threading.Event()
         self._last: Optional[str] = None
@@ -78,14 +80,14 @@ class WorkspaceMonitor(threading.Thread):
 
     def _save(self, ts: str, added: list, removed: list):
         try:
-            self._memory.mkdir(exist_ok=True)
+            self._log_dir.mkdir(parents=True, exist_ok=True)
             lines = [f"**{ts}** — auto-detected"]
             for l in added:
                 lines.append(f"  + {l}")
             for l in removed:
                 lines.append(f"  - {l}")
             entry = "\n".join(lines)
-            path  = self._memory / "change_log.md"
+            path  = self._log_dir / "change_log.md"
             existing = path.read_text() if path.exists() else "# Change Log\n"
             path.write_text(existing + f"\n\n---\n{entry}")
         except Exception:
