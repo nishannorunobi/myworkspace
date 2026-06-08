@@ -82,12 +82,12 @@ async def start_agent(agent_id: str):
                 tmp.close()
                 time.sleep(0.5)
                 rc = proc.poll()
-                if rc is not None:
+                if rc is not None and rc != 0:
                     out = Path(tmp.name).read_text(errors="replace")
                     return None, rc, _strip(out)
-                return proc.pid, None, None
+                return proc.pid, rc, None
             pid, rc, out = await loop.run_in_executor(None, _launch)
-            if rc is not None:
+            if rc is not None and rc != 0:
                 return {"ok": False, "detail": f"Start script exited (code {rc})", "output": (out or "").strip()[:600]}
             return {"ok": True, "detail": f"Started (PID {pid})"}
         return {"ok": False, "detail": "start_script not configured for this agent"}
