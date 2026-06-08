@@ -57,7 +57,7 @@ app.add_middleware(NoCacheStatic)
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 # ── Routers ───────────────────────────────────────────────────────────────────
-from routers import agents, alerts, events, chat, tasks, config, services, git, console, claude_code, workspace_projects
+from routers import agents, alerts, events, chat, tasks, config, services, git, console, claude_code, workspace_projects, dockerspace
 
 app.include_router(agents.router,             prefix="/api")
 app.include_router(alerts.router,             prefix="/api")
@@ -69,6 +69,7 @@ app.include_router(git.router,                prefix="/api")
 app.include_router(console.router,            prefix="/api")
 app.include_router(claude_code.router,        prefix="/api")
 app.include_router(workspace_projects.router, prefix="/api")
+app.include_router(dockerspace.router,        prefix="/api")
 app.include_router(chat.router)
 
 

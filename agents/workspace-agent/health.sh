@@ -53,7 +53,7 @@ fi
 if pgrep -f "workspace/agent.py --daemon" &>/dev/null; then
     pass "Agent daemon is running (PID $(pgrep -f "workspace/agent.py --daemon" | head -1))"
 else
-    warn "Agent daemon is not running — click Start in the dashboard or run ./start_daemon.sh"
+    fail "Agent daemon is not running — click Start in the dashboard or run ./start_daemon.sh"
 fi
 
 echo ""

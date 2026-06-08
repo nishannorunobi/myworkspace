@@ -102,7 +102,8 @@
         <div class="tab"        data-tab="git"        onclick="window._dash.switchTab('git')"        id="tab-git"        style="display:none">Git</div>
         <div class="tab"        data-tab="console"    onclick="window._dash.switchTab('console')"    id="tab-console"    style="display:none">Console</div>
         <div class="tab"        data-tab="claudecode" onclick="window._dash.switchTab('claudecode')" id="tab-claudecode" style="display:none">Claude Code</div>
-        <div class="tab"        data-tab="projects"   onclick="window._dash.switchTab('projects')"   id="tab-projects"   style="display:none">Projects</div>
+        <div class="tab"        data-tab="projects"     onclick="window._dash.switchTab('projects')"     id="tab-projects"     style="display:none">Projects</div>
+        <div class="tab"        data-tab="dockerspace" onclick="window._dash.switchTab('dockerspace')" id="tab-dockerspace" style="display:none">Dockerspace</div>
         <div class="tab"        data-tab="controls"   onclick="window._dash.switchTab('controls')"   id="tab-controls"   style="display:none">Controls</div>
         <div class="tab"        data-tab="containers" onclick="window._dash.switchTab('containers')" id="tab-containers" style="display:none">Containers</div>
         <div class="tab"        data-tab="logs"       onclick="window._dash.switchTab('logs')">Logs</div>
@@ -212,6 +213,25 @@
                 <button class="git-btn" onclick="window._dash._projectCloseLog()">✕ Close</button>
               </div>
               <div class="project-log" id="project-log"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dockerspace pane (workspace agent only) -->
+        <div class="pane" id="pane-dockerspace">
+          <div class="ds-wrap">
+            <div class="ds-scripts" id="ds-scripts">
+              <div class="ds-loading">Loading…</div>
+            </div>
+            <div class="ds-log-panel">
+              <div class="ds-log-header">
+                <span class="ds-log-title" id="ds-log-title">Select a script to run</span>
+                <button class="git-btn" id="ds-kill-btn" onclick="window._dash._dsKill()" style="display:none">✕ Kill</button>
+                <button class="git-btn" onclick="window._dash._dsCloseLog()">✕ Close</button>
+              </div>
+              <div class="ds-log-output" id="ds-log-output">
+                <div class="ds-log-placeholder">Click ▶ Run on any script to execute it here.</div>
+              </div>
             </div>
           </div>
         </div>
