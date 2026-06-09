@@ -606,9 +606,12 @@ body[data-theme="light"]{
 .ctrl-btn.stop{background:var(--red);color:#fff}
 .ctrl-btn.init{background:var(--blue);color:#fff}
 .ctrl-svc-note{font-size:11px;color:var(--text3);margin-top:4px;width:100%}
-.ctrl-action-result{margin-top:12px;padding:10px 14px;border-radius:6px;font-size:12px;white-space:pre-wrap;word-break:break-all}
+.ctrl-action-result{margin-top:12px;padding:10px 14px;border-radius:6px;font-size:12px}
 .ctrl-action-result.ok{background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.25);color:var(--green)}
 .ctrl-action-result.err{background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.25);color:var(--red)}
+.ctrl-action-output{margin:0;max-height:240px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;font-size:11px;font-family:monospace;line-height:1.5}
+.ctrl-action-dismiss{display:block;margin-top:8px;background:none;border:1px solid currentColor;border-radius:4px;color:inherit;cursor:pointer;font-size:11px;padding:2px 10px;opacity:.7}
+.ctrl-action-dismiss:hover{opacity:1}
 
 /* ── Projects tab ─────────────────────────────────────────────────────────── */
 .projects-wrap{display:flex;flex-direction:column;height:100%;overflow:hidden}

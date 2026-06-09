@@ -98,22 +98,47 @@ class ControlsPanel extends Panel {
     const btns = wrap?.querySelectorAll('.ctrl-btn');
     btns?.forEach(b => b.disabled = true);
     if (btn) this.spinner.busy(btn);
+
+    // Remove any previous result
+    wrap?.querySelectorAll('.ctrl-action-result').forEach(n => n.remove());
+
     try {
       const res  = await fetch(`/api/agents/${agentId}/action/${path}`, { method: 'POST' });
       const data = await res.json();
       const ok   = data.success !== false && !data.error;
       const msg  = data.output || data.error || (ok ? 'Done' : 'Failed');
+
       const note = document.createElement('div');
-      note.className  = `ctrl-action-result ${ok ? 'ok' : 'err'}`;
-      note.textContent = msg.slice(0, 300);
-      wrap.appendChild(note);
-      setTimeout(() => note.remove(), 6000);
+      note.className = `ctrl-action-result ${ok ? 'ok' : 'err'}`;
+
+      const pre = document.createElement('pre');
+      pre.className  = 'ctrl-action-output';
+      pre.textContent = msg;
+      note.appendChild(pre);
+
+      if (!ok) {
+        const dismiss = document.createElement('button');
+        dismiss.className   = 'ctrl-action-dismiss';
+        dismiss.textContent = '✕ Dismiss';
+        dismiss.onclick     = () => note.remove();
+        note.appendChild(dismiss);
+      }
+
+      wrap?.appendChild(note);
+      if (ok) setTimeout(() => note.remove(), 6000);
     } catch (e) {
       const note = document.createElement('div');
-      note.className  = 'ctrl-action-result err';
-      note.textContent = String(e);
+      note.className = 'ctrl-action-result err';
+      const pre = document.createElement('pre');
+      pre.className  = 'ctrl-action-output';
+      pre.textContent = String(e);
+      note.appendChild(pre);
+      const dismiss = document.createElement('button');
+      dismiss.className   = 'ctrl-action-dismiss';
+      dismiss.textContent = '✕ Dismiss';
+      dismiss.onclick     = () => note.remove();
+      note.appendChild(dismiss);
       wrap?.appendChild(note);
-      setTimeout(() => note.remove(), 6000);
     }
     setTimeout(() => this.load(agentId), 2000);
   }
