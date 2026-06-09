@@ -40,9 +40,7 @@ class Dashboard {
       onStarted: agentId => {
         if (agentId === 'workspace') {
           this.nav.switchTab('logs');
-          // Show placeholder; logs SSE reconnects in refresh() after the wait
-          const ls = $('log-stream');
-          if (ls) ls.innerHTML = '<div class="log-line dim">— agent starting… watching log —</div>';
+          this.panels.logs.connect(agentId);
         }
       },
       refresh: () => {

@@ -10,13 +10,21 @@ class LogPanel extends Panel {
     this.disconnect();
     this._agentId = agentId;
     const stream  = $('log-stream');
-    if (stream) stream.innerHTML = '';
+    if (stream) {
+      stream.innerHTML = '';
+      const hint = document.createElement('div');
+      hint.id = 'log-connecting-hint';
+      hint.className = 'log-line dim';
+      hint.textContent = '— connecting to log stream… —';
+      stream.appendChild(hint);
+    }
 
     this._es = new EventSource(`/api/agents/${agentId}/logs/stream`);
 
     this._es.onmessage = e => {
       const d = JSON.parse(e.data);
       if (!d.line) return;
+      $('log-connecting-hint')?.remove();
       const div = document.createElement('div');
       div.className   = 'log-line';
       div.textContent = d.line;

@@ -27,6 +27,7 @@ fi
 LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/workspace-agent/daemon.log"
 mkdir -p "$(dirname "$LOG_FILE")"
 
+PYTHONPATH="$SCRIPT_DIR/workspace:$SCRIPT_DIR${PYTHONPATH:+:$PYTHONPATH}" \
 nohup "$SCRIPT_DIR/.venv/bin/python" -u "$SCRIPT_DIR/workspace/agent.py" --daemon \
     >> "$LOG_FILE" 2>&1 &
 
