@@ -1,6 +1,6 @@
 """
 Workspace-projects proxy — forwards all /api/workspace/* requests to the workspace agent
-running on port 8890. Returns 503 if the workspace agent is offline.
+running on port 8895. Returns 503 if the workspace agent is offline.
 """
 import json
 import urllib.error
@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 
 router = APIRouter(prefix="/workspace", tags=["workspace"])
 
-_WS = "http://localhost:8890"
+_WS = "http://localhost:8895"
 
 
 def _offline(msg: str = "workspace agent offline"):

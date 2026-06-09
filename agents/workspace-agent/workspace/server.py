@@ -1,5 +1,5 @@
 """
-Workspace Agent HTTP Server — exposes workspace operations as REST API on port 8890.
+Workspace Agent HTTP Server — exposes workspace operations as REST API on port 8895.
 Projects, dockerspace scripts, git, and console routes all live here.
 The agent-orchestrator proxies these endpoints; it does NOT implement them directly.
 """
@@ -690,6 +690,6 @@ def list_cwd():
 # Server entry point (called from agent.py daemon thread)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def start(host: str = "0.0.0.0", port: int = 8890):
+def start(host: str = "0.0.0.0", port: int = 8895):
     import uvicorn
     uvicorn.run(app, host=host, port=port, log_level="warning")

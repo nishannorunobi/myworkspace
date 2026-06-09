@@ -1,6 +1,6 @@
 """
 Git proxy — forwards all /api/git/* requests to the workspace agent
-running on port 8890. Returns 503 if the workspace agent is offline.
+running on port 8895. Returns 503 if the workspace agent is offline.
 """
 import json
 import urllib.error
@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 router = APIRouter(prefix="/git", tags=["git"])
 
-_WS = "http://localhost:8890"
+_WS = "http://localhost:8895"
 
 
 def _offline(msg: str = "workspace agent offline"):
