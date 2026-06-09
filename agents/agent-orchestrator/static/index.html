@@ -401,6 +401,26 @@
 
     </div>
 
+      <!-- Progress sound -->
+      <div class="section-title">Progress Sound</div>
+      <div class="setting-row">
+        <div class="setting-label">
+          Style
+          <div class="setting-sub">Plays while Start / Stop actions are in progress</div>
+        </div>
+        <select id="s-proc-sound">
+          <option value="heartbeat">Heartbeat</option>
+          <option value="tick">Tick</option>
+          <option value="ping">Ping</option>
+          <option value="sonar">Sonar</option>
+          <option value="bubble">Bubble</option>
+          <option value="none">None</option>
+        </select>
+        <button class="btn-test" onclick="window._dash.panels.settings.previewProcSound()">Preview</button>
+      </div>
+
+    </div>
+
     <div class="modal-footer">
       <button class="btn-cancel" onclick="window._dash.closeSettings()">Cancel</button>
       <button class="btn-save"   onclick="window._dash.saveSettings()">Save</button>

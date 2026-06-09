@@ -2,6 +2,7 @@
 class SettingsPanel {
   constructor(alerts) {
     this.alerts = alerts;
+    this._sound = null;  // injected by Dashboard after construction
   }
 
   open() {
@@ -18,10 +19,15 @@ class SettingsPanel {
       if (snd) snd.value  = rule.sound;
       if (dur) dur.value  = rule.duration;
     }
+
+    const procSel = $('s-proc-sound');
+    if (procSel) procSel.value = localStorage.getItem('proc-sound') || 'heartbeat';
+
     $('settings-modal').classList.remove('hidden');
   }
 
   close() {
+    if (this._sound) this._sound.stopProcessing();
     $('settings-modal').classList.add('hidden');
   }
 
@@ -37,8 +43,20 @@ class SettingsPanel {
       if (snd) s.rules[ruleId].sound    = snd.value;
       if (dur) s.rules[ruleId].duration = parseInt(dur.value);
     }
+    const procSel = $('s-proc-sound');
+    if (procSel) localStorage.setItem('proc-sound', procSel.value);
+    if (this._sound) this._sound.stopProcessing();
     await this.alerts.saveSettings(s);
     this.close();
+  }
+
+  previewProcSound() {
+    if (!this._sound) return;
+    this._sound.stopProcessing();
+    const style = $('s-proc-sound')?.value || 'heartbeat';
+    if (style === 'none') return;
+    this._sound.processing(style, 0.4, 4);
+    setTimeout(() => this._sound?.stopProcessing(), 4000);
   }
 
   async testAlert(type) {

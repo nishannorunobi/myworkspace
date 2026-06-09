@@ -34,6 +34,7 @@ class Dashboard {
 
     this.nav.store = this.store;
     this.nav.grid  = this.grid;
+    this.panels.settings._sound = this.sound;
 
     this.actions = new AgentActions(this.store, this.spinner, {
       onStarted: agentId => {

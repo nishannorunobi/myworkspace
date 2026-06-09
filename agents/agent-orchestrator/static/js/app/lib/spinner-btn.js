@@ -7,7 +7,8 @@ class SpinnerButton {
     btn._savedHTML = btn.innerHTML;
     btn.disabled   = true;
     btn.innerHTML  = '<span class="btn-spinner"></span>';
-    this.sound.processing(0.12, 30);
+    const style = localStorage.getItem('proc-sound') || 'heartbeat';
+    this.sound.processing(style, 0.4, 30);
   }
 
   done(btn) {

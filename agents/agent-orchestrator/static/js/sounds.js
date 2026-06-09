@@ -74,16 +74,112 @@ class SoundSystem {
     this._nodes.push(osc);
   }
 
-  /** Soft heartbeat pulse played while an action is in progress. */
-  processing(vol = 0.12, dur = 30) {
+  // ── Progress sounds ────────────────────────────────────────────────────────
+
+  /**
+   * Play a looping progress sound while an action is running.
+   * @param {'heartbeat'|'tick'|'ping'|'sonar'|'bubble'|'none'} style
+   * @param {number} vol   0–1
+   * @param {number} dur   seconds to schedule ahead
+   */
+  processing(style = 'heartbeat', vol = 0.4, dur = 30) {
     this.stopProcessing();
+    if (style === 'none') return;
     const ctx = this._ctx();
-    const beatInterval = 1.1;
-    const count = Math.ceil(dur / beatInterval);
-    for (let i = 0; i < count; i++) {
-      const t = ctx.currentTime + i * beatInterval;
-      this._sinePulse(ctx, 200, t,        0.07, vol,        this._procNodes);
-      this._sinePulse(ctx, 170, t + 0.11, 0.06, vol * 0.6, this._procNodes);
+    switch (style) {
+      case 'heartbeat': this._procHeartbeat(ctx, vol, dur); break;
+      case 'tick':      this._procTick(ctx, vol, dur);      break;
+      case 'ping':      this._procPing(ctx, vol, dur);      break;
+      case 'sonar':     this._procSonar(ctx, vol, dur);     break;
+      case 'bubble':    this._procBubble(ctx, vol, dur);    break;
+    }
+  }
+
+  /* Heartbeat — soft double-thump every 1.2 s */
+  _procHeartbeat(ctx, vol, dur) {
+    const step = 1.2;
+    const n = Math.ceil(dur / step);
+    for (let i = 0; i < n; i++) {
+      const t = ctx.currentTime + i * step;
+      this._sinePulse(ctx, 200, t,        0.09, vol,        this._procNodes);
+      this._sinePulse(ctx, 170, t + 0.13, 0.07, vol * 0.7, this._procNodes);
+    }
+  }
+
+  /* Tick — crisp metronome click every 1 s */
+  _procTick(ctx, vol, dur) {
+    const step = 1.0;
+    const n = Math.ceil(dur / step);
+    for (let i = 0; i < n; i++) {
+      const t   = ctx.currentTime + i * step;
+      const len = Math.ceil(ctx.sampleRate * 0.018);
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d   = buf.getChannelData(0);
+      for (let j = 0; j < len; j++) d[j] = Math.random() * 2 - 1;
+
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+
+      const f = ctx.createBiquadFilter();
+      f.type = 'bandpass'; f.frequency.value = 2800; f.Q.value = 1.5;
+
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(vol * 0.5, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.018);
+
+      src.connect(f); f.connect(g); g.connect(ctx.destination);
+      src.start(t); src.stop(t + 0.022);
+      this._procNodes.push(src);
+    }
+  }
+
+  /* Ping — clear bell-like tone every 2 s */
+  _procPing(ctx, vol, dur) {
+    const step = 2.0;
+    const n = Math.ceil(dur / step);
+    for (let i = 0; i < n; i++) {
+      const t = ctx.currentTime + i * step;
+      this._sinePulse(ctx, 880, t, 0.6, vol * 0.8, this._procNodes);
+    }
+  }
+
+  /* Sonar — rising sweep ping every 2.5 s */
+  _procSonar(ctx, vol, dur) {
+    const step = 2.5;
+    const n = Math.ceil(dur / step);
+    for (let i = 0; i < n; i++) {
+      const t   = ctx.currentTime + i * step;
+      const osc = ctx.createOscillator();
+      const g   = ctx.createGain();
+      osc.type  = 'sine';
+      osc.frequency.setValueAtTime(300, t);
+      osc.frequency.linearRampToValueAtTime(700, t + 0.25);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vol * 0.45, t + 0.04);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+      osc.connect(g); g.connect(ctx.destination);
+      osc.start(t); osc.stop(t + 0.55);
+      this._procNodes.push(osc);
+    }
+  }
+
+  /* Bubble — soft pop every 1.3 s */
+  _procBubble(ctx, vol, dur) {
+    const step = 1.3;
+    const n = Math.ceil(dur / step);
+    for (let i = 0; i < n; i++) {
+      const t   = ctx.currentTime + i * step;
+      const osc = ctx.createOscillator();
+      const g   = ctx.createGain();
+      osc.type  = 'sine';
+      osc.frequency.setValueAtTime(180, t);
+      osc.frequency.exponentialRampToValueAtTime(80, t + 0.12);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vol * 0.55, t + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+      osc.connect(g); g.connect(ctx.destination);
+      osc.start(t); osc.stop(t + 0.14);
+      this._procNodes.push(osc);
     }
   }
 
@@ -98,7 +194,7 @@ class SoundSystem {
     osc.type = 'sine';
     osc.frequency.value = freq;
     gain.gain.setValueAtTime(0, start);
-    gain.gain.linearRampToValueAtTime(vol * 0.35, start + 0.012);
+    gain.gain.linearRampToValueAtTime(vol * 0.45, start + 0.012);
     gain.gain.exponentialRampToValueAtTime(0.0001, start + len);
     osc.connect(gain);
     gain.connect(ctx.destination);
@@ -112,7 +208,6 @@ class SoundSystem {
     const ctx = this._ctx();
     const t   = ctx.currentTime;
 
-    // White noise burst filtered to a crisp mid-freq click (~35ms)
     const len    = Math.ceil(ctx.sampleRate * 0.035);
     const buf    = ctx.createBuffer(1, len, ctx.sampleRate);
     const data   = buf.getChannelData(0);
