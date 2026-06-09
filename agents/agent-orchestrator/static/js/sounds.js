@@ -96,35 +96,35 @@ class SoundSystem {
     });
   }
 
-  /* Heartbeat — double thump 440/330 Hz every 1.2 s */
+  /* Heartbeat — double thump 720/540 Hz every 1.0 s */
   _procHeartbeat(ctx, vol, dur) {
-    const step = 1.2, n = Math.ceil(dur / step);
+    const step = 1.0, n = Math.ceil(dur / step);
     for (let i = 0; i < n; i++) {
       const t = ctx.currentTime + i * step;
-      this._sinePulse(ctx, 440, t,        0.08, vol,        this._procNodes);
-      this._sinePulse(ctx, 330, t + 0.13, 0.06, vol * 0.7, this._procNodes);
+      this._sinePulse(ctx, 720, t,        0.10, vol,        this._procNodes);
+      this._sinePulse(ctx, 540, t + 0.14, 0.08, vol * 0.8, this._procNodes);
     }
   }
 
-  /* Tick — crisp click at 1200 Hz every 1 s */
+  /* Tick — crisp click at 3500 Hz every 1 s */
   _procTick(ctx, vol, dur) {
     const step = 1.0, n = Math.ceil(dur / step);
     for (let i = 0; i < n; i++) {
       const t   = ctx.currentTime + i * step;
-      const len = Math.ceil(ctx.sampleRate * 0.022);
+      const len = Math.ceil(ctx.sampleRate * 0.025);
       const buf = ctx.createBuffer(1, len, ctx.sampleRate);
       const d   = buf.getChannelData(0);
-      for (let j = 0; j < len; j++) d[j] = (Math.random() * 2 - 1) * Math.exp(-j / (len * 0.3));
+      for (let j = 0; j < len; j++) d[j] = (Math.random() * 2 - 1) * Math.exp(-j / (len * 0.25));
 
       const src = ctx.createBufferSource(); src.buffer = buf;
       const f   = ctx.createBiquadFilter();
-      f.type = 'bandpass'; f.frequency.value = 1200; f.Q.value = 2;
+      f.type = 'bandpass'; f.frequency.value = 3500; f.Q.value = 1.2;
       const g = ctx.createGain();
-      g.gain.setValueAtTime(vol * 0.9, t);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.022);
+      g.gain.setValueAtTime(vol * 1.4, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
 
       src.connect(f); f.connect(g); g.connect(ctx.destination);
-      src.start(t); src.stop(t + 0.025);
+      src.start(t); src.stop(t + 0.028);
       this._procNodes.push(src);
     }
   }
