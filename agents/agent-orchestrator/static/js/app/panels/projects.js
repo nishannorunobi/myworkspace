@@ -79,6 +79,7 @@ class ProjectsPanel extends Panel {
       if (startBtn) startBtn.disabled = false; return;
     }
     await this._logStream.stream(name, `/api/workspace/projects/${name}/log`);
+    this.spinner.done(startBtn);
     this.load();
   }
 
@@ -99,6 +100,7 @@ class ProjectsPanel extends Panel {
       const logDiv = $('project-log');
       if (logDiv) logDiv.innerHTML = `<div class="proj-log-line err">${esc(String(e))}</div>`;
     }
+    this.spinner.done(stopBtn);
     setTimeout(() => this.load(), 1500);
   }
 

@@ -6,6 +6,7 @@ class SoundSystem {
   constructor() {
     this._nodes     = [];
     this._procNodes = [];
+    this._procGain  = null;   // master gain — zeroed instantly on stop
     this.__ctx      = null;
   }
 
@@ -28,6 +29,11 @@ class SoundSystem {
   }
 
   stopProcessing() {
+    // Instantly silence via master gain — no audio frame delay
+    if (this._procGain && this.__ctx) {
+      this._procGain.gain.cancelScheduledValues(this.__ctx.currentTime);
+      this._procGain.gain.setValueAtTime(0, this.__ctx.currentTime);
+    }
     this._procNodes.forEach(n => { try { n.stop(0); } catch {} });
     this._procNodes = [];
   }
@@ -86,6 +92,14 @@ class SoundSystem {
     this.stopProcessing();
     if (style === 'none') return;
     this._ready(ctx => {
+      // Reset master gain to full before scheduling new sounds
+      if (!this._procGain) {
+        this._procGain = ctx.createGain();
+        this._procGain.connect(ctx.destination);
+      }
+      this._procGain.gain.cancelScheduledValues(ctx.currentTime);
+      this._procGain.gain.setValueAtTime(1, ctx.currentTime);
+
       switch (style) {
         case 'heartbeat': this._procHeartbeat(ctx, vol, dur); break;
         case 'tick':      this._procTick(ctx, vol, dur);      break;
@@ -96,19 +110,21 @@ class SoundSystem {
     });
   }
 
+  _procOut(ctx) { return this._procGain || ctx.destination; }
+
   /* Heartbeat — double thump 720/540 Hz every 1.0 s */
   _procHeartbeat(ctx, vol, dur) {
-    const step = 1.0, n = Math.ceil(dur / step);
+    const step = 1.0, n = Math.ceil(dur / step), out = this._procOut(ctx);
     for (let i = 0; i < n; i++) {
       const t = ctx.currentTime + i * step;
-      this._sinePulse(ctx, 720, t,        0.10, vol,        this._procNodes);
-      this._sinePulse(ctx, 540, t + 0.14, 0.08, vol * 0.8, this._procNodes);
+      this._sinePulse(ctx, 720, t,        0.10, vol,        this._procNodes, out);
+      this._sinePulse(ctx, 540, t + 0.14, 0.08, vol * 0.8, this._procNodes, out);
     }
   }
 
   /* Tick — crisp click at 3500 Hz every 0.4 s */
   _procTick(ctx, vol, dur) {
-    const step = 0.4, n = Math.ceil(dur / step);
+    const step = 0.4, n = Math.ceil(dur / step), out = this._procOut(ctx);
     for (let i = 0; i < n; i++) {
       const t   = ctx.currentTime + i * step;
       const len = Math.ceil(ctx.sampleRate * 0.025);
@@ -123,7 +139,7 @@ class SoundSystem {
       g.gain.setValueAtTime(vol * 1.4, t);
       g.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
 
-      src.connect(f); f.connect(g); g.connect(ctx.destination);
+      src.connect(f); f.connect(g); g.connect(out);
       src.start(t); src.stop(t + 0.028);
       this._procNodes.push(src);
     }
@@ -131,14 +147,14 @@ class SoundSystem {
 
   /* Ping — bell tone at 880 Hz every 2 s */
   _procPing(ctx, vol, dur) {
-    const step = 2.0, n = Math.ceil(dur / step);
+    const step = 2.0, n = Math.ceil(dur / step), out = this._procOut(ctx);
     for (let i = 0; i < n; i++)
-      this._sinePulse(ctx, 880, ctx.currentTime + i * step, 0.7, vol, this._procNodes);
+      this._sinePulse(ctx, 880, ctx.currentTime + i * step, 0.7, vol, this._procNodes, out);
   }
 
   /* Sonar — rising sweep 350→750 Hz every 2.5 s */
   _procSonar(ctx, vol, dur) {
-    const step = 2.5, n = Math.ceil(dur / step);
+    const step = 2.5, n = Math.ceil(dur / step), out = this._procOut(ctx);
     for (let i = 0; i < n; i++) {
       const t = ctx.currentTime + i * step;
       const osc = ctx.createOscillator(); const g = ctx.createGain();
@@ -148,7 +164,7 @@ class SoundSystem {
       g.gain.setValueAtTime(0, t);
       g.gain.linearRampToValueAtTime(vol * 0.6, t + 0.05);
       g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
-      osc.connect(g); g.connect(ctx.destination);
+      osc.connect(g); g.connect(out);
       osc.start(t); osc.stop(t + 0.65);
       this._procNodes.push(osc);
     }
@@ -156,7 +172,7 @@ class SoundSystem {
 
   /* Bubble — descending pop at 500→200 Hz every 1.3 s */
   _procBubble(ctx, vol, dur) {
-    const step = 1.3, n = Math.ceil(dur / step);
+    const step = 1.3, n = Math.ceil(dur / step), out = this._procOut(ctx);
     for (let i = 0; i < n; i++) {
       const t = ctx.currentTime + i * step;
       const osc = ctx.createOscillator(); const g = ctx.createGain();
@@ -166,20 +182,20 @@ class SoundSystem {
       g.gain.setValueAtTime(0, t);
       g.gain.linearRampToValueAtTime(vol * 0.7, t + 0.018);
       g.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
-      osc.connect(g); g.connect(ctx.destination);
+      osc.connect(g); g.connect(out);
       osc.start(t); osc.stop(t + 0.16);
       this._procNodes.push(osc);
     }
   }
 
-  _sinePulse(ctx, freq, start, len, vol, nodeList = this._nodes) {
+  _sinePulse(ctx, freq, start, len, vol, nodeList = this._nodes, out = null) {
     const osc  = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine'; osc.frequency.value = freq;
     gain.gain.setValueAtTime(0, start);
     gain.gain.linearRampToValueAtTime(vol * 0.5, start + 0.015);
     gain.gain.exponentialRampToValueAtTime(0.0001, start + len);
-    osc.connect(gain); gain.connect(ctx.destination);
+    osc.connect(gain); gain.connect(out || ctx.destination);
     osc.start(start); osc.stop(start + len + 0.01);
     nodeList.push(osc);
   }
