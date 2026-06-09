@@ -71,12 +71,13 @@ def list_scripts():
 
 class RunBody(BaseModel):
     script:    str
-    sudo_pass: str = ""
+    sudo_pass: str  = ""
+    confirmed: bool = False
 
 
 @router.post("/run")
 def run_script(body: RunBody):
-    payload = json.dumps({"script": body.script, "sudo_pass": body.sudo_pass}).encode()
+    payload = json.dumps({"script": body.script, "sudo_pass": body.sudo_pass, "confirmed": body.confirmed}).encode()
     return _stream("/api/dockerspace/run", payload)
 
 
