@@ -26,7 +26,8 @@ class LogPanel extends Panel {
       if (!d.line) return;
       $('log-connecting-hint')?.remove();
       const div = document.createElement('div');
-      div.className   = 'log-line';
+      const isErr = /error|traceback|exception|failed|critical/i.test(d.line);
+      div.className   = isErr ? 'log-line err' : 'log-line';
       div.textContent = d.line;
       if (stream) { stream.appendChild(div); scrollBot(stream); }
     };

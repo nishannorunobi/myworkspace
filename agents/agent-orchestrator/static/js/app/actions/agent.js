@@ -24,13 +24,27 @@ class AgentActions {
 
     this.on.onStarted?.(agentId);
 
-    // Poll until running or 5-minute timeout
+    // Poll until running, 5-minute timeout, or 10 consecutive stopped polls (~20s)
     const deadline = Date.now() + 5 * 60 * 1000;
+    let stoppedStreak = 0;
     while (Date.now() < deadline) {
       await new Promise(r => setTimeout(r, 2000));
       try {
         const s = await API.agents.refreshStatus(agentId);
         if (s.status === 'running') break;
+        if (s.status === 'stopped') {
+          stoppedStreak++;
+          if (stoppedStreak >= 10) {
+            this._showError('Agent failed to start — check the Logs tab for details.');
+            this.spinner.done(btn);
+            if (btn) btn.disabled = false;
+            await this.store.load();
+            this.on.refresh?.();
+            return false;
+          }
+        } else {
+          stoppedStreak = 0;
+        }
       } catch {}
     }
 
