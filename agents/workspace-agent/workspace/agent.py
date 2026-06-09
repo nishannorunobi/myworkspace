@@ -326,10 +326,16 @@ Always end with log_prompt(prompt='autonomous self-scan', response='<1-sentence 
 def daemon_loop():
     """Background mode: monitor + periodic self-scan + hourly maintenance cycle."""
     import signal
+    import threading
     import time
 
     MEMORY_DIR.mkdir(exist_ok=True)
     log_session("daemon started")
+
+    # Start workspace HTTP API server in a background thread
+    from workspace import server as _ws_server
+    _srv_thread = threading.Thread(target=_ws_server.start, daemon=True, name="ws-http-server")
+    _srv_thread.start()
 
     monitor = WorkspaceMonitor(workspace_root=WORKSPACE_ROOT, memory_dir=MEMORY_DIR)
     monitor.start()

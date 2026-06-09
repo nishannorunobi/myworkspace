@@ -1,53 +1,72 @@
 """
-Dockerspace router — browse and run shell scripts from the workspace dockerspace folder.
-
-GET  /api/dockerspace/scripts   → all .sh scripts in dockerspace/
-POST /api/dockerspace/run       → run a script (SSE streaming output)
-POST /api/dockerspace/kill      → kill the running script
+Dockerspace proxy — forwards all /api/dockerspace/* requests to the workspace agent
+running on port 8890. Returns 503 if the workspace agent is offline.
 """
-import subprocess
-import threading
-import time
-from pathlib import Path
-
-from fastapi import APIRouter
+import json
+import urllib.error
+import urllib.request
+from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/dockerspace", tags=["dockerspace"])
 
-WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DOCKERSPACE    = WORKSPACE_ROOT / "dockerspace"
-
-_EXCLUDE_DIRS = {"__pycache__", ".git", ".venv", "node_modules", ".mypy_cache"}
-
-_proc:   object | None = None
-_output: list[str]     = []
-_lock   = threading.Lock()
+_WS = "http://localhost:8890"
 
 
-def _reader(proc):
-    for line in proc.stdout:
-        _output.append(line.rstrip("\n"))
-    proc.wait()
+def _offline(msg: str = "workspace agent offline"):
+    return JSONResponse({"error": msg}, status_code=503)
+
+
+def _get(path: str):
+    try:
+        with urllib.request.urlopen(f"{_WS}{path}", timeout=10) as r:
+            return json.loads(r.read())
+    except Exception:
+        return None
+
+
+def _post(path: str, body: bytes = b""):
+    req = urllib.request.Request(
+        f"{_WS}{path}", data=body, method="POST",
+        headers={"Content-Type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        raw = e.read()
+        try:
+            return json.loads(raw)
+        except Exception:
+            return {"error": str(e)}
+    except Exception:
+        return None
+
+
+def _stream(path: str, body: bytes = b""):
+    def generate():
+        try:
+            req = urllib.request.Request(
+                f"{_WS}{path}", data=body or None, method="POST" if body else "GET",
+                headers={"Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, timeout=600) as r:
+                for raw in r:
+                    yield raw.decode("utf-8", errors="replace")
+        except Exception as e:
+            yield f"data: [workspace agent offline: {e}]\n\n"
+            yield "data: __done__\n\n"
+    return StreamingResponse(
+        generate(), media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
 
 
 @router.get("/scripts")
 def list_scripts():
-    if not DOCKERSPACE.exists():
-        return {"projects": []}
-
-    scripts = []
-    for sh in sorted(DOCKERSPACE.glob("*.sh")):
-        scripts.append({
-            "label":    sh.name,
-            "abs_path": str(sh),
-        })
-
-    if not scripts:
-        return {"projects": []}
-
-    return {"projects": [{"name": "dockerspace", "scripts": scripts}]}
+    d = _get("/api/dockerspace/scripts")
+    return d if d is not None else _offline()
 
 
 class RunBody(BaseModel):
@@ -57,66 +76,11 @@ class RunBody(BaseModel):
 
 @router.post("/run")
 def run_script(body: RunBody):
-    global _proc, _output
-
-    script = Path(body.script).resolve()
-    if not str(script).startswith(str(DOCKERSPACE)):
-        return JSONResponse({"error": "Script must be inside dockerspace"}, status_code=403)
-    if not script.exists():
-        return JSONResponse({"error": f"Script not found: {script}"}, status_code=404)
-
-    import os
-    env = os.environ.copy()
-    if body.sudo_pass:
-        env["SUDO_PASS"] = body.sudo_pass
-        env["SUDO_ASKPASS"] = ""  # prevent GUI askpass from intercepting
-
-    with _lock:
-        if _proc and _proc.poll() is None:
-            _proc.terminate()
-        _output = [f"$ bash {script.relative_to(WORKSPACE_ROOT)}"]
-        proc = subprocess.Popen(
-            ["bash", str(script)],
-            cwd=str(script.parent),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            stdin=subprocess.DEVNULL,
-            text=True,
-            bufsize=1,
-            env=env,
-        )
-        _proc = proc
-
-    t = threading.Thread(target=_reader, args=(proc,), daemon=True)
-    t.start()
-
-    def generate():
-        sent = 0
-        yield ": ping\n\n"
-        while True:
-            current_len = len(_output)
-            for i in range(sent, current_len):
-                yield f"data: {_output[i]}\n\n"
-            sent = current_len
-            if proc.poll() is not None and sent >= len(_output):
-                rc = proc.returncode
-                yield "data: \n\n"
-                yield f"data: [exit code {rc}]\n\n"
-                yield "data: __done__\n\n"
-                return
-            time.sleep(0.15)
-
-    return StreamingResponse(
-        generate(),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-    )
+    payload = json.dumps({"script": body.script, "sudo_pass": body.sudo_pass}).encode()
+    return _stream("/api/dockerspace/run", payload)
 
 
 @router.post("/kill")
 def kill_script():
-    global _proc
-    if _proc and _proc.poll() is None:
-        _proc.terminate()
-        return {"ok": True, "msg": "Process terminated"}
-    return {"ok": False, "msg": "No running process"}
+    d = _post("/api/dockerspace/kill")
+    return d if d is not None else _offline()
