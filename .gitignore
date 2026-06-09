@@ -1,5 +1,7 @@
 mountspace/*
+!mountspace/.gitignore
 projectspace/*
+!projectspace/.gitignore
 claude/
 .claude
 .vscode
