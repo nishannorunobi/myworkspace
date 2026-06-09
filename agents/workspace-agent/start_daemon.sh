@@ -27,10 +27,10 @@ fi
 LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/workspace-agent/daemon.log"
 mkdir -p "$(dirname "$LOG_FILE")"
 
-PYTHONPATH="$SCRIPT_DIR/workspace:$SCRIPT_DIR${PYTHONPATH:+:$PYTHONPATH}" \
-nohup "$SCRIPT_DIR/.venv/bin/python" -u "$SCRIPT_DIR/workspace/agent.py" --daemon \
-    >> "$LOG_FILE" 2>&1 &
+export PYTHONPATH="$SCRIPT_DIR/workspace:$SCRIPT_DIR${PYTHONPATH:+:$PYTHONPATH}"
+export LOG_FILE SCRIPT_DIR
 
-PID=$!
-echo -e "${GREEN}[  OK  ]${RESET} Workspace agent daemon started (PID $PID)"
+nohup bash -c '"$SCRIPT_DIR/.venv/bin/python" -u "$SCRIPT_DIR/workspace/agent.py" --daemon 2>&1 | awk '"'"'{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }'"'"' >> "$LOG_FILE"' < /dev/null &
+
+echo -e "${GREEN}[  OK  ]${RESET} Workspace agent daemon started (PID $(pgrep -f 'workspace/agent.py --daemon' | head -1))"
 echo -e "         Log: $LOG_FILE"

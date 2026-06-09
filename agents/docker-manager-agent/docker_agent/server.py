@@ -21,6 +21,7 @@ API endpoints:
 """
 import asyncio
 import json
+import logging
 import os
 import smtplib
 import subprocess
@@ -30,8 +31,26 @@ from datetime import datetime
 from email.mime.text import MIMEText
 from pathlib import Path
 
+from loguru import logger
 from dotenv import load_dotenv
 import anthropic as _anthropic
+
+# ── Logging setup ─────────────────────────────────────────────────────────────
+logger.remove()
+logger.add(sys.stdout, format="{level: <8} [{process}] {name}:{line} — {message}",
+           colorize=False, level="DEBUG")
+
+class _Interceptor(logging.Handler):
+    def emit(self, record: logging.LogRecord) -> None:
+        try:    level = logger.level(record.levelname).name
+        except ValueError: level = record.levelno
+        frame, depth = sys._getframe(6), 6
+        while frame and frame.f_code.co_filename == logging.__file__:
+            frame = frame.f_back
+            depth += 1
+        logger.opt(depth=depth, exception=record.exc_info).log(level, record.getMessage())
+
+logging.basicConfig(handlers=[_Interceptor()], level=0, force=True)
 
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware

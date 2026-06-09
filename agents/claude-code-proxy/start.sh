@@ -38,7 +38,7 @@ fi
 if [ ! -d ".venv" ]; then
     echo -e "${CYAN}[INFO]${RESET}  Creating venv..."
     python3 -m venv .venv
-    .venv/bin/pip install --quiet fastapi "uvicorn[standard]" pydantic
+    .venv/bin/pip install --quiet fastapi "uvicorn[standard]" pydantic loguru
     echo -e "${GREEN}[ OK ]${RESET}  venv ready."
 fi
 
@@ -48,4 +48,4 @@ exec .venv/bin/uvicorn server:app \
     --host 0.0.0.0 \
     --port "$PORT" \
     --log-level info \
-    2>&1 | awk '{ print strftime("[%H:%M:%S]"), $0; fflush() }' | tee -a "$LOG"
+    2>&1 | awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' | tee -a "$LOG"

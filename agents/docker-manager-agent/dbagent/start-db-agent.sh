@@ -40,12 +40,13 @@ docker exec "$CONTAINER" bash -c \
 
 # Start fresh; route logs to mountspace on the host via nohup+disown.
 mkdir -p "$(dirname "$LOG_FILE")"
-nohup docker exec "$CONTAINER" bash -c \
+docker exec "$CONTAINER" bash -c \
     "cd $AGENT_DIR && source agent.conf && \
      .venv/bin/uvicorn server:app \
         --host 0.0.0.0 --port \${PORT:-8890} \
         --no-use-colors --access-log" \
-    < /dev/null >> "$LOG_FILE" 2>&1 &
-disown $!
+    < /dev/null 2>&1 \
+    | awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' >> "$LOG_FILE" &
+disown
 
 echo "[OK] DB agent started inside $CONTAINER."

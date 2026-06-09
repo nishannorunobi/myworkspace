@@ -1,12 +1,31 @@
 #!/usr/bin/env python3
+import logging
 import os
 import sys
 import json
 from pathlib import Path
 from datetime import datetime
+from loguru import logger
 from dotenv import load_dotenv
 from tools import TOOL_DEFINITIONS, execute_tool, MEMORY_DIR, WORKSPACE_ROOT
 from monitor import WorkspaceMonitor
+
+# ── Logging setup ─────────────────────────────────────────────────────────────
+logger.remove()
+logger.add(sys.stdout, format="{level: <8} [{process}] {name}:{line} — {message}",
+           colorize=False, level="DEBUG")
+
+class _Interceptor(logging.Handler):
+    def emit(self, record: logging.LogRecord) -> None:
+        try:    level = logger.level(record.levelname).name
+        except ValueError: level = record.levelno
+        frame, depth = sys._getframe(6), 6
+        while frame and frame.f_code.co_filename == logging.__file__:
+            frame = frame.f_back
+            depth += 1
+        logger.opt(depth=depth, exception=record.exc_info).log(level, record.getMessage())
+
+logging.basicConfig(handlers=[_Interceptor()], level=0, force=True)
 
 AGENT_DIR = Path(__file__).parent
 ROOT_DIR  = AGENT_DIR.parent.parent  # workspace-agent/
@@ -331,16 +350,20 @@ def daemon_loop():
 
     MEMORY_DIR.mkdir(exist_ok=True)
     log_session("daemon started")
+    logger.info("Workspace agent daemon starting (PID {})", os.getpid())
 
     # Start workspace HTTP API server in a background thread
     from workspace import server as _ws_server
     _srv_thread = threading.Thread(target=_ws_server.start, daemon=True, name="ws-http-server")
     _srv_thread.start()
+    logger.info("HTTP API server thread started")
 
     monitor = WorkspaceMonitor(workspace_root=WORKSPACE_ROOT, memory_dir=MEMORY_DIR)
     monitor.start()
+    logger.info("Workspace monitor started")
 
     def _shutdown(sig, frame):
+        logger.info("Shutdown signal received — stopping daemon")
         log_session("daemon stopped")
         monitor.stop()
         sys.exit(0)
@@ -358,9 +381,12 @@ def daemon_loop():
     last_full_cycle = 0.0
 
     def _run_cycle(prompt, label):
+        logger.info("Starting {} cycle", label)
         try:
             run_agent(prompt, [], session_id=f"daemon-{label}")
+            logger.info("{} cycle complete", label)
         except Exception as e:
+            logger.error("{} cycle failed: {}", label, e)
             entry = f"\n---\n**{datetime.now().strftime('%Y-%m-%d %H:%M')}** — {label} error: {e}"
             sessions = MEMORY_DIR / "sessions.md"
             existing = sessions.read_text() if sessions.exists() else "# Agent Sessions\n"
