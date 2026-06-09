@@ -95,6 +95,26 @@ async def start_agent(agent_id: str):
         return {"ok": False, "error": str(e)}
 
 
+@router.post("/{agent_id}/refresh-status")
+async def refresh_agent_status(agent_id: str):
+    """Force an immediate _detect() for one agent and update its cached state."""
+    spec = registry.SPEC_BY_ID.get(agent_id)
+    if not spec:
+        return JSONResponse({"error": "not found"}, status_code=404)
+    loop = asyncio.get_event_loop()
+    new_status = await loop.run_in_executor(None, registry._detect, spec)
+    with registry._lock:
+        state = registry._states[agent_id]
+        prev  = state.status
+        state.status = new_status
+        if new_status == "running" and state.uptime_start is None:
+            from datetime import datetime
+            state.uptime_start = datetime.now()
+        elif new_status != "running":
+            state.uptime_start = None
+    return {"id": agent_id, "status": new_status, "prev": prev}
+
+
 @router.post("/{agent_id}/stop")
 async def stop_agent(agent_id: str):
     spec = registry.SPEC_BY_ID.get(agent_id)

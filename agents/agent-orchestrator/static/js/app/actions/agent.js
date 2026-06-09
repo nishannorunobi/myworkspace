@@ -8,7 +8,6 @@ class AgentActions {
 
   async start(agentId, btn) {
     this.spinner.busy(btn);
-    let ok = false;
     try {
       const d = await API.agents.start(agentId);
       if (d.ok === false) {
@@ -17,14 +16,24 @@ class AgentActions {
         if (btn) btn.disabled = false;
         return false;
       }
-      ok = true;
     } catch {
       this.spinner.done(btn);
       if (btn) btn.disabled = false;
       return false;
     }
-    if (ok) this.on.onStarted?.(agentId);
-    await new Promise(r => setTimeout(r, 4000));
+
+    this.on.onStarted?.(agentId);
+
+    // Poll until running or 5-minute timeout
+    const deadline = Date.now() + 5 * 60 * 1000;
+    while (Date.now() < deadline) {
+      await new Promise(r => setTimeout(r, 2000));
+      try {
+        const s = await API.agents.refreshStatus(agentId);
+        if (s.status === 'running') break;
+      } catch {}
+    }
+
     this.spinner.done(btn);
     await this.store.load();
     this.on.refresh?.();
@@ -34,7 +43,17 @@ class AgentActions {
   async stop(agentId, btn) {
     this.spinner.busy(btn);
     await API.agents.stop(agentId).catch(() => {});
-    await new Promise(r => setTimeout(r, 3000));
+
+    // Poll until stopped or 5-minute timeout
+    const deadline = Date.now() + 5 * 60 * 1000;
+    while (Date.now() < deadline) {
+      await new Promise(r => setTimeout(r, 2000));
+      try {
+        const s = await API.agents.refreshStatus(agentId);
+        if (s.status !== 'running') break;
+      } catch {}
+    }
+
     this.spinner.done(btn);
     await this.store.load();
     this.on.refresh?.();
@@ -45,7 +64,17 @@ class AgentActions {
     if (!confirm('Stop all running agents?')) return;
     this.spinner.busy(btn);
     await API.agents.stopAll().catch(() => {});
-    await new Promise(r => setTimeout(r, 3000));
+
+    // Poll all agents until none are running or 5-minute timeout
+    const deadline = Date.now() + 5 * 60 * 1000;
+    while (Date.now() < deadline) {
+      await new Promise(r => setTimeout(r, 2000));
+      try {
+        await this.store.load();
+        if (this.store.running().length === 0) break;
+      } catch {}
+    }
+
     this.spinner.done(btn);
     if (btn) btn.disabled = false;
     await this.store.load();

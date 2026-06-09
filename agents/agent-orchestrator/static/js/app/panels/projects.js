@@ -100,8 +100,20 @@ class ProjectsPanel extends Panel {
       const logDiv = $('project-log');
       if (logDiv) logDiv.innerHTML = `<div class="proj-log-line err">${esc(String(e))}</div>`;
     }
+
+    // Poll until actually stopped or 2-minute timeout
+    const deadline = Date.now() + 2 * 60 * 1000;
+    while (Date.now() < deadline) {
+      await new Promise(r => setTimeout(r, 2000));
+      try {
+        const res = await fetch('/api/workspace/projects').then(r => r.json());
+        const proj = (res.projects || []).find(p => p.name === name);
+        if (!proj || !proj.running) break;
+      } catch {}
+    }
+
     this.spinner.done(stopBtn);
-    setTimeout(() => this.load(), 1500);
+    this.load();
   }
 
   async health(name) {

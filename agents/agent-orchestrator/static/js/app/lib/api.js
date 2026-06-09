@@ -15,7 +15,8 @@ const API = {
     logsUrl:  id                => `/api/agents/${id}/logs`,
     subagents: id               => API._get(`/api/agents/${id}/sub-agents`),
     memory:   id                => API._get(`/api/agents/${id}/memory`),
-    health:   id                => API._get(`/api/agents/${id}/health`),
+    health:         id          => API._get(`/api/agents/${id}/health`),
+    refreshStatus:  id          => API._post(`/api/agents/${id}/refresh-status`),
   },
 
   git: {
