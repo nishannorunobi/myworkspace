@@ -22,6 +22,10 @@ if ! docker exec "$CONTAINER" bash -c "$AGENT_DIR/.venv/bin/python3 --version" &
     # Retry once — packages are cached so the second run always completes.
     docker exec "$CONTAINER" bash "$AGENT_DIR/build.sh" \
         || docker exec "$CONTAINER" bash "$AGENT_DIR/build.sh"
+else
+    # Venv exists — sync packages in case requirements.txt changed since last build
+    echo "[INFO] Syncing db-agent packages..."
+    docker exec "$CONTAINER" bash -c "$AGENT_DIR/.venv/bin/pip install --quiet -r $AGENT_DIR/requirements.txt"
 fi
 
 # Inject API key from shared.conf into the container's agent.conf (idempotent)
