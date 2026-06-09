@@ -106,9 +106,9 @@ class SoundSystem {
     }
   }
 
-  /* Tick — crisp click at 3500 Hz every 1 s */
+  /* Tick — crisp click at 3500 Hz every 0.4 s */
   _procTick(ctx, vol, dur) {
-    const step = 1.0, n = Math.ceil(dur / step);
+    const step = 0.4, n = Math.ceil(dur / step);
     for (let i = 0; i < n; i++) {
       const t   = ctx.currentTime + i * step;
       const len = Math.ceil(ctx.sampleRate * 0.025);
