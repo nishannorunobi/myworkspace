@@ -16,10 +16,11 @@ else
                 echo "    ERROR: 'curl' not found. Install it first: sudo apt-get install -y curl"
                 exit 1
             fi
-            curl -fsSL https://get.docker.com | sudo sh
+            echo "${SUDO_PASS:-}" | sudo -S true 2>&1
+            curl -fsSL https://get.docker.com | sudo -n sh
             if ! id -nG "$USER" | grep -qw docker; then
                 echo "==> Adding '$USER' to the 'docker' group..."
-                sudo usermod -aG docker "$USER"
+                sudo -n usermod -aG docker "$USER"
                 echo "    NOTE: Log out and back in (or run 'newgrp docker') for group membership."
             fi
             ;;

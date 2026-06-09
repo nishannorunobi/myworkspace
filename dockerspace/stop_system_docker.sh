@@ -10,7 +10,7 @@ else
 fi
 
 echo "==> Stopping Docker service and socket..."
-sudo systemctl stop docker.service docker.socket
+echo "${SUDO_PASS:-}" | sudo -S systemctl stop docker.service docker.socket 2>&1
 
 if ! systemctl is-active --quiet docker.service && ! systemctl is-active --quiet docker.socket; then
     echo "    Docker is fully stopped."

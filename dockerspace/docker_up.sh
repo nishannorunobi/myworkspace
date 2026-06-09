@@ -6,7 +6,11 @@ if systemctl is-active --quiet docker.service; then
     echo "    Docker is already running."
 else
     echo "==> Starting Docker service..."
-    sudo systemctl start docker.socket docker.service
+    echo "${SUDO_PASS:-}" | sudo -S systemctl start docker.socket docker.service 2>&1 || {
+        echo "    ERROR: Failed to start Docker. Wrong password, or run manually:"
+        echo "    sudo systemctl start docker.socket docker.service"
+        exit 1
+    }
 
     echo -n "    Waiting for Docker to be ready"
     for i in $(seq 1 10); do

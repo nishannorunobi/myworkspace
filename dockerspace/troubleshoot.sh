@@ -11,12 +11,15 @@ source "$SCRIPT_DIR/workspace.conf"
 echo "==> Running troubleshoot fixes for: $WORKSPACE_ROOT"
 echo ""
 
+# Authenticate sudo once; subsequent sudo -n calls reuse the cached credentials.
+echo "${SUDO_PASS:-}" | sudo -S true 2>&1
+
 # ─── Fix 1: Workspace ownership ───────────────────────────────────────────────
 # Docker runs as root and can chown the volume-mounted workspace,
 # causing 'git: detected dubious ownership' on the host.
 
 echo "── Fix: Workspace ownership"
-sudo chown -R "$USER":"$USER" "$WORKSPACE_ROOT"
+sudo -n chown -R "$USER":"$USER" "$WORKSPACE_ROOT"
 echo "   Ownership restored to $USER."
 
 # ─── Fix 2: mountspace/ permissions ───────────────────────────────────────────
@@ -24,7 +27,7 @@ echo "   Ownership restored to $USER."
 echo ""
 echo "── Fix: $MOUNTSPACE_DIR/ permissions"
 mkdir -p "$WORKSPACE_ROOT/$MOUNTSPACE_DIR"
-sudo chown -R "$USER":"$USER" "$WORKSPACE_ROOT/$MOUNTSPACE_DIR"
+sudo -n chown -R "$USER":"$USER" "$WORKSPACE_ROOT/$MOUNTSPACE_DIR"
 echo "   $MOUNTSPACE_DIR/ is ready."
 
 # ─── Fix 3: Git safe.directory ────────────────────────────────────────────────

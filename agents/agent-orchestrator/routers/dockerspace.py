@@ -51,7 +51,8 @@ def list_scripts():
 
 
 class RunBody(BaseModel):
-    script: str
+    script:    str
+    sudo_pass: str = ""
 
 
 @router.post("/run")
@@ -64,6 +65,12 @@ def run_script(body: RunBody):
     if not script.exists():
         return JSONResponse({"error": f"Script not found: {script}"}, status_code=404)
 
+    import os
+    env = os.environ.copy()
+    if body.sudo_pass:
+        env["SUDO_PASS"] = body.sudo_pass
+        env["SUDO_ASKPASS"] = ""  # prevent GUI askpass from intercepting
+
     with _lock:
         if _proc and _proc.poll() is None:
             _proc.terminate()
@@ -73,8 +80,10 @@ def run_script(body: RunBody):
             cwd=str(script.parent),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
+            stdin=subprocess.DEVNULL,
             text=True,
             bufsize=1,
+            env=env,
         )
         _proc = proc
 
