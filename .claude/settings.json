@@ -124,7 +124,33 @@
       "Bash(tlmgr --usermode init-usertree)",
       "Bash(tlmgr --usermode install svmult)",
       "Bash(tlmgr --usermode --repository https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2023/tlnet-final/ install svmult)",
-      "Bash(unzip -o springer_template.zip)"
+      "Bash(unzip -o springer_template.zip)",
+      "Bash(curl -s \"http://localhost:8080/api/v1/users/me/\" -H \"X-Api-Key: plane_api_03490060384349099ed4c42334ac9721\" -v)",
+      "Bash(curl -s \"http://localhost:8080/api/users/me/\" -H \"Authorization: Token plane_api_03490060384349099ed4c42334ac9721\")",
+      "Bash(curl -s \"http://localhost:8080/api/users/me/\" -H \"x-api-key: plane_api_03490060384349099ed4c42334ac9721\")",
+      "Bash(curl -s \"http://localhost:8080/api/users/me/\" -H \"Authorization: Bearer plane_api_03490060384349099ed4c42334ac9721\")",
+      "Bash(cat /home/nishan/myworkspace/.mcp.json 2>/dev/null; echo \"---\"; cat /home/nishan/.claude/settings.json 2>/dev/null | grep -A 20 \"plane\" )",
+      "Read(//home/nishan/.claude/**)",
+      "Bash(cat /home/nishan/.mcp.json 2>/dev/null; echo \"---\")",
+      "Read(//home/nishan/**)",
+      "mcp__plane-server__get_user",
+      "Bash(curl -s -H \"x-api-key: plane_api_5e182cb5db0643f0a876835ab337a34f\" http://localhost:8080/api/v1/me/)",
+      "Bash(curl -s -H \"x-api-key: plane_api_5e182cb5db0643f0a876835ab337a34f\" http://localhost:8080/api/v1/)",
+      "Bash(curl -s -H \"x-api-key: plane_api_5e182cb5db0643f0a876835ab337a34f\" \"http://localhost:8080/api/v1/users/me/\" -v)",
+      "Bash(curl -s \"http://localhost:8080/api/\")",
+      "Bash(curl -s \"http://localhost:8080/\")",
+      "Bash(curl -s -H \"x-api-key: plane_api_5e182cb5db0643f0a876835ab337a34f\" \"http://localhost:8080/api/users/me/\")",
+      "Bash(curl -s -H \"Authorization: Bearer plane_api_5e182cb5db0643f0a876835ab337a34f\" \"http://localhost:8080/api/users/me/\")",
+      "Bash(curl -s -H \"X-Api-Key: plane_api_5e182cb5db0643f0a876835ab337a34f\" \"http://localhost:8080/api/users/me/\")",
+      "Bash(docker image *)",
+      "Bash(curl -s \"https://registry.hub.docker.com/v2/repositories/makeplane/plane-backend/tags?page_size=10&ordering=last_updated\")",
+      "Bash(docker pull *)",
+      "Bash(wait)",
+      "Bash(docker run *)",
+      "Bash(docker compose *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" -H \"X-API-Key: plane_api_5e182cb5db0643f0a876835ab337a34f\" \"http://localhost:8080/api/v1/users/me/\")",
+      "mcp__plane-server__get_projects"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true
 }
