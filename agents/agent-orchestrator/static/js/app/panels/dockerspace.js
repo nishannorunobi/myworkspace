@@ -18,7 +18,7 @@ class DockerscriptPanel extends Panel {
       const data     = await res.json();
       const projects = data.projects || [];
       if (!projects.length) {
-        panel.innerHTML = '<div class="ds-loading">No shell scripts found in projectspace/.</div>';
+        panel.innerHTML = '<div class="ds-loading">No shell scripts found in dockerspace/.</div>';
         return;
       }
       panel.innerHTML = projects.map(p => `

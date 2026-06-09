@@ -1,7 +1,7 @@
 """
-Dockerspace router — browse and run shell scripts from projectspace.
+Dockerspace router — browse and run shell scripts from the workspace dockerspace folder.
 
-GET  /api/dockerspace/scripts   → all .sh scripts grouped by project
+GET  /api/dockerspace/scripts   → all .sh scripts in dockerspace/
 POST /api/dockerspace/run       → run a script (SSE streaming output)
 POST /api/dockerspace/kill      → kill the running script
 """
@@ -17,7 +17,7 @@ from pydantic import BaseModel
 router = APIRouter(prefix="/dockerspace", tags=["dockerspace"])
 
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-PROJECTSPACE   = WORKSPACE_ROOT / "projectspace"
+DOCKERSPACE    = WORKSPACE_ROOT / "dockerspace"
 
 _EXCLUDE_DIRS = {"__pycache__", ".git", ".venv", "node_modules", ".mypy_cache"}
 
@@ -34,32 +34,20 @@ def _reader(proc):
 
 @router.get("/scripts")
 def list_scripts():
-    if not PROJECTSPACE.exists():
+    if not DOCKERSPACE.exists():
         return {"projects": []}
 
-    projects = []
-    for proj_dir in sorted(PROJECTSPACE.iterdir()):
-        if not proj_dir.is_dir() or proj_dir.name.startswith("."):
-            continue
-        if proj_dir.name in _EXCLUDE_DIRS:
-            continue
+    scripts = []
+    for sh in sorted(DOCKERSPACE.glob("*.sh")):
+        scripts.append({
+            "label":    sh.name,
+            "abs_path": str(sh),
+        })
 
-        scripts = []
-        for sh in sorted(proj_dir.rglob("*.sh")):
-            if any(part in _EXCLUDE_DIRS for part in sh.parts):
-                continue
-            rel = sh.relative_to(proj_dir)
-            if len(rel.parts) > 3:
-                continue
-            scripts.append({
-                "label":    str(rel),
-                "abs_path": str(sh),
-            })
+    if not scripts:
+        return {"projects": []}
 
-        if scripts:
-            projects.append({"name": proj_dir.name, "scripts": scripts})
-
-    return {"projects": projects}
+    return {"projects": [{"name": "dockerspace", "scripts": scripts}]}
 
 
 class RunBody(BaseModel):
@@ -71,8 +59,8 @@ def run_script(body: RunBody):
     global _proc, _output
 
     script = Path(body.script).resolve()
-    if not str(script).startswith(str(PROJECTSPACE)):
-        return JSONResponse({"error": "Script must be inside projectspace"}, status_code=403)
+    if not str(script).startswith(str(DOCKERSPACE)):
+        return JSONResponse({"error": "Script must be inside dockerspace"}, status_code=403)
     if not script.exists():
         return JSONResponse({"error": f"Script not found: {script}"}, status_code=404)
 
