@@ -315,7 +315,8 @@ def list_scripts():
 
 class RunBody(BaseModel):
     script:    str
-    sudo_pass: str = ""
+    sudo_pass: str  = ""
+    confirmed: bool = False
 
 
 @app.post("/api/dockerspace/run")
@@ -333,6 +334,17 @@ def run_script(body: RunBody):
         env["SUDO_PASS"] = body.sudo_pass
         env["SUDO_ASKPASS"] = ""
 
+    # Pre-fill stdin with "yes" answers when user confirmed in the UI,
+    # so scripts using `read -p "..."` don't abort waiting for terminal input.
+    if body.confirmed:
+        import os as _os
+        r_fd, w_fd = _os.pipe()
+        _os.write(w_fd, b"yes\n" * 20)
+        _os.close(w_fd)
+        stdin_arg = r_fd
+    else:
+        stdin_arg = subprocess.DEVNULL
+
     with _ds_lock:
         if _ds_proc and _ds_proc.poll() is None:
             _ds_proc.terminate()
@@ -342,9 +354,11 @@ def run_script(body: RunBody):
             ["bash", str(script)],
             cwd=str(script.parent),
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-            stdin=subprocess.DEVNULL,
+            stdin=stdin_arg,
             text=True, bufsize=1, env=env,
         )
+        if body.confirmed:
+            _os.close(r_fd)
         _ds_proc = proc
 
     threading.Thread(target=_ds_reader, args=(proc,), daemon=True).start()

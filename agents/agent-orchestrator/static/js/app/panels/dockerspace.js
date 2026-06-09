@@ -70,9 +70,44 @@ class DockerscriptPanel extends Panel {
     });
   }
 
+  // ── Confirmation prompt (for destructive scripts) ─────────────────────────
+
+  _DANGER_PATTERN = /clean|remove|purge|wipe|destroy|backup|restart_the_world|stop_the_world/i;
+
+  _askConfirm(label) {
+    if (!this._DANGER_PATTERN.test(label)) return Promise.resolve(true);
+    return new Promise(resolve => {
+      const overlay = document.createElement('div');
+      overlay.className = 'sudo-overlay';
+      overlay.innerHTML = `
+        <div class="sudo-modal">
+          <div class="sudo-title">⚠ ${esc(label)}</div>
+          <div class="sudo-hint">This script may be destructive. Continue?</div>
+          <div class="sudo-actions">
+            <button class="btn sudo-cancel">Cancel</button>
+            <button class="btn btn-stop sudo-run">Yes, run it</button>
+          </div>
+        </div>`;
+
+      const finish = ok => { overlay.remove(); resolve(ok); };
+      overlay.querySelector('.sudo-cancel').onclick = () => finish(false);
+      overlay.querySelector('.sudo-run').onclick    = () => finish(true);
+      overlay.addEventListener('keydown', e => {
+        if (e.key === 'Escape') finish(false);
+        if (e.key === 'Enter')  finish(true);
+      });
+
+      document.body.appendChild(overlay);
+      overlay.querySelector('.sudo-run').focus();
+    });
+  }
+
   // ── Run script ────────────────────────────────────────────────────────────
 
   async run(absPath, label) {
+    const confirmed = await this._askConfirm(label);
+    if (!confirmed) return;
+
     const pass = await this._askSudoPass(label);
     if (pass === null) return;  // cancelled
 
@@ -97,7 +132,7 @@ class DockerscriptPanel extends Panel {
       const res = await fetch('/api/dockerspace/run', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ script: absPath, sudo_pass: pass }),
+        body:    JSON.stringify({ script: absPath, sudo_pass: pass, confirmed }),
         signal:  this._logCtrl.signal,
       });
       const reader  = res.body.getReader();
