@@ -206,6 +206,12 @@ def seed_default_agents():
              agent_path="/channel-agent/start.sh", network="ums-network",
              compose_dir=f"{_WORKSPACE}/projectspace/mychannels",
              clean_restart_cmd="bash start.sh"),
+        dict(id="log-agent", name="Log Agent",
+             container="mylog_analytics-container", port=8893,
+             agent_path="/mylog_analytics/log-agent/start.sh", network="ums-network",
+             compose_dir=f"{_WORKSPACE}/projectspace/mylog_analytics/dockerspace/host_scripts",
+             clean_restart_cmd="FORCE_RECREATE_CONTAINER=true bash start.sh",
+             host_start_script=f"{_DMA}/logagent/start-log-agent.sh"),
     ]
     for d in defaults:
         existing = get_agent_registration(d["id"])
