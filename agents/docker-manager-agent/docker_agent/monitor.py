@@ -143,7 +143,8 @@ def write_status():
 # ── Monitor thread ────────────────────────────────────────────────────────────
 
 class DockerMonitor(threading.Thread):
-    INTERVAL = 15  # seconds between polls
+    INTERVAL     = 15    # seconds between polls
+    AUTO_RESTART = False # set True to auto-restart stopped containers
 
     def __init__(self, on_event: Optional[Callable[[str, str, str], None]] = None):
         super().__init__(daemon=True)
@@ -176,13 +177,14 @@ class DockerMonitor(threading.Thread):
                 db.log_event(c["id"], name, "detected", now)
 
             elif "Up" in prev and "Up" not in now:
-                # Was running, now stopped → auto-restart
+                # Was running, now stopped
                 db.log_event(c["id"], name, "stopped", f"was: {prev!r}")
-                ok, msg = restart_container(c["id"])
-                event   = "restarted" if ok else "restart_failed"
-                db.log_event(c["id"], name, event, msg)
-                if self._on_event:
-                    self._on_event(name, event, msg)
+                if self.AUTO_RESTART:
+                    ok, msg = restart_container(c["id"])
+                    event   = "restarted" if ok else "restart_failed"
+                    db.log_event(c["id"], name, event, msg)
+                    if self._on_event:
+                        self._on_event(name, event, msg)
 
             elif "Up" not in prev and "Up" in now:
                 # Container just came up → auto-start any registered agents for it
