@@ -9,6 +9,12 @@ AGENT_DIR="/mypostgresql_db/db-agent"
 SHARED_CONF="$SCRIPT_DIR/../../shared.conf"
 LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/db-agent/server.log"
 
+# Tee all script output (stdout + stderr) to the log file so the dashboard log tab shows startup progress
+mkdir -p "$(dirname "$LOG_FILE")"
+exec > >(awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' | tee -a "$LOG_FILE") 2>&1
+
+echo "[start-db-agent] Starting db-agent startup sequence..."
+
 if ! docker inspect "$CONTAINER" --format '{{.State.Running}}' 2>/dev/null | grep -q true; then
     echo "[ERROR] Container $CONTAINER is not running." >&2
     exit 1
@@ -42,8 +48,9 @@ fi
 docker exec "$CONTAINER" bash -c \
     "pkill -f '[u]vicorn server:app' 2>/dev/null; sleep 0.3; echo ok"
 
-# Start fresh; route logs to mountspace on the host via nohup+disown.
-mkdir -p "$(dirname "$LOG_FILE")"
+# Start fresh; pipe uvicorn output directly to the log file (bypasses the exec > tee pipe
+# so logs survive after this script exits).
+echo "[start-db-agent] Launching uvicorn..."
 docker exec "$CONTAINER" bash -c \
     "cd $AGENT_DIR && source agent.conf && \
      .venv/bin/uvicorn server:app \
