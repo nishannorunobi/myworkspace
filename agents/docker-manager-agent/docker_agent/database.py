@@ -54,7 +54,8 @@ def init():
             )
         """)
         # Migrate existing tables that were created before these columns existed
-        for col, default in [("compose_dir", "NULL"), ("clean_restart_cmd", "NULL")]:
+        for col, default in [("compose_dir", "NULL"), ("clean_restart_cmd", "NULL"),
+                             ("host_start_script", "NULL")]:
             try:
                 conn.execute(f"ALTER TABLE agent_registrations ADD COLUMN {col} TEXT DEFAULT {default}")
             except Exception:
@@ -136,15 +137,16 @@ def get_events(limit: int = 50, container_name: str = None) -> list[dict]:
 
 def register_agent(id: str, name: str, container: str, port: int,
                    agent_path: str, network: str = "ums-network",
-                   compose_dir: str = "", clean_restart_cmd: str = ""):
+                   compose_dir: str = "", clean_restart_cmd: str = "",
+                   host_start_script: str = ""):
     ts = datetime.now().isoformat(timespec="seconds")
     with _lock:
         with _connect() as conn:
             conn.execute("""
                 INSERT OR REPLACE INTO agent_registrations
-                (id, name, container, port, agent_path, network, compose_dir, clean_restart_cmd, registered_at)
-                VALUES (?,?,?,?,?,?,?,?,?)
-            """, (id, name, container, port, agent_path, network, compose_dir, clean_restart_cmd, ts))
+                (id, name, container, port, agent_path, network, compose_dir, clean_restart_cmd, host_start_script, registered_at)
+                VALUES (?,?,?,?,?,?,?,?,?,?)
+            """, (id, name, container, port, agent_path, network, compose_dir, clean_restart_cmd, host_start_script, ts))
 
 
 def get_agent_registrations() -> list[dict]:
@@ -181,12 +183,14 @@ def get_registration_by_container(container_name: str) -> dict | None:
 def seed_default_agents():
     """Register built-in container agents. Always refreshes compose_dir / clean_restart_cmd."""
     _WORKSPACE = "/home/nishan/myworkspace"
+    _DMA       = f"{_WORKSPACE}/agents/docker-manager-agent"
     defaults = [
         dict(id="db-agent",  name="DB Agent",
              container="mypostgresql_db-container", port=8890,
              agent_path="/mypostgresql_db/db-agent/start.sh", network="ums-network",
              compose_dir=f"{_WORKSPACE}/projectspace/mypostgresql_db/dockerspace/host_scripts",
-             clean_restart_cmd="FORCE_RECREATE_CONTAINER=true bash start.sh"),
+             clean_restart_cmd="FORCE_RECREATE_CONTAINER=true bash start.sh",
+             host_start_script=f"{_DMA}/dbagent/start-db-agent.sh"),
         dict(id="ums-agent", name="UMS Agent",
              container="ums-app", port=8891,
              agent_path="/ums/ums-agent/start.sh", network="ums-network",
@@ -208,12 +212,12 @@ def seed_default_agents():
         if not existing:
             register_agent(**d)
         else:
-            # Always refresh compose fields so they stay current
+            # Always refresh mutable fields so they stay current
             with _lock:
                 with _connect() as conn:
                     conn.execute(
-                        "UPDATE agent_registrations SET compose_dir=?, clean_restart_cmd=? WHERE id=?",
-                        (d["compose_dir"], d["clean_restart_cmd"], d["id"]),
+                        "UPDATE agent_registrations SET compose_dir=?, clean_restart_cmd=?, host_start_script=? WHERE id=?",
+                        (d["compose_dir"], d["clean_restart_cmd"], d.get("host_start_script", ""), d["id"]),
                     )
 
 

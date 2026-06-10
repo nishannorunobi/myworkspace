@@ -23,14 +23,23 @@ def _start_agents_for_container(container_name: str):
     for reg in registrations:
         if reg["container"] != container_name:
             continue
-        agent_dir = str(Path(reg["agent_path"]).parent)
+        host_script = reg.get("host_start_script", "")
         try:
-            subprocess.Popen(
-                ["docker", "exec", "-d", container_name,
-                 "bash", "-c",
-                 f"cd {agent_dir} && nohup bash start.sh > memory/server.log 2>&1 &"],
-                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            )
+            if host_script and Path(host_script).is_file():
+                # Use the host-side script — it handles logging to mountspace correctly
+                subprocess.Popen(
+                    ["bash", host_script],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                )
+            else:
+                # Fallback: exec inside the container
+                agent_dir = str(Path(reg["agent_path"]).parent)
+                subprocess.Popen(
+                    ["docker", "exec", "-d", container_name,
+                     "bash", "-c",
+                     f"cd {agent_dir} && nohup bash start.sh >> memory/server.log 2>&1 &"],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                )
         except Exception:
             pass
 
