@@ -2,6 +2,14 @@
 # start.sh — Start the Docker Orchestrator Agent.
 set -euo pipefail
 
+# ── Mirror logging ─────────────────────────────────────────────────────────────
+_WS_ROOT="$(d="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; while [ ! -d "$d/mountspace" ] && [ "$d" != "/" ]; do d="$(dirname "$d")"; done; echo "$d")"
+if [ -f "$_WS_ROOT/init/create_logging_path.sh" ]; then
+    source "$_WS_ROOT/init/create_logging_path.sh"
+    setup_logging
+fi
+# ──────────────────────────────────────────────────────────────────────────────
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
@@ -29,7 +37,7 @@ if ss -tlnp 2>/dev/null | grep -q ":${PORT} " || nc -z 127.0.0.1 "$PORT" 2>/dev/
     exit 0
 fi
 LOG_LEVEL="${LOG_LEVEL:-info}"
-LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/docker-manager-agent/server.log"
+LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/myworkspace/agents/docker-manager-agent/docker_agent/server_py.log"
 
 mkdir -p "$(dirname "$LOG_FILE")"
 

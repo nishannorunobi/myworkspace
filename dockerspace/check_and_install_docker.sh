@@ -1,4 +1,12 @@
 #!/bin/bash
+
+# ── Mirror logging ─────────────────────────────────────────────────────────────
+_WS_ROOT="$(d="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; while [ ! -d "$d/mountspace" ] && [ "$d" != "/" ]; do d="$(dirname "$d")"; done; echo "$d")"
+if [ -f "$_WS_ROOT/init/create_logging_path.sh" ]; then
+    source "$_WS_ROOT/init/create_logging_path.sh"
+    setup_logging
+fi
+# ──────────────────────────────────────────────────────────────────────────────
 # check_and_install_docker.sh — checks if Docker is installed; installs it if missing.
 # Reports daemon status but does NOT start or stop anything.
 # Run manually whenever you need to verify or set up Docker.

@@ -2,6 +2,14 @@
 # Stop the db-agent process inside mypostgresql_db-container via docker exec.
 set -euo pipefail
 
+# ── Mirror logging ─────────────────────────────────────────────────────────────
+_WS_ROOT="$(d="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; while [ ! -d "$d/mountspace" ] && [ "$d" != "/" ]; do d="$(dirname "$d")"; done; echo "$d")"
+if [ -f "$_WS_ROOT/init/create_logging_path.sh" ]; then
+    source "$_WS_ROOT/init/create_logging_path.sh"
+    setup_logging
+fi
+# ──────────────────────────────────────────────────────────────────────────────
+
 CONTAINER="mypostgresql_db-container"
 
 if ! docker inspect "$CONTAINER" --format '{{.State.Running}}' 2>/dev/null | grep -q true; then

@@ -7,11 +7,11 @@ WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 CONTAINER="mypostgresql_db-container"
 AGENT_DIR="/mypostgresql_db/db-agent"
 SHARED_CONF="$SCRIPT_DIR/../../shared.conf"
-LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/db-agent/server.log"
 
-# Tee all script output (stdout + stderr) to the log file so the dashboard log tab shows startup progress
-mkdir -p "$(dirname "$LOG_FILE")"
-exec > >(awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' | tee -a "$LOG_FILE") 2>&1
+# ── Mirror logging ─────────────────────────────────────────────────────────────
+source "$WORKSPACE_ROOT/init/create_logging_path.sh"
+setup_logging
+# ──────────────────────────────────────────────────────────────────────────────
 
 echo "[start-db-agent] Starting db-agent startup sequence..."
 
@@ -48,16 +48,20 @@ fi
 docker exec "$CONTAINER" bash -c \
     "pkill -f '[u]vicorn server:app' 2>/dev/null; sleep 0.3; echo ok"
 
-# Start fresh; pipe uvicorn output directly to the log file (bypasses the exec > tee pipe
-# so logs survive after this script exits).
-echo "[start-db-agent] Launching uvicorn..."
+# Uvicorn mirror log: projectspace/mypostgresql_db/db-agent/server_py.log
+UVICORN_LOG="$WORKSPACE_ROOT/mountspace/logs/myworkspace/projectspace/mypostgresql_db/db-agent/server_py.log"
+mkdir -p "$(dirname "$UVICORN_LOG")"
+
+# Start fresh; pipe uvicorn output to both the script log and the dedicated server log.
+echo "[start-db-agent] Launching uvicorn (log → $UVICORN_LOG)..."
 docker exec "$CONTAINER" bash -c \
     "cd $AGENT_DIR && source agent.conf && \
      .venv/bin/uvicorn server:app \
         --host 0.0.0.0 --port \${PORT:-8890} \
         --no-use-colors --access-log" \
     < /dev/null 2>&1 \
-    | awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' >> "$LOG_FILE" &
+    | awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' \
+    | tee -a "$LOG_FILE" >> "$UVICORN_LOG" &
 disown
 
 echo "[OK] DB agent started inside $CONTAINER."

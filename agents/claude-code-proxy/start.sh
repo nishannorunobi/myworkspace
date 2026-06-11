@@ -3,6 +3,14 @@
 # Docker containers call it via http://host.docker.internal:8892
 set -euo pipefail
 
+# ── Mirror logging ─────────────────────────────────────────────────────────────
+_WS_ROOT="$(d="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; while [ ! -d "$d/mountspace" ] && [ "$d" != "/" ]; do d="$(dirname "$d")"; done; echo "$d")"
+if [ -f "$_WS_ROOT/init/create_logging_path.sh" ]; then
+    source "$_WS_ROOT/init/create_logging_path.sh"
+    setup_logging
+fi
+# ──────────────────────────────────────────────────────────────────────────────
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
@@ -10,7 +18,7 @@ cd "$SCRIPT_DIR"
 GREEN="\033[32m"; CYAN="\033[36m"; RED="\033[31m"; BOLD="\033[1m"; RESET="\033[0m"
 
 PORT="${PORT:-8892}"
-LOG="$WORKSPACE_ROOT/mountspace/logs/claude-code-proxy/proxy.log"
+LOG="$WORKSPACE_ROOT/mountspace/logs/myworkspace/agents/claude-code-proxy/server_py.log"
 mkdir -p "$(dirname "$LOG")"
 
 # Resolve claude binary — check PATH and common NVM locations

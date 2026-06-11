@@ -2,6 +2,14 @@
 # install_vscode.sh — Install Visual Studio Code on Ubuntu/Debian via Microsoft's apt repository.
 set -euo pipefail
 
+# ── Mirror logging ─────────────────────────────────────────────────────────────
+_WS_ROOT="$(d="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; while [ ! -d "$d/mountspace" ] && [ "$d" != "/" ]; do d="$(dirname "$d")"; done; echo "$d")"
+if [ -f "$_WS_ROOT/init/create_logging_path.sh" ]; then
+    source "$_WS_ROOT/init/create_logging_path.sh"
+    setup_logging
+fi
+# ──────────────────────────────────────────────────────────────────────────────
+
 BOLD="\033[1m"; GREEN="\033[32m"; CYAN="\033[36m"; YELLOW="\033[33m"; RED="\033[31m"; RESET="\033[0m"
 ok()   { echo -e "${GREEN}[ OK ]${RESET}  $*"; }
 info() { echo -e "${CYAN}[INFO]${RESET}  $*"; }

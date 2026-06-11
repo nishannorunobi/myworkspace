@@ -13,6 +13,13 @@ source "$SCRIPT_DIR/dockerspace/workspace.conf"
 
 # Construct workspace paths
 WORKSPACE_ROOT="$SCRIPT_DIR"
+
+# ── Mirror logging ─────────────────────────────────────────────────────────────
+_WS_ROOT="$(d="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; while [ ! -d "$d/mountspace" ] && [ "$d" != "/" ]; do d="$(dirname "$d")"; done; echo "$d")"
+# shellcheck source=init/create_logging_path.sh
+source "$_WS_ROOT/init/create_logging_path.sh"
+setup_logging
+# ──────────────────────────────────────────────────────────────────────────────
 DEST_DIR="$WORKSPACE_ROOT/$MOUNTSPACE_DIR"
 
 # Check if arguments provided or INPUT_FILE configured
