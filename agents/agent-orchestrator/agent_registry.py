@@ -268,6 +268,7 @@ def get_all_info() -> List[dict]:
                 "api_url":     spec.api_url or "",
                 "sub_agents":  spec.sub_agents,
                 "hidden":      spec.hidden,
+                "services":    spec.services,
                 "can_clean_build": bool(spec.home and spec.clean_script and spec.build_script),
             })
         return result

@@ -18,12 +18,7 @@ class ControlsPanel extends Panel {
     if (!wrap) return;
     wrap.innerHTML = '<div class="controls-loading">Fetching health…</div>';
     try {
-      const fetches  = [fetch(`/api/agents/${agentId}/health`)];
-      if (agentId === 'db-agent') fetches.push(fetch(`/api/agents/${agentId}/services`));
-      const results  = await Promise.all(fetches);
-      const h        = await results[0].json();
-      const svcData  = results[1] ? await results[1].json() : {};
-      const services = svcData.services || {};
+      const h = await (await fetch(`/api/agents/${agentId}/health`)).json();
 
       if (h.error) {
         wrap.innerHTML = `<div class="controls-loading" style="color:var(--danger)">${esc(h.error)}</div>`;
@@ -43,7 +38,8 @@ class ControlsPanel extends Panel {
         return `<div class="ctrl-field"><span class="ctrl-field-lbl">${esc(k.replace(/_/g,' '))}</span><span class="ctrl-field-val ${valCls}">${esc(valStr)}</span></div>`;
       }).join('');
 
-      const buttons = this._buttons(agentId, h, services);
+      const buttons = this._buttons(agentId, h);
+      const links   = this._accessLinks(agentId);
 
       wrap.innerHTML = `
         <div class="controls-header">
@@ -54,35 +50,30 @@ class ControlsPanel extends Panel {
         <div class="ctrl-fields">${fieldsHtml}</div>
         <div class="ctrl-section-lbl">Issues</div>
         ${issueHtml}
+        ${links ? `<div class="ctrl-section-lbl">Access</div><div class="ctrl-links">${links}</div>` : ''}
         ${buttons ? `<div class="ctrl-section-lbl">Service Controls</div><div class="ctrl-btns">${buttons}</div>` : ''}`;
     } catch (e) {
       wrap.innerHTML = `<div class="controls-loading" style="color:var(--danger)">Failed: ${esc(String(e))}</div>`;
     }
   }
 
+  // ── Access links (the agent's own UIs, from agents.conf services) ──────────
+
+  _accessLinks(agentId) {
+    const agent    = window._dash?.store?.get(agentId);
+    const services = agent?.services || [];
+    if (!services.length) return '';
+    return services.map(s => `
+      <a class="ctrl-link" href="${esc(s.url)}" target="_blank" rel="noopener" title="${esc(s.url)}">
+        🔗 ${esc(s.name)} <span class="ctrl-link-url">${esc(s.url)}</span>
+      </a>`).join('');
+  }
+
   // ── Agent-specific button sets ────────────────────────────────────────────
 
-  _buttons(agentId, health, services = {}) {
-    if (agentId === 'db-agent') {
-      const pgUp  = health.postgres_running;
-      let html = `
-        <button class="ctrl-btn start" ${pgUp  ? 'disabled' : ''} onclick="window._dash.panels.controls.doAction('db-agent','api/db/start',this)">▶ PostgreSQL</button>
-        <button class="ctrl-btn stop"  ${!pgUp ? 'disabled' : ''} onclick="window._dash.panels.controls.doAction('db-agent','api/db/stop',this)">■ PostgreSQL</button>
-        <button class="ctrl-btn init"  ${!pgUp ? 'disabled' : ''} onclick="window._dash.panels.controls.doAction('db-agent','api/initdb/umsdb',this)"    title="Create umsdb user + database">⚙ Init umsdb</button>
-        <button class="ctrl-btn init"  ${!pgUp ? 'disabled' : ''} onclick="window._dash.panels.controls.doAction('db-agent','api/initdb/mydocsdb',this)" title="Create mydocsdb user + database">⚙ Init mydocsdb</button>`;
-      const webUp = health.pgweb_running;
-      html += `
-        <button class="ctrl-btn start" ${webUp  ? 'disabled' : ''} onclick="window._dash.panels.controls.doAction('db-agent','api/dbui/start',this)" title="Start pgweb DB browser on :8085">▶ DB UI</button>
-        <button class="ctrl-btn stop"  ${!webUp ? 'disabled' : ''} onclick="window._dash.panels.controls.doAction('db-agent','api/dbui/stop',this)"  title="Stop pgweb">■ DB UI</button>`;
-      for (const [key, svc] of Object.entries(services)) {
-        const [proj, name] = key.split('/');
-        const label        = (svc.name || name).replace(/_/g, ' ');
-        html += `
-        <button class="ctrl-btn start" onclick="window._dash.panels.controls.doAction('db-agent','api/services/${proj}/${name}/start',this)">▶ ${esc(label)}</button>
-        <button class="ctrl-btn stop"  onclick="window._dash.panels.controls.doAction('db-agent','api/services/${proj}/${name}/stop',this)">■ ${esc(label)}</button>`;
-      }
-      return html;
-    }
+  _buttons(agentId, health) {
+    // db-agent: no action buttons — the db-agent has its own UI (see _accessLinks).
+    if (agentId === 'db-agent') return '';
     if (agentId === 'ums-agent') {
       return `
         <button class="ctrl-btn start" onclick="window._dash.panels.controls.doAction('ums-agent','api/ums/start',this)">▶ Start UMS</button>
