@@ -95,8 +95,9 @@
         </div>
         <div class="detail-btns">
           <button class="btn btn-back"  onclick="window._dash.showGrid()">← Grid</button>
-          <button class="btn btn-start" id="btn-start" onclick="window._dash.startAgent()">Start</button>
-          <button class="btn btn-stop"  id="btn-stop"  onclick="window._dash.stopAgent()">Stop</button>
+          <button class="btn btn-clean" id="btn-clean-build" onclick="window._dash.cleanBuildAgent()" title="Clean the environment (.venv, caches, logs) and rebuild — use when the agent won't start">🧹 Clean &amp; Build</button>
+          <button class="btn btn-start" id="btn-start" onclick="window._dash.startAgent()">▶ Start</button>
+          <button class="btn btn-stop"  id="btn-stop"  onclick="window._dash.stopAgent()">■ Stop</button>
         </div>
       </div>
 
@@ -116,6 +117,7 @@
         <div class="tab"        data-tab="claudecode" onclick="window._dash.switchTab('claudecode')" id="tab-claudecode" style="display:none">Claude Code</div>
         <div class="tab"        data-tab="projects"     onclick="window._dash.switchTab('projects')"     id="tab-projects"     style="display:none">Projects</div>
         <div class="tab"        data-tab="dockerspace" onclick="window._dash.switchTab('dockerspace')" id="tab-dockerspace" style="display:none">Dockerspace</div>
+        <div class="tab"        data-tab="initspace"  onclick="window._dash.switchTab('initspace')"  id="tab-initspace"  style="display:none">Initialize Environment</div>
         <div class="tab"        data-tab="controls"   onclick="window._dash.switchTab('controls')"   id="tab-controls"   style="display:none">Controls</div>
         <div class="tab"        data-tab="containers" onclick="window._dash.switchTab('containers')" id="tab-containers" style="display:none">Containers</div>
         <div class="tab"        data-tab="logs"       onclick="window._dash.switchTab('logs')">Logs</div>
@@ -264,8 +266,31 @@
           <div class="cc-feed" id="cc-feed"></div>
         </div>
 
+        <!-- Initialize Environment pane (workspace agent only) -->
+        <div class="pane" id="pane-initspace">
+          <div class="ds-wrap">
+            <div class="ds-scripts" id="is-scripts">
+              <div class="ds-loading">Loading…</div>
+            </div>
+            <div class="ds-log-panel">
+              <div class="ds-log-header">
+                <span class="ds-log-title" id="is-log-title">Select a script to run</span>
+                <button class="git-btn" id="is-kill-btn" onclick="window._dash._isKill()" style="display:none">✕ Kill</button>
+                <button class="git-btn" onclick="window._dash._isCloseLog()">✕ Close</button>
+              </div>
+              <div class="ds-log-output" id="is-log-output">
+                <div class="ds-log-placeholder">Click ▶ Run on any script to execute it here.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Logs pane -->
         <div class="pane" id="pane-logs">
+          <div class="log-path-bar" id="log-path-bar" title="File being tailed">
+            <span class="log-path-label">📄 Log file:</span>
+            <span class="log-path-value" id="log-path-value">—</span>
+          </div>
           <div class="log-stream" id="log-stream"></div>
         </div>
 
@@ -474,6 +499,7 @@
 <script src="/static/js/app/panels/project-log-stream.js"></script>
 <script src="/static/js/app/panels/projects.js"></script>
 <script src="/static/js/app/panels/dockerspace.js"></script>
+<script src="/static/js/app/panels/initspace.js"></script>
 <script src="/static/js/app/panels/containers.js"></script>
 <script src="/static/js/app/panels/controls.js"></script>
 <script src="/static/js/app/panels/subagents.js"></script>

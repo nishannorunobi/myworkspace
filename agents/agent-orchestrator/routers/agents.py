@@ -95,6 +95,44 @@ async def start_agent(agent_id: str):
         return {"ok": False, "error": str(e)}
 
 
+@router.post("/{agent_id}/clean-build")
+async def clean_build_agent(agent_id: str):
+    """Run the agent's clean.sh then build.sh to recreate a fresh environment.
+
+    Used to recover an agent that won't start because of a broken environment
+    (stale .venv, missing deps, leftover processes/caches).
+    """
+    spec = registry.SPEC_BY_ID.get(agent_id)
+    if not spec:
+        return JSONResponse({"error": "not found"}, status_code=404)
+    if not (spec.home and spec.clean_script and spec.build_script):
+        return {"ok": False, "detail": "clean_script/build_script not configured for this agent"}
+    loop = asyncio.get_event_loop()
+
+    def _run(script):
+        r = subprocess.run(
+            ["bash", script],
+            cwd=spec.home, capture_output=True, text=True, timeout=300,
+        )
+        return r.returncode, _strip((r.stdout or "") + (r.stderr or ""))
+
+    try:
+        # Clean is best-effort: if there's no environment to clean (or clean fails),
+        # don't error out — just proceed to build, which recreates the environment.
+        rc, out = await loop.run_in_executor(None, _run, spec.clean_script)
+        if rc != 0:
+            out += f"\n[clean.sh exited code {rc} — proceeding to build anyway]"
+        rc, build_out = await loop.run_in_executor(None, _run, spec.build_script)
+        out = (out + "\n" + build_out)
+        if rc != 0:
+            return {"ok": False, "detail": f"build.sh exited (code {rc})", "output": out.strip()[-1500:]}
+        return {"ok": True, "detail": "Clean & build complete", "output": out.strip()[-1500:]}
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "detail": "clean/build timed out after 300s"}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
 @router.post("/{agent_id}/refresh-status")
 async def refresh_agent_status(agent_id: str):
     """Force an immediate _detect() for one agent and update its cached state."""
@@ -137,6 +175,7 @@ async def stream_logs(agent_id: str):
     spec = registry.SPEC_BY_ID.get(agent_id)
 
     async def file_gen(log_path: Path):
+        yield f"data: {json.dumps({'path': str(log_path), 'exists': log_path.exists()})}\n\n"
         if log_path.exists():
             for line in log_path.read_text().splitlines()[-100:]:
                 yield f"data: {json.dumps({'line': line + chr(10)})}\n\n"
@@ -152,6 +191,7 @@ async def stream_logs(agent_id: str):
             yield ": keepalive\n\n"
 
     async def empty_gen():
+        yield f"data: {json.dumps({'path': '', 'exists': False})}\n\n"
         yield f"data: {json.dumps({'line': 'No log source configured.\n'})}\n\n"
         while True:
             await asyncio.sleep(30)

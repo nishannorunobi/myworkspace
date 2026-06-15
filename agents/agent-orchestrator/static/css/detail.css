@@ -12,6 +12,8 @@
 .btn-stop:hover{background:#f8514922}
 .btn-back{color:var(--blue);border-color:var(--border2)}
 .btn-back:hover{border-color:var(--blue)}
+.btn-clean{color:var(--yellow);border-color:var(--yellow)}
+.btn-clean:hover{background:#d2992222}
 .btn:disabled{opacity:.35;cursor:not-allowed}
 
 /* Tabs */

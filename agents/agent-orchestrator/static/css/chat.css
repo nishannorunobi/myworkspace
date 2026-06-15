@@ -22,6 +22,10 @@
 .btn-send:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed}
 
 /* Logs */
+.log-path-bar{display:flex;align-items:center;gap:8px;padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:12px;flex-shrink:0}
+.log-path-label{color:var(--text3);flex-shrink:0}
+.log-path-value{color:var(--blue);word-break:break-all;font-family:var(--font)}
+.log-path-value.missing{color:var(--yellow)}
 .log-stream{flex:1;overflow-y:auto;padding:12px 16px;font-size:13px;line-height:1.7}
 .log-line{white-space:pre-wrap;word-break:break-all;color:var(--text2)}
 .log-line.dim{color:var(--text3);font-style:italic}

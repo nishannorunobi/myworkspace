@@ -54,6 +54,25 @@ class AgentActions {
     return true;
   }
 
+  async cleanBuild(agentId, btn) {
+    if (!agentId) return false;
+    if (!confirm('Clean the environment (.venv, caches, logs) and rebuild this agent?\nThe agent will be stopped if running.')) return false;
+    this.spinner.busy(btn);
+    try {
+      const d = await API.agents.cleanBuild(agentId);
+      if (d.ok === false) {
+        this._showError([d.detail, d.output].filter(Boolean).join('\n\n') || d.error || 'Clean & build failed');
+      }
+    } catch {
+      this._showError('Clean & build request failed');
+    }
+    this.spinner.done(btn);
+    if (btn) btn.disabled = false;
+    await this.store.load();
+    this.on.refresh?.();
+    return true;
+  }
+
   async stop(agentId, btn) {
     this.spinner.busy(btn);
     await API.agents.stop(agentId).catch(() => {});

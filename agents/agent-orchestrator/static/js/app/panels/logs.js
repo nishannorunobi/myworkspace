@@ -9,6 +9,8 @@ class LogPanel extends Panel {
   connect(agentId) {
     this.disconnect();
     this._agentId = agentId;
+    const pv = $('log-path-value');
+    if (pv) { pv.textContent = '—'; pv.className = 'log-path-value'; }
     const stream  = $('log-stream');
     if (stream) {
       stream.innerHTML = '';
@@ -23,6 +25,16 @@ class LogPanel extends Panel {
 
     this._es.onmessage = e => {
       const d = JSON.parse(e.data);
+      if (d.path !== undefined) {
+        const pv = $('log-path-value');
+        if (pv) {
+          pv.textContent = d.path || 'No log source configured';
+          pv.title       = d.path || '';
+          pv.className   = 'log-path-value' + (d.path && d.exists === false ? ' missing' : '');
+          if (d.path && d.exists === false) pv.textContent += '  (not found yet)';
+        }
+        return;
+      }
       if (!d.line) return;
       $('log-connecting-hint')?.remove();
       const div = document.createElement('div');

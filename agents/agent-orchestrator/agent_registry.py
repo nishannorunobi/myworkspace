@@ -39,6 +39,8 @@ class AgentSpec:
     home:          Optional[str] = None
     start_script:  Optional[str] = None
     stop_script:   Optional[str] = None
+    clean_script:  Optional[str] = None
+    build_script:  Optional[str] = None
     health_script: Optional[str] = None
     log_file:      Optional[str] = None
     memory_dir:    Optional[str] = None
@@ -104,6 +106,8 @@ def _load_specs() -> List[AgentSpec]:
             home=_resolve(c.get("home")),
             start_script=c.get("start_script"),
             stop_script=c.get("stop_script"),
+            clean_script=c.get("clean_script"),
+            build_script=c.get("build_script"),
             health_script=c.get("health_script"),
             log_file=_resolve(c.get("log_file")),
             memory_dir=_resolve(c.get("memory_dir")),
@@ -264,5 +268,6 @@ def get_all_info() -> List[dict]:
                 "api_url":     spec.api_url or "",
                 "sub_agents":  spec.sub_agents,
                 "hidden":      spec.hidden,
+                "can_clean_build": bool(spec.home and spec.clean_script and spec.build_script),
             })
         return result

@@ -20,6 +20,7 @@ app = FastAPI(title="Workspace Agent API")
 WORKSPACE_ROOT     = Path(__file__).resolve().parent.parent.parent.parent
 PROJECTSPACE       = WORKSPACE_ROOT / "projectspace"
 DOCKERSPACE        = WORKSPACE_ROOT / "dockerspace"
+INITSPACE          = WORKSPACE_ROOT / "init"
 PORT_FORWARDS_FILE = (
     WORKSPACE_ROOT / "agents/docker-manager-agent/docker_agent/memory/port_forwards.json"
 )
@@ -33,6 +34,10 @@ _output: dict[str, list[str]] = {}
 _ds_proc:   object | None = None
 _ds_output: list[str]     = []
 _ds_lock    = threading.Lock()
+
+_init_proc:   object | None = None
+_init_output: list[str]     = []
+_init_lock    = threading.Lock()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -388,6 +393,102 @@ def kill_script():
     global _ds_proc
     if _ds_proc and _ds_proc.poll() is None:
         _ds_proc.terminate()
+        return {"ok": True, "msg": "Process terminated"}
+    return {"ok": False, "msg": "No running process"}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Initialize Environment (init/ scripts)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _init_reader(proc):
+    for line in proc.stdout:
+        _init_output.append(line.rstrip("\n"))
+    proc.wait()
+
+
+@app.get("/api/initspace/scripts")
+def list_init_scripts():
+    if not INITSPACE.exists():
+        return {"projects": []}
+    scripts = [
+        {"label": sh.name, "abs_path": str(sh)}
+        for sh in sorted(INITSPACE.glob("*.sh"))
+    ]
+    if not scripts:
+        return {"projects": []}
+    return {"projects": [{"name": "init", "scripts": scripts}]}
+
+
+@app.post("/api/initspace/run")
+def run_init_script(body: RunBody):
+    global _init_proc, _init_output
+
+    script = Path(body.script).resolve()
+    if not str(script).startswith(str(INITSPACE)):
+        return JSONResponse({"error": "Script must be inside init/"}, status_code=403)
+    if not script.exists():
+        return JSONResponse({"error": f"Script not found: {script}"}, status_code=404)
+
+    env = os.environ.copy()
+    if body.sudo_pass:
+        env["SUDO_PASS"] = body.sudo_pass
+        env["SUDO_ASKPASS"] = ""
+
+    # Pre-fill stdin with "yes" answers when user confirmed in the UI,
+    # so scripts using `read -p "..."` don't abort waiting for terminal input.
+    if body.confirmed:
+        import os as _os
+        r_fd, w_fd = _os.pipe()
+        _os.write(w_fd, b"yes\n" * 20)
+        _os.close(w_fd)
+        stdin_arg = r_fd
+    else:
+        stdin_arg = subprocess.DEVNULL
+
+    with _init_lock:
+        if _init_proc and _init_proc.poll() is None:
+            _init_proc.terminate()
+        _init_output.clear()
+        _init_output.append(f"$ bash {script.relative_to(WORKSPACE_ROOT)}")
+        proc = subprocess.Popen(
+            ["bash", str(script)],
+            cwd=str(script.parent),
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            stdin=stdin_arg,
+            text=True, bufsize=1, env=env,
+        )
+        if body.confirmed:
+            _os.close(r_fd)
+        _init_proc = proc
+
+    threading.Thread(target=_init_reader, args=(proc,), daemon=True).start()
+
+    def generate():
+        sent = 0
+        yield ": ping\n\n"
+        while True:
+            current_len = len(_init_output)
+            for i in range(sent, current_len):
+                yield f"data: {_init_output[i]}\n\n"
+            sent = current_len
+            if proc.poll() is not None and sent >= len(_init_output):
+                rc = proc.returncode
+                yield "data: \n\n"
+                yield f"data: [exit code {rc}]\n\n"
+                yield "data: __done__\n\n"
+                return
+            time.sleep(0.15)
+
+    return StreamingResponse(generate(), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+@app.post("/api/initspace/kill")
+def kill_init_script():
+    global _init_proc
+    if _init_proc and _init_proc.poll() is None:
+        _init_proc.terminate()
         return {"ok": True, "msg": "Process terminated"}
     return {"ok": False, "msg": "No running process"}
 

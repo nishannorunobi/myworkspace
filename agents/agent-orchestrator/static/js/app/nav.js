@@ -143,6 +143,7 @@ class NavController {
     show('tab-claudecode',  isWorkspace);
     show('tab-projects',    isWorkspace);
     show('tab-dockerspace', isWorkspace);
+    show('tab-initspace',   isWorkspace);
   }
 
   // ── Tab switching ─────────────────────────────────────────────────────────
@@ -169,6 +170,7 @@ class NavController {
     }
     if (name === 'projects')         this.panels.projects.load();
     if (name === 'dockerspace')      this.panels.dockerspace.load();
+    if (name === 'initspace')        this.panels.initspace.load();
     if (name === 'apidocs') {
       const frame = document.getElementById('apidocs-frame');
       if (frame && this._currentDocsUrl && !frame.src.endsWith('/docs')) {

@@ -42,16 +42,13 @@ echo ""
 # ── Project list ──────────────────────────────────────────────────────────────
 # Format: "folder_name|git_remote_url"
 PROJECTS=(
-    "myapigw|git@github.com:nishannorunobi/myapigw.git"
     "mycache|git@github.com:nishannorunobi/mycache.git"
     "mychannels|git@github.com:nishannorunobi/mychannels.git"
     "mydocs|git@github.com:nishannorunobi/mydocs.git"
     "mylog_analytics|git@github.com:nishannorunobi/mylog_analytics.git"
     "mypostgresql_db|git@github.com:nishannorunobi/mypostgresql_db.git"
-    "pc-maker|git@github.com:nishannorunobi/pc-maker.git"
-    "ums|git@github.com:nishannorunobi/ums.git"
+    "myodoo|git@github.com:nishannorunobi/myodoo.git"
 )
-
 CLONED=0
 PULLED=0
 SKIPPED=0

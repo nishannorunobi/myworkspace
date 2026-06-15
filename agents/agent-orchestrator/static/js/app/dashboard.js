@@ -18,6 +18,7 @@ class Dashboard {
       console:     new ConsolePanel(),
       projects:    new ProjectsPanel(this.spinner),
       dockerspace: new DockerscriptPanel(),
+      initspace:   new InitspacePanel(),
       containers:  new ContainersPanel(this.spinner),
       controls:    new ControlsPanel(this.spinner),
       settings:    new SettingsPanel(this.alerts),
@@ -110,6 +111,7 @@ class Dashboard {
 
   startAgent()      { this.actions.start(this.nav.selectedId(), $('btn-start')); }
   stopAgent()       { this.actions.stop(this.nav.selectedId(),  $('btn-stop')); }
+  cleanBuildAgent() { this.actions.cleanBuild(this.nav.selectedId(), $('btn-clean-build')); }
   stopAllAgents()   { this.actions.stopAll($('btn-stop-all')); }
 
   openSettings()    { this.panels.settings.open(); }
@@ -144,6 +146,11 @@ class Dashboard {
   _dsRun(path, label)   { this.panels.dockerspace.run(path, label); }
   _dsKill()             { this.panels.dockerspace.kill(); }
   _dsCloseLog()         { this.panels.dockerspace.closeLog(); }
+
+  _loadInitscripts()    { this.panels.initspace.load(); }
+  _isRun(path, label)   { this.panels.initspace.run(path, label); }
+  _isKill()             { this.panels.initspace.kill(); }
+  _isCloseLog()         { this.panels.initspace.closeLog(); }
 
   refreshContainers()   { this.panels.containers.refresh(); }
   _containerAction(agentId, name, act, btn) { this.panels.containers.action(agentId, name, act, btn); }
