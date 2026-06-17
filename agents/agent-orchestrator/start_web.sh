@@ -28,8 +28,6 @@ fi
 source ../shared.conf
 source server.conf
 
-[ -n "${ANTHROPIC_API_KEY:-}" ] || { echo -e "${RED}[ERROR]${RESET} ANTHROPIC_API_KEY not set in environment — run: export ANTHROPIC_API_KEY=..."; exit 1; }
-
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8888}"
 LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/agent-orchestrator"

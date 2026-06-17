@@ -40,9 +40,6 @@ if [ -d ".venv" ]; then
 fi
 
 [ -f "../shared.conf" ] && pass "shared.conf exists" || fail "shared.conf not found at agents/shared.conf"
-[ -n "${ANTHROPIC_API_KEY:-}" ] \
-    && pass "ANTHROPIC_API_KEY set (${ANTHROPIC_API_KEY:0:10}...)" \
-    || fail "ANTHROPIC_API_KEY not set in environment"
 
 if [ -d "static" ] && [ -f "static/index.html" ]; then
     pass "static/ assets present"

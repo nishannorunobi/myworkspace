@@ -25,7 +25,6 @@ fi
 [ -f "../shared.conf" ] || { echo -e "${RED}[ERROR]${RESET} ../shared.conf not found."; exit 1; }
 
 source ../shared.conf
-[ -n "${ANTHROPIC_API_KEY:-}" ] || { echo -e "${RED}[ERROR]${RESET} ANTHROPIC_API_KEY not set in environment — run: export ANTHROPIC_API_KEY=..."; exit 1; }
 
 if pgrep -f "workspace/agent.py --daemon" &>/dev/null; then
     echo -e "${GREEN}[  OK  ]${RESET} Workspace agent already running (PID $(pgrep -f "workspace/agent.py --daemon" | head -1))."

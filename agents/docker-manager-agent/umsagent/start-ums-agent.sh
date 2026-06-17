@@ -29,15 +29,6 @@ if ! docker exec "$CONTAINER" bash -c "$AGENT_DIR/.venv/bin/python3 --version" &
     docker exec "$CONTAINER" bash "$AGENT_DIR/build.sh"
 fi
 
-# Inject API key from shared.conf into the container's agent.conf (idempotent)
-if [ -f "$SHARED_CONF" ]; then
-    source "$SHARED_CONF"
-    docker exec "$CONTAINER" bash -c "
-        grep -q 'ANTHROPIC_API_KEY' $AGENT_DIR/agent.conf 2>/dev/null \
-            && sed -i 's|^ANTHROPIC_API_KEY=.*|ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY|' $AGENT_DIR/agent.conf \
-            || echo 'ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY' >> $AGENT_DIR/agent.conf"
-fi
-
 # Kill any existing ums-agent uvicorn (idempotent).
 # The [u]vicorn bracket trick prevents pkill from matching its own command line.
 docker exec "$CONTAINER" bash -c \

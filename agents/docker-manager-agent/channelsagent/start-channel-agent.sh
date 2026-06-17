@@ -28,14 +28,6 @@ if ! docker exec "$CONTAINER" sh -c "test -f $AGENT_DIR/.venv/bin/uvicorn" &>/de
     docker exec "$CONTAINER" sh "$AGENT_DIR/build.sh"
 fi
 
-# Inject API key from shared.conf into the container's agent.conf (idempotent)
-if [ -n "${ANTHROPIC_API_KEY:-}" ]; then
-    docker exec "$CONTAINER" sh -c "
-        grep -q 'ANTHROPIC_API_KEY' $AGENT_DIR/agent.conf 2>/dev/null \
-            && sed -i 's|^ANTHROPIC_API_KEY=.*|ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY|' $AGENT_DIR/agent.conf \
-            || echo 'ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY' >> $AGENT_DIR/agent.conf"
-fi
-
 # Kill any existing channel-agent uvicorn (idempotent).
 # The [u]vicorn bracket trick prevents pkill from matching its own command line.
 docker exec "$CONTAINER" sh -c \

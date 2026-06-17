@@ -27,9 +27,6 @@ echo -e "\n${BOLD}Docker Orchestrator Agent — Health Check${RESET}\n"
 command -v docker &>/dev/null && pass "docker CLI found" || fail "docker not found"
 [ -d ".venv" ]              && pass ".venv exists"       || fail ".venv missing — run ./build.sh"
 [ -f "../shared.conf" ] && pass "shared.conf found" || fail "shared.conf not found"
-[ -n "${ANTHROPIC_API_KEY:-}" ] \
-    && pass "ANTHROPIC_API_KEY set (${ANTHROPIC_API_KEY:0:10}...)" \
-    || fail "ANTHROPIC_API_KEY not set in environment"
 
 if curl -sf "http://localhost:${PORT}/health" &>/dev/null; then
     pass "Server is responding on port ${PORT}"

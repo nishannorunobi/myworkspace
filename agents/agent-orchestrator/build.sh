@@ -40,7 +40,7 @@ success "Dependencies installed"
 
 [ -f "../shared.conf" ] \
     && success "shared.conf found" \
-    || warn "shared.conf not found at agents/shared.conf — set ANTHROPIC_API_KEY there"
+    || warn "shared.conf not found at agents/shared.conf"
 
 mkdir -p memory
 success "memory/ directory ready"
