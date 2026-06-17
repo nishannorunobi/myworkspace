@@ -36,7 +36,7 @@ LOG_LEVEL="${LOG_LEVEL:-info}"
 LOG_FILE="$LOG_DIR/server_py.log"
 
 mkdir -p "$LOG_DIR"
-touch "$LOG_FILE"   # create if missing, never overwrite existing
+touch "$LOG_FILE" 2>/dev/null || true   # create if possible; never abort
 
 echo -e "\n${BOLD}╔══════════════════════════════════════════╗${RESET}"
 echo -e "${BOLD}║     Dashboard Agent — Web UI             ║${RESET}"

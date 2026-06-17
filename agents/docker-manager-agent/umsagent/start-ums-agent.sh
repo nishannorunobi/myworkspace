@@ -36,7 +36,7 @@ docker exec "$CONTAINER" bash -c \
 
 # Start fresh; route logs to mountspace on the host via nohup+disown.
 mkdir -p "$(dirname "$LOG_FILE")"
-touch "$LOG_FILE"   # create if missing, never overwrite existing
+touch "$LOG_FILE" 2>/dev/null || true   # create if possible; never abort
 docker exec "$CONTAINER" bash -c \
     "cd $AGENT_DIR && source agent.conf && \
      .venv/bin/uvicorn server:app \

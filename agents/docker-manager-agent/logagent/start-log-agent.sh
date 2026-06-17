@@ -38,19 +38,20 @@ docker exec "$CONTAINER" bash -c "
     [ -n \"\$pid\" ] && kill \$pid 2>/dev/null || true
 " 2>/dev/null || true
 
-# Uvicorn mirror log: projectspace/mylog_analytics/log-agent/server_py.log
+# server_py.log is written by the log-agent's own loguru sink INSIDE the container
+# (runs as root). The host must not create or redirect to it: that dir is root-owned,
+# so a host-side touch/redirect fails with "Permission denied" and — under `set -e` —
+# aborts startup before uvicorn ever launches.
 UVICORN_LOG="$WORKSPACE_ROOT/mountspace/logs/myworkspace/projectspace/mylog_analytics/log-agent/server_py.log"
-mkdir -p "$(dirname "$UVICORN_LOG")"
-touch "$UVICORN_LOG"   # create if missing, never overwrite existing
 
 # ── Start log-agent ───────────────────────────────────────────────────────────
-echo "[start-log-agent] Launching log-agent (log → $UVICORN_LOG)..."
+echo "[start-log-agent] Launching log-agent (server log → $UVICORN_LOG, written by the container)..."
 docker exec "$CONTAINER" bash -c \
     "cd $AGENT_PATH && source agent.conf 2>/dev/null || true && \
      .venv/bin/uvicorn server:app --host 0.0.0.0 --port 8893 --workers 1 --no-use-colors" \
     < /dev/null 2>&1 \
     | awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' \
-    | tee -a "$LOG_FILE" >> "$UVICORN_LOG" &
+    | tee -a "$LOG_FILE" &
 disown
 
 echo "[start-log-agent] Log agent started. Dashboard: http://localhost:8893"

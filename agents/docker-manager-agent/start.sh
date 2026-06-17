@@ -37,7 +37,7 @@ LOG_LEVEL="${LOG_LEVEL:-info}"
 LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/myworkspace/agents/docker-manager-agent/docker_agent/server_py.log"
 
 mkdir -p "$(dirname "$LOG_FILE")"
-touch "$LOG_FILE"   # create if missing, never overwrite existing
+touch "$LOG_FILE" 2>/dev/null || true   # create if possible; never abort
 
 echo -e "\n${BOLD}╔══════════════════════════════════════════╗${RESET}"
 echo -e "${BOLD}║   Docker Manager Agent                   ║${RESET}"

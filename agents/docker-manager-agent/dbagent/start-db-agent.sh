@@ -39,13 +39,14 @@ fi
 docker exec "$CONTAINER" bash -c \
     "pkill -f '[u]vicorn server:app' 2>/dev/null; sleep 0.3; echo ok"
 
-# Uvicorn mirror log: projectspace/mypostgresql_db/db-agent/server_py.log
+# server_py.log is written by the db-agent's own loguru sink INSIDE the container
+# (runs as root). The host must not create or redirect to it: that dir is root-owned,
+# so a host-side touch/redirect fails with "Permission denied" and — under `set -e` —
+# aborts startup before uvicorn ever launches.
 UVICORN_LOG="$WORKSPACE_ROOT/mountspace/logs/myworkspace/projectspace/mypostgresql_db/db-agent/server_py.log"
-mkdir -p "$(dirname "$UVICORN_LOG")"
-touch "$UVICORN_LOG"   # create if missing, never overwrite existing
 
-# Start fresh; pipe uvicorn output to both the script log and the dedicated server log.
-echo "[start-db-agent] Launching uvicorn (log → $UVICORN_LOG)..."
+# Start fresh; pipe uvicorn output to the host start log (the container writes server_py.log itself).
+echo "[start-db-agent] Launching uvicorn (server log → $UVICORN_LOG, written by the container)..."
 docker exec "$CONTAINER" bash -c \
     "cd $AGENT_DIR && source agent.conf && \
      .venv/bin/uvicorn server:app \
@@ -53,7 +54,7 @@ docker exec "$CONTAINER" bash -c \
         --no-use-colors --access-log" \
     < /dev/null 2>&1 \
     | awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' \
-    | tee -a "$LOG_FILE" >> "$UVICORN_LOG" &
+    | tee -a "$LOG_FILE" &
 disown
 
 echo "[OK] DB agent started inside $CONTAINER."
