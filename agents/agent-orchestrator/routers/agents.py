@@ -133,6 +133,39 @@ async def clean_build_agent(agent_id: str):
         return {"ok": False, "error": str(e)}
 
 
+@router.post("/{agent_id}/upload")
+async def upload_agent(agent_id: str):
+    """Replicate the local agent source into the running container (no rebuild).
+
+    The container's source is baked into the image (not bind-mounted), so during
+    development this pushes local fixes into the running container. Click Start
+    afterwards to restart the agent on the uploaded code.
+    """
+    spec = registry.SPEC_BY_ID.get(agent_id)
+    if not spec:
+        return JSONResponse({"error": "not found"}, status_code=404)
+    if not (spec.home and spec.upload_script):
+        return {"ok": False, "detail": "upload_script not configured for this agent"}
+    loop = asyncio.get_event_loop()
+
+    def _run():
+        r = subprocess.run(
+            ["bash", spec.upload_script],
+            cwd=spec.home, capture_output=True, text=True, timeout=120,
+        )
+        return r.returncode, _strip((r.stdout or "") + (r.stderr or ""))
+
+    try:
+        rc, out = await loop.run_in_executor(None, _run)
+        if rc != 0:
+            return {"ok": False, "detail": f"upload.sh exited (code {rc})", "output": out.strip()[-1500:]}
+        return {"ok": True, "detail": "Uploaded — click Start to restart on the new code", "output": out.strip()[-1500:]}
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "detail": "upload timed out after 120s"}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
 @router.post("/{agent_id}/refresh-status")
 async def refresh_agent_status(agent_id: str):
     """Force an immediate _detect() for one agent and update its cached state."""

@@ -112,6 +112,7 @@ class Dashboard {
   startAgent()      { this.actions.start(this.nav.selectedId(), $('btn-start')); }
   stopAgent()       { this.actions.stop(this.nav.selectedId(),  $('btn-stop')); }
   cleanBuildAgent() { this.actions.cleanBuild(this.nav.selectedId(), $('btn-clean-build')); }
+  uploadAgent()     { this.actions.upload(this.nav.selectedId(), $('btn-upload')); }
   stopAllAgents()   { this.actions.stopAll($('btn-stop-all')); }
 
   openSettings()    { this.panels.settings.open(); }

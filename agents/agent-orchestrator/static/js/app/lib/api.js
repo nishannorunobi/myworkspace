@@ -12,6 +12,7 @@ const API = {
     start:    id                => API._post(`/api/agents/${id}/start`),
     stop:     id                => API._post(`/api/agents/${id}/stop`),
     cleanBuild: id              => API._post(`/api/agents/${id}/clean-build`),
+    upload:     id              => API._post(`/api/agents/${id}/upload`),
     stopAll:  ()                => API._post('/api/agents/stop-all'),
     logsUrl:  id                => `/api/agents/${id}/logs`,
     subagents: id               => API._get(`/api/agents/${id}/sub-agents`),

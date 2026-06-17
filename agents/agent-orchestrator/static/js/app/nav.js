@@ -119,6 +119,10 @@ class NavController {
     $('detail-sub').textContent  = `${agent.status} · uptime: ${agent.uptime}`;
     $('btn-start').disabled      = agent.status === 'running';
     $('btn-stop').disabled       = agent.status !== 'running';
+    // Upload: shown only for upload-capable agents; never disabled by run state —
+    // it copies into the container and is meant to be used while the agent is stopped.
+    const up = $('btn-upload');
+    if (up) up.style.display = agent.can_upload ? '' : 'none';
   }
 
   // ── Tab visibility ────────────────────────────────────────────────────────

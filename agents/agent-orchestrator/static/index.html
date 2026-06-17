@@ -96,6 +96,7 @@
         <div class="detail-btns">
           <button class="btn btn-back"  onclick="window._dash.showGrid()">← Grid</button>
           <button class="btn btn-clean" id="btn-clean-build" onclick="window._dash.cleanBuildAgent()" title="Clean the environment (.venv, caches, logs) and rebuild — use when the agent won't start">🧹 Clean &amp; Build</button>
+          <button class="btn btn-upload" id="btn-upload" onclick="window._dash.uploadAgent()" style="display:none" title="Replicate local source into the running container (no rebuild). Works while the agent is stopped, as long as the container is up. Click Start afterwards.">⬆ Upload</button>
           <button class="btn btn-start" id="btn-start" onclick="window._dash.startAgent()">▶ Start</button>
           <button class="btn btn-stop"  id="btn-stop"  onclick="window._dash.stopAgent()">■ Stop</button>
         </div>

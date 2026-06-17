@@ -41,6 +41,7 @@ class AgentSpec:
     stop_script:   Optional[str] = None
     clean_script:  Optional[str] = None
     build_script:  Optional[str] = None
+    upload_script: Optional[str] = None
     health_script: Optional[str] = None
     log_file:      Optional[str] = None
     memory_dir:    Optional[str] = None
@@ -108,6 +109,7 @@ def _load_specs() -> List[AgentSpec]:
             stop_script=c.get("stop_script"),
             clean_script=c.get("clean_script"),
             build_script=c.get("build_script"),
+            upload_script=c.get("upload_script"),
             health_script=c.get("health_script"),
             log_file=_resolve(c.get("log_file")),
             memory_dir=_resolve(c.get("memory_dir")),
@@ -270,5 +272,6 @@ def get_all_info() -> List[dict]:
                 "hidden":      spec.hidden,
                 "services":    spec.services,
                 "can_clean_build": bool(spec.home and spec.clean_script and spec.build_script),
+                "can_upload":      bool(spec.home and spec.upload_script),
             })
         return result

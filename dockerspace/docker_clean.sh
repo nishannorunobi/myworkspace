@@ -28,7 +28,13 @@ echo "  • All volumes"
 echo "  • All custom networks"
 echo "  • All build cache"
 echo ""
-read -rp "Are you sure? (yes/no): " confirm
+# Print the prompt through the SAME stream as the warnings (the log pipe is FIFO,
+# so it stays in order) and give it a trailing newline so the line-buffered awk in
+# setup_logging actually flushes it — a newline-less `read -p` prompt gets buffered
+# forever and never shows, which looked like the script was stuck. Reading from
+# stdin works for both callers: the terminal (keyboard) and the UI (piped "yes").
+echo "Type 'yes' to confirm: "
+read -r confirm
 if [ "$confirm" != "yes" ]; then
     echo "Aborted."
     exit 0

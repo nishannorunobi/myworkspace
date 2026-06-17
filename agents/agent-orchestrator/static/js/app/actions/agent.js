@@ -73,6 +73,26 @@ class AgentActions {
     return true;
   }
 
+  // Replicate local source into the running container (no rebuild). Works while the
+  // agent is stopped — only needs the container up (upload.sh checks that).
+  async upload(agentId, btn) {
+    if (!agentId) return false;
+    this.spinner.busy(btn);
+    try {
+      const d = await API.agents.upload(agentId);
+      const ok = d.ok !== false && !d.error;
+      this._showBanner(
+        [d.detail, d.output].filter(Boolean).join('\n\n') || d.error || (ok ? 'Uploaded' : 'Upload failed'),
+        ok,
+      );
+    } catch {
+      this._showBanner('Upload request failed', false);
+    }
+    this.spinner.done(btn);
+    if (btn) btn.disabled = false;
+    return true;
+  }
+
   async stop(agentId, btn) {
     this.spinner.busy(btn);
     await API.agents.stop(agentId).catch(() => {});
@@ -114,15 +134,18 @@ class AgentActions {
     this.on.refresh?.();
   }
 
-  _showError(msg) {
+  _showError(msg) { this._showBanner(msg, false); }
+
+  // Banner under the detail header. ok=true → success styling, auto-dismiss sooner.
+  _showBanner(msg, ok = false) {
     $('start-error-banner')?.remove();
     const div = Object.assign(document.createElement('div'), {
       id: 'start-error-banner',
-      className: 'start-error-banner',
+      className: `start-error-banner${ok ? ' ok' : ''}`,
       textContent: msg,
     });
     $('detail-hdr')?.insertAdjacentElement('afterend', div);
-    setTimeout(() => div.remove(), 10000);
+    setTimeout(() => div.remove(), ok ? 6000 : 10000);
   }
 }
 

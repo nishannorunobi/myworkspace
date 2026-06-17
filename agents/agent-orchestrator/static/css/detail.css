@@ -29,3 +29,4 @@
 
 /* ── Start-error banner ── */
 .start-error-banner{background:#3b0d0d;border:1px solid #7d1a1a;color:#ff8a80;font-size:12px;padding:8px 14px;white-space:pre-wrap;word-break:break-word;max-height:140px;overflow-y:auto;flex-shrink:0}
+.start-error-banner.ok{background:#0d3b1a;border-color:#1a7d3a;color:#80ffab}

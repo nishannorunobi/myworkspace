@@ -70,7 +70,12 @@ echo ""
 # ── Confirmation (UI pre-fills 'yes' on stdin; -y skips entirely) ──────────────
 if [ "$FORCE" != true ]; then
     warn "This is irreversible. Uncommitted or unpushed work will be lost."
-    read -r -p "Type 'yes' to remove all of the above: " ANSWER || ANSWER=""
+    # Prompt via echo (newline-terminated) so the line-buffered awk in setup_logging
+    # flushes it in order; a newline-less `read -p` prompt buffers forever and the
+    # script looks stuck in the terminal. stdin still answers both ways: keyboard
+    # in the terminal, or the "yes" the UI pipes in.
+    echo "Type 'yes' to remove all of the above: "
+    read -r ANSWER || ANSWER=""
     if [ "$ANSWER" != "yes" ]; then
         info "Aborted — nothing was removed."
         echo ""
