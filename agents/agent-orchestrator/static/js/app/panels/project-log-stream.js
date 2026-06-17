@@ -37,6 +37,11 @@ class ProjectLogStream {
           if (!chunk.startsWith('data: ')) continue;
           const line = chunk.slice(6);
           if (line === '__done__') { reader.cancel(); return; }
+          if (line.startsWith('__LOGPATH__')) {
+            const t = $('project-log-title');
+            if (t) t.textContent = line.slice('__LOGPATH__'.length);
+            continue;
+          }
           append(line);
         }
       }

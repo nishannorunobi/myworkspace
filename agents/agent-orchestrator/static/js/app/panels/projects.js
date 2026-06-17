@@ -72,7 +72,7 @@ class ProjectsPanel extends Panel {
         return;
       }
       const logTitle = $('project-log-title');
-      if (logTitle) logTitle.textContent = `${name} — log`;
+      if (logTitle) logTitle.textContent = data.log_file || `${name} — log`;
     } catch (e) {
       const logDiv = $('project-log');
       if (logDiv) logDiv.innerHTML = `<div class="proj-log-line err">${esc(String(e))}</div>`;
@@ -90,12 +90,16 @@ class ProjectsPanel extends Panel {
     this._logUI(`${name} — stopping…`);
     this._logStream.abort();
     try {
-      const data = await fetch(`/api/workspace/projects/${name}/stop`, { method:'POST' }).then(r => r.json());
-      const el   = document.createElement('div');
-      el.className  = data.ok ? 'proj-log-line' : 'proj-log-line err';
-      el.textContent = data.output || data.error || (data.ok ? 'Stopped' : 'Failed');
-      const logDiv = $('project-log'); if (logDiv) logDiv.appendChild(el);
-      const logTitle = $('project-log-title'); if (logTitle) logTitle.textContent = `${name} — stopped`;
+      const data   = await fetch(`/api/workspace/projects/${name}/stop`, { method:'POST' }).then(r => r.json());
+      const logDiv = $('project-log');
+      const lines  = (data.output || data.error || (data.ok ? 'Stopped' : 'Failed')).split('\n');
+      lines.forEach(line => {
+        const el = document.createElement('div');
+        el.className   = data.ok ? 'proj-log-line' : 'proj-log-line err';
+        el.textContent = line;
+        if (logDiv) logDiv.appendChild(el);
+      });
+      const logTitle = $('project-log-title'); if (logTitle) logTitle.textContent = data.log_file || `${name} — stopped`;
     } catch (e) {
       const logDiv = $('project-log');
       if (logDiv) logDiv.innerHTML = `<div class="proj-log-line err">${esc(String(e))}</div>`;
@@ -131,7 +135,7 @@ class ProjectsPanel extends Panel {
         el.textContent = line;
         if (logDiv) logDiv.appendChild(el);
       });
-      const logTitle = $('project-log-title'); if (logTitle) logTitle.textContent = `${name} — health ${data.ok ? '✓ ok' : '✗ failed'}`;
+      const logTitle = $('project-log-title'); if (logTitle) logTitle.textContent = data.log_file || `${name} — health ${data.ok ? '✓ ok' : '✗ failed'}`;
     } catch (e) {
       if (logDiv) logDiv.innerHTML = `<div class="proj-log-line err">${esc(String(e))}</div>`;
     }

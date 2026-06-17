@@ -122,6 +122,7 @@ class InitspacePanel extends Panel {
     if (killBtn)   killBtn.style.display = '';
 
     this._logCtrl = new AbortController();
+    let logPath   = '';
     const append  = text => {
       const el = document.createElement('div');
       el.className   = 'ds-log-line';
@@ -151,9 +152,14 @@ class InitspacePanel extends Panel {
           const line = chunk.slice(6);
           if (line === '__done__') {
             reader.cancel();
-            if (logTitle) logTitle.textContent  = `Done: ${label}`;
+            if (logTitle) logTitle.textContent  = logPath ? `✓ ${logPath}` : `Done: ${label}`;
             if (killBtn)  killBtn.style.display = 'none';
             return;
+          }
+          if (line.startsWith('__LOGPATH__')) {
+            logPath = line.slice('__LOGPATH__'.length);
+            if (logTitle) logTitle.textContent = logPath;
+            continue;
           }
           append(line);
         }

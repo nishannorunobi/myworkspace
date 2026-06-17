@@ -40,6 +40,25 @@ _init_output: list[str]     = []
 _init_lock    = threading.Lock()
 
 
+# ── Mirror log path (same convention as init/create_logging_path.sh) ───────────
+def _mirror_log_path(script_abs: str) -> str:
+    """Host log path that the given script mirrors to under mountspace/logs.
+
+    e.g. projectspace/mypostgresql_db/dockerspace/start.sh →
+         <ws>/mountspace/logs/myworkspace/projectspace/mypostgresql_db/dockerspace/start_sh.log
+    """
+    p = Path(script_abs).resolve()
+    try:
+        rel = p.relative_to(WORKSPACE_ROOT)
+    except ValueError:
+        rel = Path(p.name)
+    ext      = p.suffix.lstrip(".")
+    log_name = f"{p.stem}_{ext}.log" if ext else f"{p.stem}.log"
+    base     = WORKSPACE_ROOT / "mountspace" / "logs" / WORKSPACE_ROOT.name
+    log_dir  = base if str(rel.parent) == "." else base / rel.parent
+    return str(log_dir / log_name)
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Health
 # ─────────────────────────────────────────────────────────────────────────────
@@ -170,7 +189,7 @@ def start_project(name: str):
     )
     _procs[name] = proc
     threading.Thread(target=_reader, args=(name, proc), daemon=True).start()
-    return {"ok": True, "script": script}
+    return {"ok": True, "script": script, "log_file": _mirror_log_path(script)}
 
 
 @app.post("/api/workspace/projects/{name}/stop")
@@ -187,7 +206,7 @@ def stop_project(name: str):
                 capture_output=True, text=True, timeout=60,
             )
             output = (result.stdout + result.stderr).strip()
-            return {"ok": True, "output": output or "Stop script completed"}
+            return {"ok": True, "output": output or "Stop script completed", "log_file": _mirror_log_path(script)}
         except subprocess.TimeoutExpired:
             return JSONResponse({"error": "Stop script timed out"}, status_code=500)
     proc = _procs.get(name)
@@ -239,7 +258,7 @@ def health_project(name: str):
             capture_output=True, text=True, timeout=15,
         )
         output = (result.stdout + result.stderr).strip()
-        return {"ok": result.returncode == 0, "output": output or "(no output)"}
+        return {"ok": result.returncode == 0, "output": output or "(no output)", "log_file": _mirror_log_path(script)}
     except subprocess.TimeoutExpired:
         return JSONResponse({"error": "Health check timed out"}, status_code=500)
 
@@ -267,6 +286,7 @@ def stream_docker_logs(name: str):
     else:
         return JSONResponse({"error": "No logs.sh or docker-compose.yml found"}, status_code=400)
     _output[name] = []
+    _log_path = _mirror_log_path(logs_script or str(compose_file))
     proc = subprocess.Popen(
         cmd, cwd=cwd,
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
@@ -279,6 +299,7 @@ def stream_docker_logs(name: str):
     def generate():
         sent = 0
         yield ": ping\n\n"
+        yield f"data: __LOGPATH__{_log_path}\n\n"
         while True:
             current_len = len(output)
             for i in range(sent, current_len):
@@ -368,9 +389,12 @@ def run_script(body: RunBody):
 
     threading.Thread(target=_ds_reader, args=(proc,), daemon=True).start()
 
+    _ds_log_path = _mirror_log_path(str(script))
+
     def generate():
         sent = 0
         yield ": ping\n\n"
+        yield f"data: __LOGPATH__{_ds_log_path}\n\n"
         while True:
             current_len = len(_ds_output)
             for i in range(sent, current_len):
@@ -464,9 +488,12 @@ def run_init_script(body: RunBody):
 
     threading.Thread(target=_init_reader, args=(proc,), daemon=True).start()
 
+    _init_log_path = _mirror_log_path(str(script))
+
     def generate():
         sent = 0
         yield ": ping\n\n"
+        yield f"data: __LOGPATH__{_init_log_path}\n\n"
         while True:
             current_len = len(_init_output)
             for i in range(sent, current_len):
