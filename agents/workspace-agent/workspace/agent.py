@@ -216,6 +216,11 @@ _HIST_TRIM = 40
 
 
 def run_agent(user_message: str, history: list, session_id: str = "") -> list:
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        print(f"{RED}Error:{RESET} ANTHROPIC_API_KEY not set in agent.conf — "
+              f"cannot run chat/LLM. Set it to enable this feature.")
+        return history
+
     import db as _db_mod
     _db_mod.init()
 
@@ -408,8 +413,9 @@ def daemon_loop():
 
 if __name__ == "__main__":
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        print(f"{RED}Error:{RESET} ANTHROPIC_API_KEY not set in agent.conf")
-        sys.exit(1)
+        print(f"{YELLOW}Warning:{RESET} ANTHROPIC_API_KEY not set in agent.conf — "
+              f"chat/LLM features are disabled; the agent will still run. "
+              f"Set it to enable chat.")
 
     MEMORY_DIR.mkdir(exist_ok=True)
 
