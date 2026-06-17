@@ -30,12 +30,13 @@ source server.conf
 
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8888}"
-LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/agent-orchestrator"
+LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/myworkspace/agents/agent-orchestrator"
 export LOG_DIR
 LOG_LEVEL="${LOG_LEVEL:-info}"
-LOG_FILE="$LOG_DIR/server.log"
+LOG_FILE="$LOG_DIR/server_py.log"
 
 mkdir -p "$LOG_DIR"
+touch "$LOG_FILE"   # create if missing, never overwrite existing
 
 echo -e "\n${BOLD}╔══════════════════════════════════════════╗${RESET}"
 echo -e "${BOLD}║     Dashboard Agent — Web UI             ║${RESET}"

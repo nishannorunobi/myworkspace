@@ -42,6 +42,7 @@ docker exec "$CONTAINER" bash -c \
 # Uvicorn mirror log: projectspace/mypostgresql_db/db-agent/server_py.log
 UVICORN_LOG="$WORKSPACE_ROOT/mountspace/logs/myworkspace/projectspace/mypostgresql_db/db-agent/server_py.log"
 mkdir -p "$(dirname "$UVICORN_LOG")"
+touch "$UVICORN_LOG"   # create if missing, never overwrite existing
 
 # Start fresh; pipe uvicorn output to both the script log and the dedicated server log.
 echo "[start-db-agent] Launching uvicorn (log → $UVICORN_LOG)..."

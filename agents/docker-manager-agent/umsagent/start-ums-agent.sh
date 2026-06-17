@@ -15,7 +15,7 @@ WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 CONTAINER="ums-app"
 AGENT_DIR="/ums/ums-agent"
 SHARED_CONF="$SCRIPT_DIR/../../shared.conf"
-LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/ums-agent/server.log"
+LOG_FILE="$WORKSPACE_ROOT/mountspace/logs/myworkspace/agents/docker-manager-agent/umsagent/server_py.log"
 
 if ! docker inspect "$CONTAINER" --format '{{.State.Running}}' 2>/dev/null | grep -q true; then
     echo "[ERROR] Container $CONTAINER is not running." >&2
@@ -36,6 +36,7 @@ docker exec "$CONTAINER" bash -c \
 
 # Start fresh; route logs to mountspace on the host via nohup+disown.
 mkdir -p "$(dirname "$LOG_FILE")"
+touch "$LOG_FILE"   # create if missing, never overwrite existing
 docker exec "$CONTAINER" bash -c \
     "cd $AGENT_DIR && source agent.conf && \
      .venv/bin/uvicorn server:app \

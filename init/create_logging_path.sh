@@ -16,7 +16,7 @@
 #   _REL_DIR="$(dirname "${_SELF_ABS#${CONTAINER_WORKDIR:-}/}")"
 #   [ "$_REL_DIR" = "." ] && _REL_DIR="" || _REL_DIR="/$_REL_DIR"
 #   LOG_FILE="${LOG_MIRROR_ROOT:-/tmp/logs}${_REL_DIR}/${_STEM}_${_EXT}.log"
-#   mkdir -p "$(dirname "$LOG_FILE")" && export LOG_FILE
+#   mkdir -p "$(dirname "$LOG_FILE")" && touch "$LOG_FILE" && export LOG_FILE
 #   exec > >(awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' | tee -a "$LOG_FILE") 2>&1
 #   echo "[logging] → $LOG_FILE"
 #
@@ -97,6 +97,7 @@ setup_logging() {
 
     LOG_FILE="$(get_mirror_log_path "$script_abs")"
     mkdir -p "$(dirname "$LOG_FILE")"
+    touch "$LOG_FILE"   # force-create the log file even if nothing is written yet
 
     exec > >(awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0; fflush() }' | tee -a "$LOG_FILE") 2>&1
 

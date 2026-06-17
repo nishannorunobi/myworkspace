@@ -41,6 +41,7 @@ docker exec "$CONTAINER" bash -c "
 # Uvicorn mirror log: projectspace/mylog_analytics/log-agent/server_py.log
 UVICORN_LOG="$WORKSPACE_ROOT/mountspace/logs/myworkspace/projectspace/mylog_analytics/log-agent/server_py.log"
 mkdir -p "$(dirname "$UVICORN_LOG")"
+touch "$UVICORN_LOG"   # create if missing, never overwrite existing
 
 # ── Start log-agent ───────────────────────────────────────────────────────────
 echo "[start-log-agent] Launching log-agent (log → $UVICORN_LOG)..."

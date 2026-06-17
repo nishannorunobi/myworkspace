@@ -51,8 +51,8 @@ fi
 
 source server.conf 2>/dev/null || true
 PORT="${PORT:-8888}"
-LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/agent-orchestrator"
-LOG_FILE="$LOG_DIR/server.log"
+LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/myworkspace/agents/agent-orchestrator"
+LOG_FILE="$LOG_DIR/server_py.log"
 
 if ss -tlnp 2>/dev/null | grep -q ":${PORT}"; then
     pass "Dashboard agent is running (port ${PORT})"
@@ -60,12 +60,10 @@ else
     warn "Dashboard agent is not running — run ./start_web.sh"
 fi
 
-if [ -f "$LOG_FILE" ]; then
-    LINES=$(wc -l < "$LOG_FILE")
-    pass "Log file: $LOG_FILE ($LINES lines)"
-else
-    warn "Log file not found: $LOG_FILE"
-fi
+mkdir -p "$LOG_DIR"
+[ -f "$LOG_FILE" ] || touch "$LOG_FILE"   # create if missing, never overwrite existing
+LINES=$(wc -l < "$LOG_FILE")
+pass "Log file: $LOG_FILE ($LINES lines)"
 
 echo ""
 echo "──────────────────────────────────────────"
