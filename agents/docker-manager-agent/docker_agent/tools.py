@@ -13,7 +13,7 @@ from monitor import list_containers, get_stats, restart_container, start_contain
 
 DB_AGENT_CONTAINER = "mypostgresql_db-container"
 DB_AGENT_PORT      = 8890
-DB_AGENT_NETWORK   = "ums-network"
+DB_AGENT_NETWORK   = "my_docker_network"
 
 
 def _db_agent_url() -> tuple[str | None, str | None]:
@@ -26,9 +26,16 @@ def _db_agent_url() -> tuple[str | None, str | None]:
         if r.returncode != 0:
             return None, f"{DB_AGENT_CONTAINER} not found or not running"
         networks = json.loads(r.stdout.strip())
+        # Prefer the configured network, but fall back to ANY network the container is on,
+        # so the IP resolves dynamically and a shared-network rename never breaks this.
         ip = (networks.get(DB_AGENT_NETWORK) or {}).get("IPAddress", "")
         if not ip:
-            return None, f"{DB_AGENT_CONTAINER} is not on {DB_AGENT_NETWORK}"
+            for net in networks.values():
+                ip = net.get("IPAddress", "")
+                if ip:
+                    break
+        if not ip:
+            return None, f"{DB_AGENT_CONTAINER} has no network IP"
         return f"http://{ip}:{DB_AGENT_PORT}", None
     except Exception as e:
         return None, str(e)

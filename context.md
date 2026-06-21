@@ -92,7 +92,7 @@ Each project (API-Gateway, ums) has its own independent:
 - Repo: `git@github.com:nishannorunobi/ums.git`
 - Stack: Java 21, Spring Boot 3, Maven
 - Container: `ums-app`, Image: `ums-image`
-- Port: 8080, Network: `ums-network`
+- Port: 8080, Network: `my_docker_network`
 
 ---
 

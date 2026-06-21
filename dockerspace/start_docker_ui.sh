@@ -11,7 +11,10 @@ fi
 PORTAINER_CONTAINER="portainer"
 PORTAINER_IMAGE="portainer/portainer-ce:latest"
 PORTAINER_PORT="9000"
-PORTAINER_VOLUME="portainer_data"
+# Host bind mount (not a named volume) so `docker volume prune` / clean routines
+# can never wipe Portainer's embedded DB (/data/portainer.db) and force the admin
+# setup prompt again. Survives all docker cleans because it lives in the workspace.
+PORTAINER_DATA="$_WS_ROOT/mountspace/portainer-data"
 
 if docker inspect -f '{{.State.Status}}' "$PORTAINER_CONTAINER" 2>/dev/null | grep -q "running"; then
     echo "==> Portainer is already running."
@@ -24,12 +27,13 @@ if docker container inspect "$PORTAINER_CONTAINER" &>/dev/null; then
     docker start "$PORTAINER_CONTAINER"
 else
     echo "==> Creating and starting Portainer..."
+    mkdir -p "$PORTAINER_DATA"
     docker run -d \
         --name "$PORTAINER_CONTAINER" \
         --restart=unless-stopped \
         -p "$PORTAINER_PORT":9000 \
         -v /var/run/docker.sock:/var/run/docker.sock \
-        -v "$PORTAINER_VOLUME":/data \
+        -v "$PORTAINER_DATA":/data \
         "$PORTAINER_IMAGE"
 fi
 

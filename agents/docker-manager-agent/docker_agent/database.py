@@ -47,7 +47,7 @@ def init():
                 container         TEXT NOT NULL,
                 port              INTEGER NOT NULL,
                 agent_path        TEXT NOT NULL,
-                network           TEXT NOT NULL DEFAULT 'ums-network',
+                network           TEXT NOT NULL DEFAULT 'my_docker_network',
                 compose_dir       TEXT,
                 clean_restart_cmd TEXT,
                 registered_at     TEXT NOT NULL
@@ -136,7 +136,7 @@ def get_events(limit: int = 50, container_name: str = None) -> list[dict]:
 # ── Agent registry ─────────────────────────────────────────────────────────────
 
 def register_agent(id: str, name: str, container: str, port: int,
-                   agent_path: str, network: str = "ums-network",
+                   agent_path: str, network: str = "my_docker_network",
                    compose_dir: str = "", clean_restart_cmd: str = "",
                    host_start_script: str = ""):
     ts = datetime.now().isoformat(timespec="seconds")
@@ -187,13 +187,13 @@ def seed_default_agents():
     defaults = [
         dict(id="db-agent",  name="DB Agent",
              container="mypostgresql_db-container", port=8890,
-             agent_path="/mypostgresql_db/db-agent/start.sh", network="ums-network",
+             agent_path="/mypostgresql_db/db-agent/start.sh", network="my_docker_network",
              compose_dir=f"{_WORKSPACE}/projectspace/mypostgresql_db/dockerspace/host_scripts",
              clean_restart_cmd="FORCE_RECREATE_CONTAINER=true bash start.sh",
              host_start_script=f"{_DMA}/dbagent/start-db-agent.sh"),
         dict(id="ums-agent", name="UMS Agent",
              container="ums-app", port=8891,
-             agent_path="/ums/ums-agent/start.sh", network="ums-network",
+             agent_path="/ums/ums-agent/start.sh", network="my_docker_network",
              compose_dir=f"{_WORKSPACE}/projectspace/ums/dockerspace/host_scripts",
              clean_restart_cmd="make restart"),
         dict(id="mycache", name="Cache Agent",
@@ -203,12 +203,12 @@ def seed_default_agents():
              clean_restart_cmd="bash start.sh"),
         dict(id="mychannels", name="Channel Agent",
              container="mychannels-rabbitmq", port=8894,
-             agent_path="/channel-agent/start.sh", network="ums-network",
+             agent_path="/channel-agent/start.sh", network="my_docker_network",
              compose_dir=f"{_WORKSPACE}/projectspace/mychannels",
              clean_restart_cmd="bash start.sh"),
         dict(id="log-agent", name="Log Agent",
              container="mylog_analytics-container", port=8893,
-             agent_path="/mylog_analytics/log-agent/start.sh", network="ums-network",
+             agent_path="/mylog_analytics/log-agent/start.sh", network="my_docker_network",
              compose_dir=f"{_WORKSPACE}/projectspace/mylog_analytics/dockerspace/host_scripts",
              clean_restart_cmd="FORCE_RECREATE_CONTAINER=true bash start.sh",
              host_start_script=f"{_DMA}/logagent/start-log-agent.sh"),

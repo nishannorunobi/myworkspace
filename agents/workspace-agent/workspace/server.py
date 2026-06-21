@@ -152,7 +152,8 @@ def list_projects():
         stop    = _find_script(entry, ["stop.sh",  "stop_docker.sh"])
         health  = _find_script(entry, ["health.sh"])
         logs    = _find_script(entry, ["logs.sh"])
-        compose = (entry / "dockerspace" / "host_scripts" / "docker-compose.yml").exists() or \
+        compose = (entry / "dockerspace" / "docker-compose.yml").exists() or \
+                  (entry / "dockerspace" / "host_scripts" / "docker-compose.yml").exists() or \
                   (entry / "docker-compose.yml").exists()
         running = _container_running(entry.name)
         projects.append({

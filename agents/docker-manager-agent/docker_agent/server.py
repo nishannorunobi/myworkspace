@@ -729,7 +729,7 @@ import urllib.request as _urllib_req
 import urllib.error   as _urllib_err
 import subprocess     as _sp
 
-_AGENT_NETWORK = "ums-network"
+_AGENT_NETWORK = "my_docker_network"
 
 
 def _container_url(container: str, port: int, network: str = _AGENT_NETWORK) -> str | None:
@@ -742,7 +742,15 @@ def _container_url(container: str, port: int, network: str = _AGENT_NETWORK) -> 
         if r.returncode != 0:
             return None
         networks = json.loads(r.stdout.strip())
+        # Prefer the registered network, but fall back to ANY network the container is
+        # on — so the IP resolves dynamically and a shared-network rename never makes a
+        # running agent look unreachable/stopped.
         ip = (networks.get(network) or {}).get("IPAddress", "")
+        if not ip:
+            for net in networks.values():
+                ip = net.get("IPAddress", "")
+                if ip:
+                    break
         return f"http://{ip}:{port}" if ip else None
     except Exception:
         return None
@@ -763,7 +771,7 @@ class AgentRegistrationBody(BaseModel):
     container:  str
     port:       int
     agent_path: str
-    network:    str = "ums-network"
+    network:    str = "my_docker_network"
 
 
 @app.get("/api/registered-agents")

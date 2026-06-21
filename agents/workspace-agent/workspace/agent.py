@@ -68,7 +68,7 @@ WORKSPACE STRUCTURE YOU KNOW:
 PROJECT CONVENTIONS (always enforce):
 - Every project has a dockerspace/ folder with host_scripts/ and container_scripts/
 - Scripts follow the pattern: build.sh, start.sh, stop.sh, health.sh, login_docker.sh
-- Shared Docker network: ums-network
+- Shared Docker network: my_docker_network
 - Config files: agent.conf (not .env) for AI agents, project.conf for workspace containers
 - Host stays clean — everything runs in Docker
 - No hardcoded IPs — use container names on shared networks

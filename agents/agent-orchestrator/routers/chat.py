@@ -111,7 +111,7 @@ WORKSPACE STRUCTURE:
 
 CONVENTIONS:
 - Every project: build.sh, start.sh, stop.sh, health.sh
-- Shared Docker network: ums-network
+- Shared Docker network: my_docker_network
 - Config: shared.conf for API keys, server.conf for server settings
 - No hardcoded IPs — use container names on shared networks
 

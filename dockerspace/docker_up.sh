@@ -40,5 +40,10 @@ fi
 
 echo ""
 docker version
+
+echo ""
+echo "==> Ensuring shared docker network..."
+bash "$(dirname "$0")/docker_network.sh"
+
 echo ""
 echo "==> Docker is up. You can now run your other scripts."
