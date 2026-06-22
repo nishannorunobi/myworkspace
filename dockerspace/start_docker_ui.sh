@@ -10,7 +10,7 @@ fi
 
 PORTAINER_CONTAINER="portainer"
 PORTAINER_IMAGE="portainer/portainer-ce:latest"
-PORTAINER_PORT="9000"
+PORTAINER_PORT="9001"   # 9000 is used by mydocs' plane-minio (S3 API); Portainer moved to 9001
 # Host bind mount (not a named volume) so `docker volume prune` / clean routines
 # can never wipe Portainer's embedded DB (/data/portainer.db) and force the admin
 # setup prompt again. Survives all docker cleans because it lives in the workspace.
@@ -38,6 +38,6 @@ else
 fi
 
 echo "    Done."
-echo "    UI: http://localhost:9000"
+echo "    UI: http://localhost:$PORTAINER_PORT"
 #admin user name pass:
 #user: admin, pass: portaineradmin123

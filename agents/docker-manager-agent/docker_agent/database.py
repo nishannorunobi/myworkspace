@@ -212,6 +212,12 @@ def seed_default_agents():
              compose_dir=f"{_WORKSPACE}/projectspace/mylog_analytics/dockerspace/host_scripts",
              clean_restart_cmd="FORCE_RECREATE_CONTAINER=true bash start.sh",
              host_start_script=f"{_DMA}/logagent/start-log-agent.sh"),
+        dict(id="odoo-agent", name="Odoo Agent",
+             container="myodoo-app", port=8896,
+             agent_path="/myodoo/odoo-agent/start.sh", network="my_docker_network",
+             compose_dir=f"{_WORKSPACE}/projectspace/myodoo/dockerspace/host_scripts",
+             clean_restart_cmd="bash start.sh",
+             host_start_script=f"{_DMA}/odooagent/start-odoo-agent.sh"),
     ]
     for d in defaults:
         existing = get_agent_registration(d["id"])
