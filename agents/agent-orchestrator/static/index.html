@@ -184,8 +184,14 @@
         <!-- Project-sh pane (workspace agent only) — every project script, by hierarchy -->
         <div class="pane" id="pane-projectsh">
           <div class="ds-wrap">
-            <div class="ds-scripts" id="psh-scripts">
-              <div class="ds-loading">Loading…</div>
+            <div class="psh-left">
+              <div class="psh-toolbar">
+                <button class="git-btn" onclick="window._dash.panels.projectsh.collapseAll()" title="Collapse every project and folder">⊟ Collapse all</button>
+                <button class="git-btn" onclick="window._dash.panels.projectsh.expandAll()" title="Expand every project and folder">⊞ Expand all</button>
+              </div>
+              <div class="ds-scripts" id="psh-scripts">
+                <div class="ds-loading">Loading…</div>
+              </div>
             </div>
             <div class="ds-log-panel">
               <div class="ds-log-header">
