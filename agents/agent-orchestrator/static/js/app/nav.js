@@ -30,22 +30,17 @@ class NavController {
     document.querySelectorAll('.vbtn').forEach(b =>
       b.classList.toggle('active', b.dataset.view === 'grid')
     );
-    const pulse = $('ws-pulse');
-    if (pulse) pulse.style.display = 'none';
-    this.panels.today?.stopPulse?.();
     this.grid.render(null);
     this.grid.updateSidebar(null);
     this.grid.updateStats();
     this.panels.chat.disconnect();
     this.panels.logs.disconnect();
-    this.panels.claudecode?.disconnect?.();
   }
 
   // ── Detail view ───────────────────────────────────────────────────────────
 
   openDetail(agentId) {
     this.panels.logs.disconnect();
-    this.panels.claudecode?.disconnect?.();
 
     this._selectedId = agentId;
     this._view       = 'detail';
@@ -83,23 +78,15 @@ class NavController {
     this.panels.chat.reset();
     this.panels.chat.connect(agentId);
     this.panels.logs.connect(agentId);
-    this.panels.memory.load(agentId);
-
-    // Reload memory after agent responds
-    this.panels.chat.onDone = () => this.panels.memory.load(agentId);
 
     // Pick default tab
     const isSubAgent = agent.hidden && isHttp;
     if (agentId === 'workspace') {
-      this.switchTab('today');
-      this.panels.today.load();
-      this.panels.today.startPulse();
+      this.switchTab('logs');
     } else if (isSubAgent) {
-      this.panels.today?.stopPulse?.();
       this.panels.controls._agentId = agentId;
       this.switchTab('controls');
     } else {
-      this.panels.today?.stopPulse?.();
       this.switchTab('chat');
     }
   }
@@ -141,13 +128,9 @@ class NavController {
     show('tab-containers',  hasSubs);
     show('tab-agents',      hasSubs);
     show('tab-apidocs',     isHttp && !isSubAgent);
-    show('tab-today',       isWorkspace);
-    show('tab-git',         isWorkspace);
-    show('tab-console',     isWorkspace);
-    show('tab-claudecode',  isWorkspace);
-    show('tab-projects',    isWorkspace);
     show('tab-dockerspace', isWorkspace);
     show('tab-initspace',   isWorkspace);
+    show('tab-projectsh',   isWorkspace);
   }
 
   // ── Tab switching ─────────────────────────────────────────────────────────
@@ -165,15 +148,8 @@ class NavController {
     if (name === 'controls'   && id) { this.panels.controls._agentId = id; this.panels.controls.load(id); }
     if (name === 'containers' && id) { this.panels.containers._agentId = id; this.panels.containers.load(id); }
     if (name === 'agents'     && id) this.panels.subagents.load(id);
-    if (name === 'today'      && id) this.panels.today.load();
-    if (name === 'git')              this.panels.git._loadRepos();
-    if (name === 'console')          this.panels.console._init();
-    if (name === 'claudecode')       {
-      this.panels.claudecode._connect();
-      setTimeout(() => this.panels.claudecode._scrollBottom(), 300);
-    }
-    if (name === 'projects')         this.panels.projects.load();
     if (name === 'dockerspace')      this.panels.dockerspace.load();
+    if (name === 'projectsh')        this.panels.projectsh.load();
     if (name === 'initspace')        this.panels.initspace.load();
     if (name === 'apidocs') {
       const frame = document.getElementById('apidocs-frame');

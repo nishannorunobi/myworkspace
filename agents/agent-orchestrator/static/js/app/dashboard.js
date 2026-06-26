@@ -12,22 +12,17 @@ class Dashboard {
     this.panels = {
       chat:        new ChatPanel(),
       logs:        new LogPanel(),
-      git:         new GitPanel(),
-      claudecode:  new ClaudeCodePanel(),
-      memory:      new MemoryPanel(),
-      console:     new ConsolePanel(),
-      projects:    new ProjectsPanel(this.spinner),
       dockerspace: new DockerscriptPanel(),
       initspace:   new InitspacePanel(),
+      projectsh:   new ProjectShPanel(),
       containers:  new ContainersPanel(this.spinner),
       controls:    new ControlsPanel(this.spinner),
       settings:    new SettingsPanel(this.alerts),
     };
 
-    // Nav needs panels; subagents/today need later references — inject after nav
+    // Nav needs panels; subagents need a later reference — inject after nav
     this.nav = new NavController(this.panels);
     this.panels.subagents = new SubAgentsPanel(this.nav);
-    this.panels.today     = new TodayPanel(this.panels.git);
     this.nav.panels       = this.panels;
 
     this.services = new ServicesView();
@@ -98,7 +93,7 @@ class Dashboard {
     $('s-volume')?.addEventListener('input', () => {
       const v = $('s-volume'); if (v) $('s-vol-val').textContent = v.value + '%';
     });
-    const CLICK_SEL = 'button,a,.tab,.vbtn,.sidebar-item,.mem-item,.git-file-row,.change-bar-hdr,.svc-row,.agent-card,.sub-agent-card,.cc-entry,.today-item,select,input[type=checkbox],input[type=range]';
+    const CLICK_SEL = 'button,a,.tab,.vbtn,.sidebar-item,.change-bar-hdr,.svc-row,.agent-card,.sub-agent-card,select,input[type=checkbox],input[type=range]';
     document.addEventListener('click', e => { if (e.target.closest(CLICK_SEL)) this.sound.click(); }, true);
   }
 
@@ -120,29 +115,6 @@ class Dashboard {
   saveSettings()    { this.panels.settings.save(); }
   testAlert(type)   { this.panels.settings.testAlert(type); }
 
-  _refreshPulse()   { this.panels.today.refresh(); }
-  _completeTodo(id) { this.panels.today.completeTodo(id); }
-
-  _gitRefresh()     { this.panels.git.refresh(); }
-  _gitAddAll()      { this.panels.git.addAll(); }
-  _gitPush()        { this.panels.git.push(); }
-  _gitPull()        { this.panels.git.pull(); }
-  _gitCommit()      { this.panels.git.commit(); }
-  _gitJumpTo(path)  { this.panels.git.jumpTo(path); this.nav.switchTab('git'); }
-
-  _consoleRun()     { this.panels.console.run(); }
-  _consoleClear()   { this.panels.console.clear(); }
-
-  _ccScrollBottom() { this.panels.claudecode.scrollBottom(); }
-  _ccClear()        { this.panels.claudecode.clearView(); }
-
-  _loadProjects()       { this.panels.projects.load(); }
-  _projectStart(name)   { this.panels.projects.start(name); }
-  _projectStop(name)    { this.panels.projects.stop(name); }
-  _projectHealth(name)  { this.panels.projects.health(name); }
-  _projectLogs(name)    { this.panels.projects.showLogs(name); }
-  _projectCloseLog()    { this.panels.projects.closeLog(); }
-
   _loadDockerscripts()  { this.panels.dockerspace.load(); }
   _dsRun(path, label)   { this.panels.dockerspace.run(path, label); }
   _dsKill()             { this.panels.dockerspace.kill(); }
@@ -153,13 +125,16 @@ class Dashboard {
   _isKill()             { this.panels.initspace.kill(); }
   _isCloseLog()         { this.panels.initspace.closeLog(); }
 
+  _loadProjectsh()      { this.panels.projectsh.load(); }
+  _pshRun(path, label)  { this.panels.projectsh.run(path, label); }
+  _pshKill()            { this.panels.projectsh.kill(); }
+  _pshCloseLog()        { this.panels.projectsh.closeLog(); }
+
   refreshContainers()   { this.panels.containers.refresh(); }
   _containerAction(agentId, name, act, btn) { this.panels.containers.action(agentId, name, act, btn); }
 
   _loadControls(id)     { this.panels.controls.load(id); }
   _controlAction(agentId, path, btn) { this.panels.controls.doAction(agentId, path, btn); }
-
-  _loadMemory(id)       { this.panels.memory.load(id); }
 
   toggleChanges()       { this.notify.toggleChanges(); }
 

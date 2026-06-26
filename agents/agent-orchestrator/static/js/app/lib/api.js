@@ -21,24 +21,6 @@ const API = {
     refreshStatus:  id          => API._post(`/api/agents/${id}/refresh-status`),
   },
 
-  git: {
-    repos:   ()                 => API._get('/api/git/repos'),
-    status:  repo               => API._get('/api/git/status' + (repo ? `?repo=${encodeURIComponent(repo)}` : '')),
-    addAll:  repo               => API._post('/api/git/add-all', { repo }),
-    commit:  (msg, files, repo) => API._post('/api/git/commit', { message: msg, files, repo }),
-    push:    repo               => API._post('/api/git/push', { repo }),
-    pull:    repo               => API._post('/api/git/pull', { repo }),
-  },
-
-  projects: {
-    list:    ()                 => fetch('/api/workspace/projects').then(r => r.json()),
-    start:   name               => fetch(`/api/workspace/projects/${name}/start`, { method: 'POST' }).then(r => r.json()),
-    stop:    name               => fetch(`/api/workspace/projects/${name}/stop`,  { method: 'POST' }).then(r => r.json()),
-    health:  name               => fetch(`/api/workspace/projects/${name}/health`,{ method: 'POST' }).then(r => r.json()),
-    logUrl:  name               => `/api/workspace/projects/${name}/log`,
-    dockerLogsUrl: name         => `/api/workspace/projects/${name}/docker-logs`,
-  },
-
   containers: {
     list:   agentId             => API._get(`/api/agents/${agentId}/containers`),
     action: (agentId, name, act) =>
@@ -55,32 +37,10 @@ const API = {
     list:    ()                 => API._get('/api/services'),
   },
 
-  console: {
-    cwdList: ()                 => fetch('/api/console/cwd-list').then(r => r.json()),
-    exec:    (cmd, cwd)         => API._post('/api/console/exec', { command: cmd, cwd }),
-  },
-
-  claudecode: {
-    stream:  ()                 => '/api/claude-code/stream',
-    history: (limit, afterId)   => API._get(`/api/claude-code/history?limit=${limit}&after_id=${afterId}`),
-  },
-
-  memory: {
-    list:    agentId            => API._get(`/api/agents/${agentId}/memory`),
-    file:    (agentId, name)    => API._get(`/api/agents/${agentId}/memory/${encodeURIComponent(name)}`),
-  },
-
   dockerspace: {
     scripts: ()                 => fetch('/api/dockerspace/scripts').then(r => r.json()),
     run:     absPath            => '/api/dockerspace/run',   // POST with { script: absPath }
     kill:    ()                 => fetch('/api/dockerspace/kill', { method: 'POST' }),
-  },
-
-  workspace: {
-    pulse:   ()                 => fetch('/api/agents/workspace/memory/today.json').then(r => r.json()),
-    todos:   {
-      complete: id              => fetch(`/api/agents/workspace/todos/${id}/complete`, { method: 'POST' }).then(r => r.json()),
-    },
   },
 
   alerts: {

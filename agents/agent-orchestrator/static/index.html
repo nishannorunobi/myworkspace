@@ -11,8 +11,6 @@
 <link rel="stylesheet" href="/static/css/chat.css">
 <link rel="stylesheet" href="/static/css/modals.css">
 <link rel="stylesheet" href="/static/css/git.css">
-<link rel="stylesheet" href="/static/css/panels.css">
-<link rel="stylesheet" href="/static/css/cc-feed.css">
 <link rel="stylesheet" href="/static/css/containers.css">
 <link rel="stylesheet" href="/static/css/services.css">
 <link rel="stylesheet" href="/static/css/controls.css">
@@ -102,27 +100,15 @@
         </div>
       </div>
 
-      <!-- Workspace pulse bar — only visible when workspace agent is selected -->
-      <div class="ws-pulse" id="ws-pulse" style="display:none">
-        <span class="ws-pulse-label">⚡ Workspace</span>
-        <div class="ws-pulse-pills" id="ws-pulse-pills"></div>
-        <button class="ws-pulse-refresh" onclick="window._dash._refreshPulse()" title="Refresh">↺</button>
-      </div>
-
       <!-- Tabs -->
       <div class="tabs">
         <div class="tab active" data-tab="chat"       onclick="window._dash.switchTab('chat')">Chat</div>
-        <div class="tab"        data-tab="today"      onclick="window._dash.switchTab('today')"      id="tab-today"      style="display:none">Today</div>
-        <div class="tab"        data-tab="git"        onclick="window._dash.switchTab('git')"        id="tab-git"        style="display:none">Git</div>
-        <div class="tab"        data-tab="console"    onclick="window._dash.switchTab('console')"    id="tab-console"    style="display:none">Console</div>
-        <div class="tab"        data-tab="claudecode" onclick="window._dash.switchTab('claudecode')" id="tab-claudecode" style="display:none">Claude Code</div>
-        <div class="tab"        data-tab="projects"     onclick="window._dash.switchTab('projects')"     id="tab-projects"     style="display:none">Projects</div>
         <div class="tab"        data-tab="dockerspace" onclick="window._dash.switchTab('dockerspace')" id="tab-dockerspace" style="display:none">Dockerspace</div>
         <div class="tab"        data-tab="initspace"  onclick="window._dash.switchTab('initspace')"  id="tab-initspace"  style="display:none">Initialize Environment</div>
+        <div class="tab"        data-tab="projectsh"  onclick="window._dash.switchTab('projectsh')"  id="tab-projectsh"  style="display:none">📜 Project-sh</div>
         <div class="tab"        data-tab="controls"   onclick="window._dash.switchTab('controls')"   id="tab-controls"   style="display:none">Controls</div>
         <div class="tab"        data-tab="containers" onclick="window._dash.switchTab('containers')" id="tab-containers" style="display:none">Containers</div>
         <div class="tab"        data-tab="logs"       onclick="window._dash.switchTab('logs')">Logs</div>
-        <div class="tab"        data-tab="mem"        onclick="window._dash.switchTab('mem')">Memory</div>
         <div class="tab"        data-tab="agents"     onclick="window._dash.switchTab('agents')"     id="tab-agents"     style="display:none">Agents</div>
         <div class="tab"        data-tab="apidocs"    onclick="window._dash.switchTab('apidocs')"    id="tab-apidocs"    style="display:none">API Docs</div>
       </div>
@@ -157,81 +143,6 @@
           </div>
         </div>
 
-        <!-- Git pane -->
-        <div class="pane" id="pane-git">
-          <div class="git-wrap">
-            <div class="git-top">
-              <div class="git-status-col">
-                <div class="git-section-title">
-                  <select id="git-repo-sel" class="git-repo-sel" title="Select project" onchange="window._dash._gitRefresh()">
-                    <option value="">Loading repos…</option>
-                  </select>
-                  <span id="git-branch-badge" class="git-branch">—</span>
-                  <div class="git-top-actions">
-                    <button class="git-btn" onclick="window._dash._gitRefresh()">↺ Refresh</button>
-                    <button class="git-btn accent" onclick="window._dash._gitAddAll()">+ Stage All</button>
-                    <button class="git-btn warning" onclick="window._dash._gitPull()">⬇ Pull</button>
-                    <button class="git-btn success" onclick="window._dash._gitPush()" id="git-push-btn">⬆ Push</button>
-                    <span id="git-ahead-badge" class="git-ahead-badge" style="display:none"></span>
-                  </div>
-                </div>
-                <div id="git-stat-bar" class="git-stat-bar-wrap" style="display:none"></div>
-                <div class="git-file-list" id="git-file-list"></div>
-                <div class="git-commit-row">
-                  <input id="git-commit-msg" class="git-msg-input" type="text" placeholder="Commit message…">
-                  <button class="git-btn success" onclick="window._dash._gitCommit()">✓ Commit</button>
-                </div>
-                <div class="git-output" id="git-output"></div>
-              </div>
-              <div class="git-log-col">
-                <div class="git-section-title"><span class="git-section-label">Recent Commits</span></div>
-                <div class="git-log" id="git-log"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Console pane -->
-        <div class="pane" id="pane-console">
-          <div class="console-wrap">
-            <div class="console-toolbar">
-              <select id="console-cwd" class="console-cwd-sel" title="Working directory"></select>
-              <span class="console-cwd-label">$</span>
-              <input id="console-input" class="console-input" type="text" placeholder="Enter command…" autocomplete="off" spellcheck="false">
-              <button class="git-btn accent" onclick="window._dash._consoleRun()">Run</button>
-              <button class="git-btn" onclick="window._dash._consoleClear()">Clear</button>
-            </div>
-            <div class="console-output" id="console-output"></div>
-          </div>
-        </div>
-
-        <!-- Today pane (workspace agent only) -->
-        <div class="pane" id="pane-today">
-          <div class="today-wrap" id="today-wrap">
-            <div class="today-loading">Loading workspace intelligence…</div>
-          </div>
-        </div>
-
-        <!-- Projects pane (workspace agent only) -->
-        <div class="pane" id="pane-projects">
-          <div class="projects-wrap">
-            <div class="projects-toolbar">
-              <span class="projects-toolbar-title">Project Launchers</span>
-              <button class="git-btn" onclick="window._dash._loadProjects()">↺ Refresh</button>
-            </div>
-            <div class="projects-list" id="projects-list">
-              <div class="projects-loading">Loading…</div>
-            </div>
-            <div class="project-log-wrap" id="project-log-wrap" style="display:none">
-              <div class="project-log-header">
-                <span class="project-log-title" id="project-log-title">Log</span>
-                <button class="git-btn" onclick="window._dash._projectCloseLog()">✕ Close</button>
-              </div>
-              <div class="project-log" id="project-log"></div>
-            </div>
-          </div>
-        </div>
-
         <!-- Dockerspace pane (workspace agent only) -->
         <div class="pane" id="pane-dockerspace">
           <div class="ds-wrap">
@@ -249,22 +160,6 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Claude Code memory feed (workspace agent only) -->
-        <div class="pane" id="pane-claudecode">
-          <div class="cc-header">
-            <div class="cc-live-indicator">
-              <div class="cc-live-dot" id="cc-live-dot"></div>
-              <span id="cc-live-label">Connecting…</span>
-            </div>
-            <div class="cc-header-actions">
-              <span class="cc-count" id="cc-count"></span>
-              <button class="git-btn" onclick="window._dash._ccScrollBottom()">↓ Latest</button>
-              <button class="git-btn" onclick="window._dash._ccClear()">Clear view</button>
-            </div>
-          </div>
-          <div class="cc-feed" id="cc-feed"></div>
         </div>
 
         <!-- Initialize Environment pane (workspace agent only) -->
@@ -286,6 +181,25 @@
           </div>
         </div>
 
+        <!-- Project-sh pane (workspace agent only) — every project script, by hierarchy -->
+        <div class="pane" id="pane-projectsh">
+          <div class="ds-wrap">
+            <div class="ds-scripts" id="psh-scripts">
+              <div class="ds-loading">Loading…</div>
+            </div>
+            <div class="ds-log-panel">
+              <div class="ds-log-header">
+                <span class="ds-log-title" id="psh-log-title">Select a script to run</span>
+                <button class="git-btn" id="psh-kill-btn" onclick="window._dash._pshKill()" style="display:none">✕ Kill</button>
+                <button class="git-btn" onclick="window._dash._pshCloseLog()">✕ Close</button>
+              </div>
+              <div class="ds-log-output" id="psh-log-output">
+                <div class="ds-log-placeholder">Click ▶ Run on any script to execute it here.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Logs pane -->
         <div class="pane" id="pane-logs">
           <div class="log-path-bar" id="log-path-bar" title="File being tailed">
@@ -293,14 +207,6 @@
             <span class="log-path-value" id="log-path-value">—</span>
           </div>
           <div class="log-stream" id="log-stream"></div>
-        </div>
-
-        <!-- Memory pane -->
-        <div class="pane" id="pane-mem">
-          <div class="mem-split">
-            <div class="mem-list" id="mem-list"></div>
-            <div class="mem-body" id="mem-body">Select a memory file to view it.</div>
-          </div>
         </div>
 
         <!-- Agents pane -->
@@ -490,17 +396,9 @@
 <!-- Panels -->
 <script src="/static/js/app/panels/chat.js"></script>
 <script src="/static/js/app/panels/logs.js"></script>
-<script src="/static/js/app/panels/git-render.js"></script>
-<script src="/static/js/app/panels/git.js"></script>
-<script src="/static/js/app/panels/today-render.js"></script>
-<script src="/static/js/app/panels/today.js"></script>
-<script src="/static/js/app/panels/console.js"></script>
-<script src="/static/js/app/panels/claudecode.js"></script>
-<script src="/static/js/app/panels/memory.js"></script>
-<script src="/static/js/app/panels/project-log-stream.js"></script>
-<script src="/static/js/app/panels/projects.js"></script>
 <script src="/static/js/app/panels/dockerspace.js"></script>
 <script src="/static/js/app/panels/initspace.js"></script>
+<script src="/static/js/app/panels/projectsh.js"></script>
 <script src="/static/js/app/panels/containers.js"></script>
 <script src="/static/js/app/panels/controls.js"></script>
 <script src="/static/js/app/panels/subagents.js"></script>

@@ -3,7 +3,6 @@ Docker AI agent — given a natural language task, reasons over Docker state
 using tools and returns a text response.
 Called by the /api/tasks endpoint so the agent-orchestrator can dispatch here.
 """
-import os
 import sys
 from pathlib import Path
 
@@ -44,10 +43,6 @@ Rules:
 """
 
 _HIST_TRIM = 30
-
-# Expose cached variants so server.py can reference them if needed
-_CACHED_SYSTEM = [{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}]
-_CACHED_TOOLS  = TOOL_DEFINITIONS[:-1] + [{**TOOL_DEFINITIONS[-1], "cache_control": {"type": "ephemeral"}}]
 
 
 def run_agent(task: str, history: list) -> list:

@@ -86,9 +86,6 @@ class AgentState:
         if h:  return f"{h}h {m % 60}m ago"
         return f"{m}m ago"
 
-    def uptime_pct(self) -> Optional[float]:
-        return None
-
 
 # ── Load specs from agents.conf ────────────────────────────────────────────────
 

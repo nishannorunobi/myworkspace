@@ -8,7 +8,6 @@ Tables:
   knowledge     — LLM-written notes: conventions, rules, anomalies, patterns
   scans         — scan run metadata
 """
-import hashlib
 import json
 import sqlite3
 import threading

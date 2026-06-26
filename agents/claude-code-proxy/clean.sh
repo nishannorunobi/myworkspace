@@ -41,10 +41,10 @@ find . -name "*.pyc" -delete 2>/dev/null || true
 ok "Removed __pycache__ and *.pyc"
 
 # Logs
-LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/claude-code-proxy"
+LOG_DIR="$WORKSPACE_ROOT/mountspace/logs/myworkspace/agents/claude-code-proxy"
 if [ -d "$LOG_DIR" ]; then
     rm -f "$LOG_DIR"/*.log
-    ok "Cleared logs in mountspace/logs/claude-code-proxy/"
+    ok "Cleared logs in mountspace/logs/myworkspace/agents/claude-code-proxy/"
 fi
 
 echo -e "\n${GREEN}Clean complete.${RESET} Run ${BOLD}./start.sh${RESET} to rebuild and start.\n"

@@ -9,7 +9,6 @@ class BaseLayer(ABC):
         self.model      = cfg["model"]
         self.max_tokens = cfg.get("max_tokens", 2048)
         self.judge      = cfg.get("judge")   # name of judge layer or "user"
-        self.enabled    = cfg.get("enabled", True)
 
     def is_available(self) -> bool:
         return True

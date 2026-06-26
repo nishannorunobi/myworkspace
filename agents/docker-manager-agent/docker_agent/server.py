@@ -13,11 +13,11 @@ API endpoints:
   POST /api/containers/{name}/restart   restart a container
   GET  /api/events                      recent events (all or filtered)
   POST /api/tasks                       natural language task → AI agent response
-  GET  /api/db-agent/health             proxy: db-agent liveness + postgres state
-  POST /api/db-agent/db/start           proxy: start PostgreSQL inside DB container
-  POST /api/db-agent/db/stop            proxy: stop PostgreSQL inside DB container
-  POST /api/db-agent/tasks              proxy: AI task for db-agent
-  WS   /api/db-agent/ws/chat            proxy: streaming chat with db-agent
+  GET  /api/agent-events                recent inter-agent events
+  POST /api/agent-events                record an inter-agent event
+  GET  /api/registered-agents           list registered managed agents
+  POST /api/agents/register             register a managed agent
+  WS   /api/agents/{agent_id}/ws/chat   proxy: streaming chat with a managed agent
 """
 import asyncio
 import json
@@ -754,13 +754,6 @@ def _container_url(container: str, port: int, network: str = _AGENT_NETWORK) -> 
         return f"http://{ip}:{port}" if ip else None
     except Exception:
         return None
-
-
-def _agent_url(agent_id: str) -> str | None:
-    reg = db.get_agent_registration(agent_id)
-    if not reg:
-        return None
-    return _container_url(reg["container"], reg["port"], reg["network"])
 
 
 # ── Agent registry API ─────────────────────────────────────────────────────────

@@ -5,7 +5,7 @@ running on port 8895. Returns 503 if the workspace agent is offline.
 import json
 import urllib.error
 import urllib.request
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 

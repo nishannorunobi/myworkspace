@@ -1,14 +1,17 @@
 """
-Workspace-projects proxy — forwards all /api/workspace/* requests to the workspace agent
-running on port 8895. Returns 503 if the workspace agent is offline.
+Project-sh proxy — forwards all /api/projectsh/* requests to the workspace agent
+running on port 8895. Mirrors routers/dockerspace.py but targets every *.sh under
+projectspace/<project>/ (file-level script control). Returns 503 if the workspace
+agent is offline.
 """
 import json
 import urllib.error
 import urllib.request
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from fastapi.responses import JSONResponse, StreamingResponse
+from pydantic import BaseModel
 
-router = APIRouter(prefix="/workspace", tags=["workspace"])
+router = APIRouter(prefix="/projectsh", tags=["projectsh"])
 
 _WS = "http://localhost:8895"
 
@@ -43,10 +46,14 @@ def _post(path: str, body: bytes = b""):
         return None
 
 
-def _stream(path: str):
+def _stream(path: str, body: bytes = b""):
     def generate():
         try:
-            with urllib.request.urlopen(f"{_WS}{path}", timeout=600) as r:
+            req = urllib.request.Request(
+                f"{_WS}{path}", data=body or None, method="POST" if body else "GET",
+                headers={"Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, timeout=600) as r:
                 for raw in r:
                     yield raw.decode("utf-8", errors="replace")
         except Exception as e:
@@ -58,35 +65,25 @@ def _stream(path: str):
     )
 
 
-@router.get("/projects")
-def list_projects():
-    d = _get("/api/workspace/projects")
+@router.get("/scripts")
+def list_scripts():
+    d = _get("/api/projectsh/scripts")
     return d if d is not None else _offline()
 
 
-@router.post("/projects/{name}/start")
-def start_project(name: str):
-    d = _post(f"/api/workspace/projects/{name}/start")
+class RunBody(BaseModel):
+    script:    str
+    sudo_pass: str  = ""
+    confirmed: bool = False
+
+
+@router.post("/run")
+def run_script(body: RunBody):
+    payload = json.dumps({"script": body.script, "sudo_pass": body.sudo_pass, "confirmed": body.confirmed}).encode()
+    return _stream("/api/projectsh/run", payload)
+
+
+@router.post("/kill")
+def kill_script():
+    d = _post("/api/projectsh/kill")
     return d if d is not None else _offline()
-
-
-@router.post("/projects/{name}/stop")
-def stop_project(name: str):
-    d = _post(f"/api/workspace/projects/{name}/stop")
-    return d if d is not None else _offline()
-
-
-@router.post("/projects/{name}/health")
-def health_project(name: str):
-    d = _post(f"/api/workspace/projects/{name}/health")
-    return d if d is not None else _offline()
-
-
-@router.get("/projects/{name}/log")
-def stream_log(name: str):
-    return _stream(f"/api/workspace/projects/{name}/log")
-
-
-@router.get("/projects/{name}/docker-logs")
-def stream_docker_logs(name: str):
-    return _stream(f"/api/workspace/projects/{name}/docker-logs")

@@ -1,44 +1,5 @@
-/* ── Git panel ──────────────────────────────────────────────────────────── */
-.git-wrap{display:flex;flex-direction:column;height:100%;overflow:hidden}
-.git-top{display:flex;gap:0;flex:1;overflow:hidden}
-.git-status-col{flex:1;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:hidden}
-.git-log-col{width:300px;display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
-.git-section-title{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap}
-.git-section-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
-.git-branch{font-size:11px;padding:2px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--purple);font-weight:600}
-.git-ahead-badge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;border:1px solid}
-.git-ahead-has{background:#2a2010;color:var(--yellow);border-color:#5a4a20}
-.git-behind-has{background:#102030;color:var(--blue);border-color:#204060}
-.git-synced{background:#0a1a0a;color:var(--green);border-color:#1a3a1a}
-.git-no-remote{background:var(--bg3);color:var(--text3);border-color:var(--border)}
-.git-repo-sel{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 6px;font-size:11px;font-family:var(--font);max-width:200px;cursor:pointer}
-.git-repo-sel:focus{outline:none;border-color:var(--blue)}
-.git-top-actions{display:flex;gap:5px;margin-left:auto}
-.git-file-list{flex:1;overflow-y:auto;padding:6px}
-.git-loading{font-size:12px;color:var(--text2);padding:10px 6px}
-.git-clean{font-size:12px;color:var(--green);padding:10px 6px}
-.git-file-row{display:flex;align-items:center;gap:6px;padding:4px 4px;border-radius:4px;font-size:12px}
-.git-file-row:hover{background:var(--bg2)}
-.git-file-row-warn{background:#2a1a0a}
-.git-file-row-warn:hover{background:#3a2a10}
-.git-file-size{margin-left:auto;flex-shrink:0;font-size:10px;color:var(--text3);font-variant-numeric:tabular-nums;white-space:nowrap}
-.git-file-size-big{color:var(--yellow)}
-.git-file-size-warn{color:#ff6b6b;font-weight:700}
-.git-file-cb{accent-color:var(--blue);cursor:pointer;flex-shrink:0}
-.git-file-st{font-size:10px;padding:1px 5px;border-radius:3px;font-weight:700;width:22px;text-align:center;flex-shrink:0}
-.git-st-staged{background:#1a3a1a;color:var(--green)}
-.git-st-modified{background:#1a2a3a;color:var(--blue)}
-.git-st-untracked{background:#3a2a1a;color:var(--yellow)}
-.git-file-path{color:var(--text);cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.git-commit-row{display:flex;gap:6px;padding:8px;border-top:1px solid var(--border);flex-shrink:0}
-.git-msg-input{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:5px 8px;font-size:12px;font-family:var(--font)}
-.git-msg-input:focus{outline:none;border-color:var(--blue)}
-.git-output{font-size:11px;padding:6px 10px;min-height:24px;border-top:1px solid var(--border);flex-shrink:0;font-family:var(--font);white-space:pre-wrap;max-height:80px;overflow-y:auto}
-.git-output.ok{color:var(--green)}
-.git-output.err{color:var(--red)}
-.git-log{flex:1;overflow-y:auto;padding:6px;font-size:11px}
-.git-log-line{padding:3px 4px;border-bottom:1px solid var(--border2);color:var(--text2);font-family:var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.git-log-line:hover{color:var(--text);background:var(--bg2)}
+/* ── Shared button system (.git-btn) — used across console, projects,
+      dockerspace, initspace, project-sh, claudecode and today panes ──────────── */
 .git-btn{padding:4px 10px;border:1px solid var(--border);background:var(--bg3);color:var(--text);border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:border-color .15s}
 .git-btn:hover{border-color:var(--blue);color:var(--blue)}
 .git-btn.accent{border-color:var(--blue);color:var(--blue)}
@@ -47,9 +8,3 @@
 .git-btn.success:hover{background:rgba(63,185,80,.1)}
 .git-btn.warning{border-color:var(--yellow);color:var(--yellow)}
 .git-btn.warning:hover{background:rgba(210,153,34,.1)}
-
-/* ── Git stat breakdown bar ── */
-.git-stat-bar-wrap{padding:4px 10px 2px;flex-shrink:0}
-.git-stat-segs{display:flex;height:6px;border-radius:3px;overflow:hidden;gap:1px}
-.git-stat-seg{height:100%;transition:width .3s ease}
-.git-stat-legend{display:flex;gap:10px;padding:2px 0 2px;font-size:9px;color:var(--text3)}
