@@ -10,6 +10,19 @@ class ProjectShPanel extends Panel {
 
   onActivate() { this.load(); }
 
+  // ── Collapse / expand the whole tree (every project + every folder) ─────────
+
+  expandAll()   { this._setCollapsed(false); }
+  collapseAll() { this._setCollapsed(true); }
+
+  _setCollapsed(collapsed) {
+    const panel = $('psh-scripts');
+    if (!panel) return;
+    panel.querySelectorAll('.ds-project, .psh-node').forEach(el =>
+      el.classList.toggle('collapsed', collapsed)
+    );
+  }
+
   // ── Script list (grouped by project → directory hierarchy) ─────────────────
 
   async load() {
@@ -26,7 +39,7 @@ class ProjectShPanel extends Panel {
       }
       panel.innerHTML = projects.map(p => `
         <div class="ds-project">
-          <div class="ds-project-name" onclick="this.parentElement.classList.toggle('collapsed')">▾ ${esc(p.name)} <span class="psh-count">${p.scripts.length}</span></div>
+          <div class="ds-project-name" onclick="this.parentElement.classList.toggle('collapsed')"><span class="psh-arrow">▾</span> ${esc(p.name)} <span class="psh-count">${p.scripts.length}</span></div>
           <div class="ds-script-list psh-tree">${this._renderTree(this._buildTree(p.scripts), p.name)}</div>
         </div>`).join('');
     } catch (e) {
@@ -60,7 +73,7 @@ class ProjectShPanel extends Panel {
     for (const d of Object.keys(node.dirs).sort()) {
       html += `
         <div class="psh-node">
-          <div class="psh-folder" style="padding-left:${indent}px" onclick="this.parentElement.classList.toggle('collapsed')">▾ 📁 ${esc(d)}</div>
+          <div class="psh-folder" style="padding-left:${indent}px" onclick="this.parentElement.classList.toggle('collapsed')"><span class="psh-arrow">▾</span> 📁 ${esc(d)}</div>
           <div class="psh-children">${this._renderTree(node.dirs[d], projName, depth + 1)}</div>
         </div>`;
     }

@@ -17,6 +17,12 @@ from pydantic import BaseModel
 
 app = FastAPI(title="Workspace Agent API")
 
+# Expose CPython GC + heap metrics at /metrics (scraped by Prometheus).
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from py_mem_metrics import mount_mem_metrics
+mount_mem_metrics(app)
+
 WORKSPACE_ROOT     = Path(__file__).resolve().parent.parent.parent.parent
 PROJECTSPACE       = WORKSPACE_ROOT / "projectspace"
 DOCKERSPACE        = WORKSPACE_ROOT / "dockerspace"

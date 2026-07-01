@@ -45,6 +45,17 @@
 .ds-project-name:hover{color:var(--blue)}
 .ds-project.collapsed .ds-script-list{display:none}
 .ds-script-list{padding:2px 0}
+
+/* ── Project-sh: collapse/expand toolbar + working folder collapse ── */
+.psh-left{width:300px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.psh-left #psh-scripts{width:auto;flex:1;border-right:none}
+.psh-toolbar{display:flex;gap:6px;padding:6px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0}
+.psh-node.collapsed > .psh-children{display:none}      /* folder collapse (was a no-op before) */
+.psh-folder{cursor:pointer;user-select:none;font-size:12px;color:var(--text2);padding-top:3px;padding-bottom:3px}
+.psh-folder:hover{color:var(--blue)}
+.psh-arrow{display:inline-block;transition:transform .12s;font-size:10px}
+.ds-project.collapsed > .ds-project-name .psh-arrow,
+.psh-node.collapsed > .psh-folder .psh-arrow{transform:rotate(-90deg)}  /* ▾ → ▸ when collapsed */
 .ds-script-row{display:flex;align-items:center;justify-content:space-between;padding:4px 14px 4px 20px;gap:8px}
 .ds-script-row:hover{background:var(--bg2)}
 .ds-script-label{flex:1;font-size:12px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

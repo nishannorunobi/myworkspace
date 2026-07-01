@@ -61,6 +61,12 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
+# Expose CPython GC + heap metrics at /metrics (scraped by Prometheus).
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from py_mem_metrics import mount_mem_metrics
+mount_mem_metrics(app)
+
 
 class NoCacheStatic(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
